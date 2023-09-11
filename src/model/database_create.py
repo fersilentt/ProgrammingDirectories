@@ -8,7 +8,7 @@ import json
 
 
 # We open the .json file that will contain the object where the path to create the database is located
-with open('data.json', 'r') as f:
+with open('src/data.json', 'r') as f:
     data = json.load(f)
 
 # Dumps the json object into an element

@@ -8,7 +8,7 @@ import json
 
 
 # We open the .json file that will contain the object where the path to open the database is found
-with open('data.json', 'r') as f:
+with open('src/data.json', 'r') as f:
     data = json.load(f)
 
 json_str = json.dumps(data)

@@ -105,7 +105,7 @@ class MainWindow(QDialog):
 
 
         # Realizamos una limpieza del mensaje
-        self.lMessage.setText("")
+        self.lMessageList.setText("")
 
 
         # Validamos si el id del formulario es 0 sera para insertar, 1 sera para actualizar
@@ -125,7 +125,7 @@ class MainWindow(QDialog):
             # Mostramos un mensaje de error para que el usuario seleccione una fila de datos
             # que necesita editar
             except IndexError as e:
-                self.lMessage.setText('<font color="red">Please select a data</font>')
+                self.lMessageList.setText('<font color="red">Please select a data</font>')
                 return
             
 
@@ -156,7 +156,7 @@ class MainWindow(QDialog):
             id = self.tableWidget.item(r,0).text()
 
         except IndexError as e:
-            self.lMessage.setText('<font color="red">Please select a data</font>')
+            self.lMessageList.setText('<font color="red">Please select a data</font>')
             return 
 
         # Mostramos un mensaje de informacion para indicar si se desea eliminar o no el dato
@@ -246,7 +246,7 @@ class MainWindow(QDialog):
             # Ocultamos la ventana
             self.window.hide()
             # Mostramos un mensaje  con un color
-            self.lMessage.setText('<font color="green">Data added successfully</font>')
+            self.lMessageList.setText('<font color="green">Data added successfully</font>')
             # Actualizamos la lista de datos
             self.get_data()
 
@@ -261,7 +261,7 @@ class MainWindow(QDialog):
 
             Update.update_data(id, name)
             self.window.hide()
-            self.lMessage.setText('<font color="green">Data updated successfully</font>')
+            self.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
 
 
@@ -272,7 +272,7 @@ class MainWindow(QDialog):
 
         from controller.programming_language.delete import Delete
         Delete.delete_data(id)
-        self.lMessage.setText('<font color="green">Data deleted successfully</font>')
+        self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
 
 
