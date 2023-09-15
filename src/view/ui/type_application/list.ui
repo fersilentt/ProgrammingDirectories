@@ -91,6 +91,16 @@
          <string>C2</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>

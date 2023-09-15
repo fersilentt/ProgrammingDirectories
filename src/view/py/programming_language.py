@@ -8,7 +8,8 @@ from PyQt5 import uic
 # tabla usando Roles
 from PyQt5.QtCore import Qt
 
-
+# Importamos este modulo para trabajat con objetos json
+import json
 
 
 
@@ -40,15 +41,22 @@ sys.path.insert(0, file)
 
 
 
-
-
-
-class MainWindow(QDialog):
+class FrameProgrammingLanguage(QtWidgets.QFrame):
 
     def __init__(self):
-        super(MainWindow,self).__init__()
+        super(FrameProgrammingLanguage,self).__init__()
         # Importamos el archivo .ui llamando a la ruta aboluta que anetriormente hemos creado
         loadUi(file+"/view/ui/programming_language/list.ui",self)
+
+
+        # Editamos el campo de nuestro objeto json para almacenar el id del Frame para asi poder
+        # movernos con el boton desde el menu principal
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["frame_id"] = 0
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
 
         # Aqui establecemos el tamaño que va a tener cada columna de acuerdo
         # a su posicion, pero en este caso lo comentamos para que quede en
@@ -75,15 +83,23 @@ class MainWindow(QDialog):
 
         
 
-        # Agregamos un icono
-        icon  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
-        self.pbAdd.setIcon(QtGui.QIcon(icon))
+        # Creamos los iconos para los botones
+
+        # Obtenemos la ruta de la imagen para despues agregarla al boton
+        icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
+        icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
+        icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
+        
+        # Agregamos la imagen al boton
+        self.pbAdd.setIcon(QtGui.QIcon(icon_add))
+        self.pbEdit.setIcon(QtGui.QIcon(icon_update))
+        self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         #self.pbAdd.setIconSize(QtCore.QSize(200,200))
 
 
-
-        self.pbAdd.clicked.connect(lambda: self.add_update_window(0))
-        self.pbEdit.clicked.connect(lambda: self.add_update_window(1))
+        # Ejecutamos las funciones del CRUD en los botones
+        self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
+        self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
 
 
@@ -96,7 +112,8 @@ class MainWindow(QDialog):
 
 
 
-    def add_update_window(self, id_window):
+    # Creamos la ventana para agregar y actualizar los datos
+    def add_update_window_modal(self, id_window_modal):
 
         # Ejecutamos la ventana modal y la abrimos
         self.window = QtWidgets.QMainWindow()
@@ -109,7 +126,8 @@ class MainWindow(QDialog):
 
 
         # Validamos si el id del formulario es 0 sera para insertar, 1 sera para actualizar
-        if id_window != 0:
+        if id_window_modal != 0:
+
 
             # Obtenemos los datos de la fila seleccionada
             r = self.tableWidget.currentRow()
@@ -146,8 +164,7 @@ class MainWindow(QDialog):
 
 
 
-    # Creamos una funcion para mostrar un mensaje en donde vamos a
-    # eliminar los datos
+    # Creamos la ventana para eliminar los datos
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
@@ -176,6 +193,22 @@ class MainWindow(QDialog):
 
 
 
+    # Obtenemos el id de la tabla para que la siguiente ventana cargue
+    def go_window(self): 
+
+        r = self.tableWidget.currentRow()
+        id = self.tableWidget.item(r,0).text()
+        
+        # Editamos los campos de nuestro objeto json para almacenar el id de la tabla que se va a obtener
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            # Aqui editamos el valor del campo "window_table_id" y lo reemplazamos por el id de la tabla
+            data["window_table_id"] = id
+            data["window_programming_language_id"] = id
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
+        
 
     
 
@@ -307,9 +340,9 @@ class MainWindow(QDialog):
             return name
 
 
-
+'''
 app=QApplication(sys.argv)
-mainwindow=MainWindow()
+mainwindow=FrameProgrammingLanguage()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainwindow)
 widget.setFixedWidth(400)
@@ -321,3 +354,4 @@ try:
     sys.exit(app.exec_())
 except:
     print("Exiting")
+'''

@@ -1,4 +1,8 @@
 {
     "route_create_database": "/Users/fersilent/Desktop",
-    "route_open_database": "/Users/fersilent/Desktop/programming-directories.db"
+    "route_open_database": "/Users/fersilent/Desktop/programming-directories.db",
+    "frame_id": 2,
+    "window_table_id": "2",
+    "window_programming_language_id": "1",
+    "window_type_creation_id": "2"
 }

@@ -14,25 +14,24 @@ sys.path.insert(0, file)
 
 
 
-class FrameTypeCreation(QtWidgets.QFrame):
+class FrameTypeApplication(QtWidgets.QFrame):
 
     def __init__(self):
-        super(FrameTypeCreation,self).__init__()
+        super(FrameTypeApplication,self).__init__()
         loadUi(file+"/view/ui/type_creation/list.ui",self)
 
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 1
+            data["frame_id"] = 2
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
 
-        self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Programming Language", "Id Programming Language"])
+        self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Type Creation", "Id Type Creation"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
 
         self.tableWidget.setSortingEnabled(True)
-        # Ocultamos los id de la tabla
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(3,True)
 
@@ -67,9 +66,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
         self.window.show()
 
 
-        # Obtenemos el id de la ventana anterior, que es el id de de realacion con
-        # esta tabla
-        # Load the data into an element
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -99,6 +95,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text(), id_window))
         
+
 
 
 
@@ -138,7 +135,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id
-            data["window_type_creation_id"] = id
+            data["window_programming_language_id"] = id
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
@@ -157,8 +154,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def get_data(self):
     
-        from controller.type_creation.list import List
-        from controller.type_creation.count import Count
+        from controller.type_application.list import List
+        from controller.type_application.count import Count
         
         lista = List.list_data()
         count_rows = Count.count_rows()
@@ -167,31 +164,31 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
         self.tableWidget.setRowCount(count_rows)
         
-        for id, name, name_programming_language, id_programming_language in zip(*lista): 
+        for id, name, name_type_creation, id_type_creation in zip(*lista): 
 
             item_id = QtWidgets.QTableWidgetItem()
-            item_id_programming_language = QtWidgets.QTableWidgetItem()
+            item_id_type_creation = QtWidgets.QTableWidgetItem()
             
             item_id.setData(Qt.EditRole, id)
-            item_id_programming_language.setData(Qt.EditRole, id_programming_language)
+            item_id_type_creation.setData(Qt.EditRole, id_type_creation)
 
             
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(name_programming_language))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_programming_language))
+            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(name_type_creation))
+            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_type_creation))
 
             tablerow+=1
 
 
 
 
-    def add_data(self, name, id_programming_language):  
+    def add_data(self, name, id_type_creation):  
 
-        from controller.type_creation.insert import Insert
+        from controller.type_application.insert import Insert
 
         if self.validation_add_update_window_modal(name):
-            Insert.add_data(name, id_programming_language)
+            Insert.add_data(name, id_type_creation)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data added successfully</font>')
             self.get_data()
@@ -200,7 +197,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def update_data(self, id, name):
 
-        from controller.type_creation.update import Update
+        from controller.type_application.update import Update
 
         if self.validation_add_update_window_modal(name):
             Update.update_data(id, name)
@@ -212,7 +209,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def delete_data(self, id):
 
-        from controller.type_creation.delete import Delete
+        from controller.type_application.delete import Delete
         Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
@@ -241,7 +238,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 '''
 app=QApplication(sys.argv)
-mainwindow=FrameTypeCreation()
+mainwindow=FrameTypeApplication()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainwindow)
 widget.setFixedWidth(400)
@@ -254,4 +251,5 @@ try:
 except:
     print("Exiting")
 '''
+
 
