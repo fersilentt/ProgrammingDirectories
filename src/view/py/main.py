@@ -89,6 +89,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_type_application= FrameTypeApplication()
             self.stackedWidget.addWidget(self.frame_type_application)
             self.stackedWidget.setCurrentIndex(2)
+        
+        elif frame_id_plus == 3:
+            
+            self.frame_type_application.go_window()
+            
+            from view.py.project_tutorial import FrameProjectTutorial
+            self.frame_project_tutorial= FrameProjectTutorial()
+            self.stackedWidget.addWidget(self.frame_project_tutorial)
+            self.stackedWidget.setCurrentIndex(3)
 
 
         #self.stackedWidget.setCurrentIndex(0)

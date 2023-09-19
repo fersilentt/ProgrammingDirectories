@@ -18,7 +18,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def __init__(self):
         super(FrameTypeApplication,self).__init__()
-        loadUi(file+"/view/ui/type_creation/list.ui",self)
+        loadUi(file+"/view/ui/type_application/list.ui",self)
 
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -62,7 +62,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
+        uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
         self.window.show()
 
 
@@ -135,7 +135,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id
-            data["window_programming_language_id"] = id
+            data["window_type_application_id"] = id
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
