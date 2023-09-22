@@ -14,12 +14,17 @@ class List:
 
     def list_data():
         
-        f = open('id-window.txt', 'r')
-        id_window = f.read()
-        f.close()
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_id_window = json.loads(json_str)
+        id_window = str_id_window['window_table_id']
+
 
         Session = sessionmaker(bind=engine)
         session = Session()
+
 
         id = []
         name = []

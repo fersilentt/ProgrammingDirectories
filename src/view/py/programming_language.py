@@ -198,6 +198,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
+
+        
         
         # Editamos los campos de nuestro objeto json para almacenar el id de la tabla que se va a obtener
         with open('src/data.json', 'r+') as f:

@@ -5,6 +5,8 @@ from PyQt5.uic import loadUi
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
+import PyQt5.QtCore
+
 import json
 
 import sys
@@ -19,6 +21,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     def __init__(self):
         super(FrameProjectTutorial,self).__init__()
         loadUi(file+"/view/ui/project_tutorial/list.ui",self)
+
+        self.update()
 
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -197,16 +201,24 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     
     def go_window(self): 
 
+        self.get_data()
+
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
         
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id
-            data["window_programming_language_id"] = id
+            data["window_project_tutorial_id"] = id
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
+    
+
+            
+            
+
+        
         
 
     

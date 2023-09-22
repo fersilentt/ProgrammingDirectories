@@ -101,6 +101,21 @@
          <string>C4</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>

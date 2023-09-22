@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
-    <height>135</height>
+    <width>369</width>
+    <height>248</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,12 +30,33 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>-1</number>
          </property>
          <item>
           <widget class="QLineEdit" name="leName">
            <property name="placeholderText">
-            <string>Type Creation</string>
+            <string>Part</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leRepository">
+           <property name="placeholderText">
+            <string>Repository</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leYoutubeVideo">
+           <property name="placeholderText">
+            <string>Youtube Video</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lePartId">
+           <property name="placeholderText">
+            <string>Part id</string>
            </property>
           </widget>
          </item>
