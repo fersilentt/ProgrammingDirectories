@@ -21,15 +21,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     def __init__(self):
         super(FrameProjectTutorial,self).__init__()
         loadUi(file+"/view/ui/project_tutorial/list.ui",self)
-
-        self.update()
-
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["frame_id"] = 3
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
         
         self.tableWidget.setHorizontalHeaderLabels([
             "id",
@@ -49,7 +40,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
 
-        #self.tableWidget.setSortingEnabled(True)
+        self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(2,True)
         self.tableWidget.setColumnHidden(3,True)
@@ -194,6 +185,16 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             self.delete_data(id)
         else:
             print("No!")
+
+
+
+    def insert_frame_id(self):
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["frame_id"] = 3
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
         
 
 
@@ -215,6 +216,22 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             f.truncate() 
     
 
+
+    def back_window(self):
+        
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_id_window = json.loads(json_str)
+        id_window_type_application = str_id_window['window_type_application_id']
+
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["window_table_id"] = id_window_type_application
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
             
             
 

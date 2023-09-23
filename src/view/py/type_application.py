@@ -20,13 +20,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
         super(FrameTypeApplication,self).__init__()
         loadUi(file+"/view/ui/type_application/list.ui",self)
 
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["frame_id"] = 2
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
-
         self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Type Creation", "Id Type Creation"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
@@ -125,6 +118,14 @@ class FrameTypeApplication(QtWidgets.QFrame):
         
 
 
+    def insert_frame_id(self):
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["frame_id"] = 2
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
+
 
     
     def go_window(self): 
@@ -141,6 +142,22 @@ class FrameTypeApplication(QtWidgets.QFrame):
             f.truncate() 
         
 
+
+    def back_window(self):
+        
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_id_window = json.loads(json_str)
+        id_window_type_creation = str_id_window['window_type_creation_id']
+
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["window_table_id"] = id_window_type_creation
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
     
 
 

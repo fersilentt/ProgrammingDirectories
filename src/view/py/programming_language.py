@@ -189,18 +189,26 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             self.delete_data(id)
         else:
             print("No!")
+
+
+
+    # Insertamos el id del Frame, para que sea identificado
+    def insert_frame_id(self):
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["frame_id"] = 0
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
         
 
 
 
     # Obtenemos el id de la tabla para que la siguiente ventana cargue
     def go_window(self): 
-
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
 
-        
-        
         # Editamos los campos de nuestro objeto json para almacenar el id de la tabla que se va a obtener
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -212,7 +220,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             f.truncate() 
         
 
-    
+
+   
 
 
 

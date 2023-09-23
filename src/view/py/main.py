@@ -10,8 +10,13 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
+# Importamos las clases de los Frames que se van a mostrar en esta clase principal
 from view.py.programming_language import FrameProgrammingLanguage
-#from view.py.part import FramePart
+from view.py.type_creation import FrameTypeCreation
+from view.py.type_application import FrameTypeApplication
+from view.py.project_tutorial import FrameProjectTutorial
+from view.py.part import FramePart
+
 
 
 
@@ -35,18 +40,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbBack.setIcon(QtGui.QIcon(icon_back))
         
 
-        # Cargamos el Frame con el que va a arrancar la aplicacion lo almacenamos en variables
+        # Cargamos los Frames en variables
         self.frame_programming_language= FrameProgrammingLanguage()
-        
-
-        # Agregamos el Frame a stackedWidget, para que pueda visualizarse
-        self.stackedWidget.addWidget(self.frame_programming_language)
-
-        '''
+        self.frame_type_creation= FrameTypeCreation()
+        self.frame_type_application= FrameTypeApplication()
+        self.frame_project_tutorial= FrameProjectTutorial()
         self.frame_part= FramePart()
-        self.stackedWidget.addWidget(self.frame_part)
-        '''
         
+
+        # Agregamos los Frames a stackedWidget, para que pueda visualizarse
+        self.stackedWidget.addWidget(self.frame_programming_language)
+        self.stackedWidget.addWidget(self.frame_type_creation)
+        self.stackedWidget.addWidget(self.frame_type_application)
+        self.stackedWidget.addWidget(self.frame_project_tutorial)
+        self.stackedWidget.addWidget(self.frame_part)
+
+
+        # Deshabilitamos el boton para retroceder poque no existe otro frame haci atras
+        self.pbBack.setEnabled(False)
+
+      
 
         # Ejecutamos las funciones en los botones del menu principal
         self.pbGo.clicked.connect(self.change_frame_go)
@@ -81,49 +94,44 @@ class MainWindow(QtWidgets.QMainWindow):
             # seleccionada en la tabla y de esta manera que la siguiente ventana muestre los
             # datos de acuerdo a la relacion de ese id
             self.frame_programming_language.go_window()
-
-            # Ejecutamos la clase del siguiente Frame a donde nos vamos a mover, lo realizamos de 
-            # esta menra ya que si lo importamos desde las librerias principales se va a insertar
-            # los id del frame de forma automatica y ya no podremos movernos como queremos
-            from view.py.type_creation import FrameTypeCreation
-            self.frame_type_creation= FrameTypeCreation()
-            self.stackedWidget.addWidget(self.frame_type_creation)
+            # Cargamos el siguiente Frame de acuerdo a la su posicion
             self.stackedWidget.setCurrentIndex(1)
+            # Ejecutamos esta funcon del Frame que cargamos para que inserte el id del Frame
+            self.frame_type_creation.insert_frame_id()
+            # Actualizamos la lista del Frame que cargamos para que no exista conflicto con la 
+            # informacion desplegada al avanzar o retroceder con el boton
+            self.frame_type_creation.get_data()
+            # Habilitamos el boton de retroceder 
+            self.pbBack.setEnabled(True)
 
 
         elif frame_id_plus == 2:
             
             self.frame_type_creation.go_window()
-            
-            from view.py.type_application import FrameTypeApplication
-            self.frame_type_application= FrameTypeApplication()
-            self.stackedWidget.addWidget(self.frame_type_application)
             self.stackedWidget.setCurrentIndex(2)
+            self.frame_type_application.insert_frame_id()
+            self.frame_type_application.get_data()
+            self.pbBack.setEnabled(True)
         
         elif frame_id_plus == 3:
             
             self.frame_type_application.go_window()
-            
-            from view.py.project_tutorial import FrameProjectTutorial
-            self.frame_project_tutorial= FrameProjectTutorial()
-            self.stackedWidget.addWidget(self.frame_project_tutorial)
             self.stackedWidget.setCurrentIndex(3)
-
-            
+            self.frame_project_tutorial.insert_frame_id()
+            self.frame_project_tutorial.get_data() 
+            self.pbBack.setEnabled(True)       
         
         elif frame_id_plus == 4:
             
             self.frame_project_tutorial.go_window()
-            
-            from view.py.part import FramePart
-            self.frame_part= FramePart()
-            self.stackedWidget.addWidget(self.frame_part)
             self.stackedWidget.setCurrentIndex(4)
-
+            self.frame_part.insert_frame_id()
+            self.frame_part.get_data()
             self.pbGo.setEnabled(False)
+            self.pbBack.setEnabled(True)
 
 
-        #self.stackedWidget.setCurrentIndex(0)
+
 
 
 
@@ -145,15 +153,29 @@ class MainWindow(QtWidgets.QMainWindow):
         frame_id_less = frame_id-1
 
         if frame_id_less == 3:
-
             self.frame_part.back_window()
-
-            from view.py.project_tutorial import FrameProjectTutorial
-            self.frame_project_tutorial= FrameProjectTutorial()
-            self.stackedWidget.addWidget(self.frame_project_tutorial)
             self.stackedWidget.setCurrentIndex(3)
-
+            self.frame_project_tutorial.insert_frame_id()
             self.pbGo.setEnabled(True)
+        
+        elif frame_id_less == 2:
+            self.frame_project_tutorial.back_window()
+            self.stackedWidget.setCurrentIndex(2)
+            self.frame_type_application.insert_frame_id()
+            self.pbGo.setEnabled(True)
+        
+        elif frame_id_less == 1:
+            self.frame_type_application.back_window()
+            self.stackedWidget.setCurrentIndex(1)
+            self.frame_type_creation.insert_frame_id()
+            self.pbGo.setEnabled(True)
+        
+        elif frame_id_less == 0:
+            self.frame_type_creation.back_window()
+            self.stackedWidget.setCurrentIndex(0)
+            self.frame_programming_language.insert_frame_id()
+            self.pbGo.setEnabled(True)
+            self.pbBack.setEnabled(False)
 
 
 

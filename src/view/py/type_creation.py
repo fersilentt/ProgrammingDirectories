@@ -20,13 +20,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
         super(FrameTypeCreation,self).__init__()
         loadUi(file+"/view/ui/type_creation/list.ui",self)
 
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["frame_id"] = 1
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
-
         self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Programming Language", "Id Programming Language"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
@@ -129,6 +122,15 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
+    def insert_frame_id(self):
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["frame_id"] = 1
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
+
+
     
     def go_window(self): 
 
@@ -145,7 +147,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
         
 
 
-
+    # Obtenemos el id del Frame para que la anterior ventana cargue
     def back_window(self):
 
         # Abrimos el id de la ventana anterior
@@ -173,7 +175,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
     # FUNCIONES PARA REALIZAR EL CRUD 
-
     def get_data(self):
     
         from controller.type_creation.list import List
@@ -235,8 +236,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
         Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
-
-
 
 
 

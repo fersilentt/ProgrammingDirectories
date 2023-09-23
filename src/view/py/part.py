@@ -20,13 +20,6 @@ class FramePart(QtWidgets.QFrame):
         super(FramePart,self).__init__()
         loadUi(file+"/view/ui/part/list.ui",self)
 
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["frame_id"] = 4
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
-
         self.tableWidget.setHorizontalHeaderLabels([
             "id",
             "Name", 
@@ -151,26 +144,19 @@ class FramePart(QtWidgets.QFrame):
 
 
 
-    '''
-    def go_window(self): 
-
-        r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
-        
+    def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["window_table_id"] = id
-            data["window_type_application_id"] = id
+            data["frame_id"] = 4
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
-    '''    
+           
     
 
 
     def back_window(self):
-
-        # Abrimos el id de la ventana anterior
+        
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -178,8 +164,6 @@ class FramePart(QtWidgets.QFrame):
         str_id_window = json.loads(json_str)
         id_window_project_tutorial = str_id_window['window_project_tutorial_id']
 
-        # Guardamos el id de la ventana especifica en el id de la ventana principal
-        # para despues obtener los datos de ese id especifico
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_project_tutorial
