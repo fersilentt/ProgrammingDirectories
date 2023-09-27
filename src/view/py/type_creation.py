@@ -136,6 +136,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
+
+        print(id)
         
         with open('src/data.json', 'r+') as f:
             data = json.load(f)

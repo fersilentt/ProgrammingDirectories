@@ -49,6 +49,41 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pbInfo">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbFrameProgrammingLanguage">
+        <property name="text">
+         <string>PL</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbFrameTypeCreation">
+        <property name="text">
+         <string>TC</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbFrameTypeApplication">
+        <property name="text">
+         <string>TA</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbFrameProjectTutorial">
+        <property name="text">
+         <string>PT</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -64,7 +99,24 @@
      </layout>
     </item>
     <item>
-     <widget class="QStackedWidget" name="stackedWidget"/>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Programming language</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stackedWidget"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
