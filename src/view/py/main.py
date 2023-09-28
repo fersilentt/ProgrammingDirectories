@@ -213,6 +213,9 @@ class MainWindow(QtWidgets.QMainWindow):
         str_frame_id = json.loads(json_str)
         frame_id = str_frame_id['frame_id']
 
+      
+        self.window.pbClose.clicked.connect(self.window.hide)
+
         # Agregamos negrita a los labels
         self.window.lTextProgrammingLanguage.setStyleSheet("font-weight: bold")
         self.window.lTextTypeCreation.setStyleSheet("font-weight: bold")
@@ -312,6 +315,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pbFrameTypeCreation.setEnabled(False)
             self.pbFrameTypeApplication.setEnabled(False)
             self.pbFrameProjectTutorial.setEnabled(False)
+            self.lTitleMain.setText("Programming language")
 
 
         elif frame_id == 1:
@@ -322,6 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pbFrameTypeCreation.setEnabled(False)
             self.pbFrameTypeApplication.setEnabled(False)
             self.pbFrameProjectTutorial.setEnabled(False)
+            self.lTitleMain.setText("Type creation")
         
         elif frame_id == 2:
             self.pbGo.setEnabled(True)
@@ -331,6 +336,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pbFrameTypeCreation.setEnabled(True)
             self.pbFrameTypeApplication.setEnabled(False)
             self.pbFrameProjectTutorial.setEnabled(False)
+            self.lTitleMain.setText("Type application")
         
         elif frame_id == 3:
             self.pbGo.setEnabled(True)
@@ -339,7 +345,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(True)
             self.pbFrameTypeApplication.setEnabled(True)
-            self.pbFrameProjectTutorial.setEnabled(False) 
+            self.pbFrameProjectTutorial.setEnabled(False)
+            self.lTitleMain.setText("Project tutorial")
         
         elif frame_id == 4:
             self.pbGo.setEnabled(False)
@@ -348,7 +355,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(True)
             self.pbFrameTypeApplication.setEnabled(True)
-            self.pbFrameProjectTutorial.setEnabled(True) 
+            self.pbFrameProjectTutorial.setEnabled(True)
+            self.lTitleMain.setText("Part")
 
 
 

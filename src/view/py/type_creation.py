@@ -45,6 +45,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
         self.get_data() 
 
+        
+
 
 
 
@@ -70,10 +72,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
 
-
         
         if id_window_modal != 0:
-
             r = self.tableWidget.currentRow()
 
             try:
@@ -86,8 +86,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
             self.window.leName.setText(name)
             self.window.pbAddUpdate.setText("Update")
             self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
-
-
         else:
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text(), id_window))
@@ -122,6 +120,13 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
+    def select_rows(self, selection: list):
+        for i in selection:
+            self.tableWidget.selectRow(i)
+
+
+
+
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -129,25 +134,24 @@ class FrameTypeCreation(QtWidgets.QFrame):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
+        
 
+            
 
-    
     def go_window(self): 
-
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
 
-        print(id)
-        
         with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id
-            data["window_type_creation_id"] = id
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
+                data = json.load(f)
+                data["window_table_id"] = id
+                data["window_type_creation_id"] = id
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
         
 
+        
 
     # Obtenemos el id del Frame para que la anterior ventana cargue
     def back_window(self):
@@ -204,6 +208,9 @@ class FrameTypeCreation(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_programming_language))
 
             tablerow+=1
+        
+        list_selection = [0]
+        self.select_rows(list_selection)
 
 
 

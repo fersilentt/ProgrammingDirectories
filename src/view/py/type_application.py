@@ -50,6 +50,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
 
+
     # FUNCIONES DE LAS VENTANAS
 
     def add_update_window_modal(self, id_window_modal):
@@ -58,14 +59,12 @@ class FrameTypeApplication(QtWidgets.QFrame):
         uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
         self.window.show()
 
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
-
 
         
         if id_window_modal != 0:
@@ -115,7 +114,13 @@ class FrameTypeApplication(QtWidgets.QFrame):
             self.delete_data(id)
         else:
             print("No!")
-        
+    
+
+
+    def select_rows(self, selection: list):
+        for i in selection:
+            self.tableWidget.selectRow(i)
+
 
 
     def insert_frame_id(self):
@@ -132,17 +137,19 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0).text()
-        
+
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id
             data["window_type_application_id"] = id
             f.seek(0)
             json.dump(data, f, indent=4)
-            f.truncate() 
+            f.truncate()
         
 
 
+            
+        
     def back_window(self):
         
         with open('src/data.json', 'r') as f:
@@ -196,6 +203,9 @@ class FrameTypeApplication(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_type_creation))
 
             tablerow+=1
+
+        list_selection = [0]
+        self.select_rows(list_selection)
 
 
 

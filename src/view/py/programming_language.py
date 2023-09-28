@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QMessageBox, QAbstractItemView
 from PyQt5.uic import loadUi
 from PyQt5 import uic
 
@@ -48,6 +48,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         # Importamos el archivo .ui llamando a la ruta aboluta que anetriormente hemos creado
         loadUi(file+"/view/ui/programming_language/list.ui",self)
 
+        
+
 
         # Editamos el campo de nuestro objeto json para almacenar el id del Frame para asi poder
         # movernos con el boton desde el menu principal
@@ -56,7 +58,28 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             data["frame_id"] = 0
             f.seek(0)
             json.dump(data, f, indent=4)
-            f.truncate() 
+            f.truncate()
+        
+
+        r = self.tableWidget.currentRow()
+        id = self.tableWidget.item(r,0)
+
+        if id is not None and id.text() != '':
+            print("Si hay dato")
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                data["status_table_widget"] = 1
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+        else:
+            print("No hay dato")
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                data["status_table_widget"] = 0
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
 
         # Aqui establecemos el tamaño que va a tener cada columna de acuerdo
         # a su posicion, pero en este caso lo comentamos para que quede en
@@ -72,7 +95,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         # Agregamos eto para poder seleccionar toda la fila en ligar de seleccionar celda por celda
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-
         #self.tableWidget.verticalHeader().setVisible(False)
         # Ordenamos de forma ascendente y descendente con un clic todas las clumnas de la tabla
         self.tableWidget.setSortingEnabled(True)
@@ -81,7 +103,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         self.tableWidget.setColumnHidden(0,True)
 
 
-        
 
         # Creamos los iconos para los botones
 
@@ -102,9 +123,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
 
-
         # Llamamos a la funcion que nos va a cargar los datos
         self.get_data() 
+
+
+        
 
 
 
@@ -190,6 +213,13 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         else:
             print("No!")
 
+    
+
+    # Seleccionamos la fila que le pasemos, para que se preseleccione al cargar la lista de datos
+    def select_rows(self, selection: list):
+        for i in selection:
+            self.tableWidget.selectRow(i)
+
 
 
     # Insertamos el id del Frame, para que sea identificado
@@ -254,8 +284,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         
 
         # LLenamos los datos obtenidos de la consulta en la tabla
-
-        # a,b,c,d = variables que almacenan los datos obtenidos de nuestra consulta
         for id,name in zip(*lista): 
 
             #print(id,name)
@@ -268,9 +296,13 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
 
-
             # Incrementamos en 1 la fila de nuestra tabla
             tablerow+=1
+
+
+        # Enviamos la posicion de la fila que queremos que se preseleccione
+        list_selection = [0]
+        self.select_rows(list_selection)
 
 
 
@@ -321,6 +353,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
+    
 
 
 

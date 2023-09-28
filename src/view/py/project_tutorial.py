@@ -38,7 +38,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             "Type Application",
             "id_type_application"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
-
+        
 
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
@@ -74,6 +74,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
+
     # FUNCIONES DE LAS VENTANAS
 
     def add_update_window_modal(self, id_window_modal):
@@ -89,7 +90,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
-
 
         
         if id_window_modal != 0:
@@ -188,6 +188,12 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
+    def select_rows(self, selection: list):
+        for i in selection:
+            self.tableWidget.selectRow(i)
+
+
+
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -196,8 +202,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate() 
         
-
-
 
     
     def go_window(self): 
@@ -288,6 +292,9 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
 
             tablerow+=1
+        
+        list_selection = [0]
+        self.select_rows(list_selection)
 
 
 
