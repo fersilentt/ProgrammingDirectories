@@ -118,10 +118,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         #self.pbAdd.setIconSize(QtCore.QSize(200,200))
 
 
-        # Ejecutamos las funciones del CRUD en los botones
+        # Ejecutamos las funciones del CRUD
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
+        self.leSearch.textChanged.connect(self.scan_q_line_edit)
 
         # Llamamos a la funcion que nos va a cargar los datos
         self.get_data() 
@@ -191,13 +192,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
-
-        try:
-            id = self.tableWidget.item(r,0).text()
-
-        except IndexError as e:
-            self.lMessageList.setText('<font color="red">Please select a data</font>')
-            return 
+        id = self.tableWidget.item(r,0).text()
 
         # Mostramos un mensaje de informacion para indicar si se desea eliminar o no el dato
         dlg = QMessageBox(self)
@@ -350,6 +345,52 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
+    
+
+
+
+    # Creamos una funcion para buscar los datos
+    def search_data(self, data):
+
+        from controller.programming_language.search import Search
+        from controller.programming_language.count_search import CountSearch
+        
+        list_search = Search.search_data(data)
+        count_rows_search = CountSearch.count_rows_search(data)
+
+        tablerow=0
+        self.tableWidget.setRowCount(count_rows_search)
+        
+        for id,name in zip(*list_search): 
+
+            item = QtWidgets.QTableWidgetItem()
+            item.setData(Qt.EditRole, id)
+            
+            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
+            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+
+            tablerow+=1
+
+        list_selection = [0]
+        self.select_rows(list_selection)
+    
+
+
+
+
+    # Creamos una funcion que permite obtener el valor que ingresemos en la
+    # caja de texto de una forma rapida
+
+    # event = contains the text of the line edit, we could also test
+    def scan_q_line_edit(self, event):
+        
+        # Validamos que el dato ingresado en la caja de texto sea buscado en la base de datos
+        if event:
+            self.search_data(event)
+        # Caso contrario mostraremos toda la lista de datos
+        else:
+            self.get_data()
+            
 
 
 

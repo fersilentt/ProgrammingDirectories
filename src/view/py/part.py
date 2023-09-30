@@ -12,6 +12,11 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
+# Importamos este modulo para poder abrir una pestaña nueva en nuestro
+# navegador tanto para abrir el repositorio como el video youtube
+import webbrowser
+
+
 
 
 class FramePart(QtWidgets.QFrame):
@@ -52,6 +57,8 @@ class FramePart(QtWidgets.QFrame):
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
+        self.pbRepository.clicked.connect(self.open_repository)
+        self.pbYoutube.clicked.connect(self.open_youtube)
 
         self.get_data() 
 
@@ -62,7 +69,6 @@ class FramePart(QtWidgets.QFrame):
 
 
     # FUNCIONES DE LAS VENTANAS
-
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -124,13 +130,7 @@ class FramePart(QtWidgets.QFrame):
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
-
-        try:
-            id = self.tableWidget.item(r,0).text()
-
-        except IndexError as e:
-            self.lMessageList.setText('<font color="red">Please select a data</font>')
-            return 
+        id = self.tableWidget.item(r,0).text()
 
         dlg = QMessageBox(self)
         dlg.setWindowTitle("I have a question!")
@@ -148,6 +148,13 @@ class FramePart(QtWidgets.QFrame):
 
 
 
+    def select_rows(self, selection: list):
+        for i in selection:
+            self.tableWidget.selectRow(i)
+
+
+
+
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
@@ -157,7 +164,6 @@ class FramePart(QtWidgets.QFrame):
             f.truncate() 
            
     
-
 
     def back_window(self):
         
@@ -174,6 +180,29 @@ class FramePart(QtWidgets.QFrame):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
+
+
+
+    
+    # Abrimos el repositorio de codigo en el navegador predeterminado del sistema
+    def open_repository(self):
+        r = self.tableWidget.currentRow()
+        repository = self.tableWidget.item(r,2).text()
+
+        # Abrimos en una nueva pestaña del navegador la url del repositorio que vamos a obtener
+
+        # repository = esta es la url del repositorio que vamos a abrir en el navegador
+        # new=2 = este parametro indica que vamos abrir la url en una nueva pestaña del navegador
+        # autoraise=True = este parametro indica la autorizacion para abrir la url
+        webbrowser.open(repository, new=2, autoraise=True)
+    
+
+
+    # Abrimos el video de youtube en el navegador predeterminado del sistema
+    def open_youtube(self):
+        r = self.tableWidget.currentRow()
+        youtube_video = self.tableWidget.item(r,3).text()
+        webbrowser.open(youtube_video, new=2, autoraise=True)
             
 
    
@@ -188,7 +217,6 @@ class FramePart(QtWidgets.QFrame):
 
 
     # FUNCIONES PARA REALIZAR EL CRUD 
-
     def get_data(self):
     
         from controller.part.list import List
@@ -221,6 +249,10 @@ class FramePart(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
 
             tablerow+=1
+        
+
+        list_selection = [0]
+        self.select_rows(list_selection)
 
 
 

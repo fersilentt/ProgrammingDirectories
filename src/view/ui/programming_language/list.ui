@@ -32,7 +32,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
-      <number>-1</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QPushButton" name="pbAdd">
@@ -54,6 +54,16 @@
         <string/>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Search:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leSearch"/>
      </item>
     </layout>
    </item>

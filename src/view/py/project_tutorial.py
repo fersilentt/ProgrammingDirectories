@@ -163,15 +163,9 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
     def delete_window(self): 
-
+        
         r = self.tableWidget.currentRow()
-
-        try:
-            id = self.tableWidget.item(r,0).text()
-
-        except IndexError as e:
-            self.lMessageList.setText('<font color="red">Please select a data</font>')
-            return 
+        id = self.tableWidget.item(r,0).text()
 
         dlg = QMessageBox(self)
         dlg.setWindowTitle("I have a question!")
@@ -252,7 +246,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
     # FUNCIONES PARA REALIZAR EL CRUD 
-
     def get_data(self):
     
         from controller.project_tutorial.list import List
