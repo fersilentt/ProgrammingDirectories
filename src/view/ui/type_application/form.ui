@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
+    <width>436</width>
     <height>135</height>
    </rect>
   </property>
@@ -28,25 +28,35 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <property name="spacing">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="verticalSpacing">
           <number>0</number>
          </property>
-         <item>
-          <widget class="QLineEdit" name="leName">
-           <property name="placeholderText">
-            <string>Type Creation</string>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Type application:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="leName">
+           <property name="placeholderText">
+            <string>Desktop, Console or Mobile</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
           <widget class="QLabel" name="lMessageForm">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="1">
           <widget class="QPushButton" name="pbAddUpdate">
            <property name="text">
             <string>Add</string>

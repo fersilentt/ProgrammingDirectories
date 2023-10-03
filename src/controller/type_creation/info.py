@@ -25,18 +25,27 @@ class Info:
         session = Session()
 
         name_programming_language = []
-        
-        data = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
+
+        try:
+            data = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
             TypeCreation.id_programming_language == id_window_programming_language).all()
 
-        # [:1] = aqui le indicamos que solo obtenga el primer dato que recorra el for
-        for type_creation, programming_language in data[:1]:
-            name_programming_language.append(programming_language.name)
+            # [:1] = aqui le indicamos que solo obtenga el primer dato que recorra el for
+            for type_creation, programming_language in data[:1]:
+                name_programming_language.append(programming_language.name)
 
-        # Almacenamos el primer dato obtenido del for en una variable
-        info_name_programming_language = name_programming_language[0]
+            # Almacenamos el primer dato obtenido del for en una variable
+            info_name_programming_language = name_programming_language[0]
+        
+        finally:
+            session.close()
+            
+        
 
         return info_name_programming_language
+
+#sqlalchemy.exc.TimeoutError: QueuePool limit of size 5 overflow 10 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+#24
 
     
     

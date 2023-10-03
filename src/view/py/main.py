@@ -174,12 +174,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_part.back_window()
             self.stackedWidget.setCurrentIndex(3)
             self.frame_project_tutorial.insert_frame_id()
+            self.frame_project_tutorial.get_data() 
             self.enable_disable_buttons()
         
         elif frame_id_less == 2:
             self.frame_project_tutorial.back_window()
             self.stackedWidget.setCurrentIndex(2)
             self.frame_type_application.insert_frame_id()
+            self.frame_type_application.get_data()
             self.enable_disable_buttons()
  
         
@@ -187,6 +189,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_type_application.back_window()
             self.stackedWidget.setCurrentIndex(1)
             self.frame_type_creation.insert_frame_id()
+            self.frame_type_creation.get_data()
             self.enable_disable_buttons()
 
         
@@ -194,6 +197,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_type_creation.back_window()
             self.stackedWidget.setCurrentIndex(0)
             self.frame_programming_language.insert_frame_id()
+            self.frame_programming_language.get_data()
             self.enable_disable_buttons()
 
 

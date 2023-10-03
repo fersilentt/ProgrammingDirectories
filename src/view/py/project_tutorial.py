@@ -56,15 +56,18 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
         icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
+        icon_view  = QtGui.QPixmap(os.path.abspath("src/static/view.svg"))
         
         self.pbAdd.setIcon(QtGui.QIcon(icon_add))
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.pbView.setIcon(QtGui.QIcon(icon_view))
         
 
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
+        self.pbView.clicked.connect(self.view_window_modal)
 
         self.get_data() 
 
@@ -76,7 +79,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
     # FUNCIONES DE LAS VENTANAS
-
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -182,6 +184,57 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
+
+    def view_window_modal(self):
+
+        self.window = QtWidgets.QMainWindow()
+        uic.loadUi(file+"/view/ui/project_tutorial/view.ui", self.window)
+        self.window.show()
+
+        self.window.pbClose.clicked.connect(self.window.hide)
+
+        self.window.lTextName.setStyleSheet("font-weight: bold")
+        self.window.lTextProgrammingLanguageVersion.setStyleSheet("font-weight: bold")
+        self.window.lTextFramework.setStyleSheet("font-weight: bold")
+        self.window.lTextGraphicalInterface.setStyleSheet("font-weight: bold")
+        self.window.lTextDatabase.setStyleSheet("font-weight: bold")
+        self.window.lTextDataBaseVersion.setStyleSheet("font-weight: bold")
+        self.window.lTextOrm.setStyleSheet("font-weight: bold")
+        self.window.lTextVirtualEnvironment.setStyleSheet("font-weight: bold")
+        self.window.lTextArchitecture.setStyleSheet("font-weight: bold")
+        self.window.lTextCloudServer.setStyleSheet("font-weight: bold")
+        self.window.lTextNumberProjectTutorial.setStyleSheet("font-weight: bold")
+
+        r = self.tableWidget.currentRow()
+
+        name = self.tableWidget.item(r,1).text()
+        programming_language_version = self.tableWidget.item(r,2).text()
+        framework = self.tableWidget.item(r,3).text()
+        graphical_interface = self.tableWidget.item(r,4).text()
+        data_base = self.tableWidget.item(r,5).text()
+        data_base_version = self.tableWidget.item(r,6).text()
+        orm = self.tableWidget.item(r,7).text()
+        virtual_environment = self.tableWidget.item(r,8).text()
+        architecture = self.tableWidget.item(r,9).text()
+        cloud_server = self.tableWidget.item(r,10).text()
+        number_project_tutorial = self.tableWidget.item(r,11).text()
+
+        self.window.lName.setText(name)
+        self.window.lProgrammingLanguageVersion.setText(programming_language_version)
+        self.window.lFramework.setText(framework)
+        self.window.lGraphicalInterface.setText(graphical_interface)
+        self.window.lDatabase.setText(data_base)
+        self.window.lDataBaseVersion.setText(data_base_version)
+        self.window.lOrm.setText(orm)
+        self.window.lVirtualEnvironment.setText(virtual_environment)
+        self.window.lArchitecture.setText(architecture)
+        self.window.lCloudServer.setText(cloud_server)
+        self.window.lNumberProjectTutorial.setText(number_project_tutorial)
+
+
+
+
+
     def select_rows(self, selection: list):
         for i in selection:
             self.tableWidget.selectRow(i)
@@ -222,6 +275,21 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
+        id_window_type_creation = str_id_window['window_type_creation_id']
+
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["window_table_id"] = id_window_type_creation
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
+
+        '''
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_id_window = json.loads(json_str)
         id_window_type_application = str_id_window['window_type_application_id']
 
         with open('src/data.json', 'r+') as f:
@@ -230,6 +298,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
+        '''
             
             
 

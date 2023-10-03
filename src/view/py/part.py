@@ -30,7 +30,7 @@ class FramePart(QtWidgets.QFrame):
             "Name", 
             "repository", 
             "youtube_video", 
-            "id_part", 
+            "Id part", 
             "Project Tutorial", 
             "id_project_tutorial"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
@@ -38,22 +38,27 @@ class FramePart(QtWidgets.QFrame):
 
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
+        self.tableWidget.setColumnHidden(2,True)
+        self.tableWidget.setColumnHidden(3,True)
         self.tableWidget.setColumnHidden(6,True)
 
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
         icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
+        icon_view  = QtGui.QPixmap(os.path.abspath("src/static/view.svg"))
         icon_repository  = QtGui.QPixmap(os.path.abspath("src/static/repository.svg"))
         icon_youtube  = QtGui.QPixmap(os.path.abspath("src/static/youtube.svg"))
+        
         
         self.pbAdd.setIcon(QtGui.QIcon(icon_add))
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.pbView.setIcon(QtGui.QIcon(icon_view))
         self.pbRepository.setIcon(QtGui.QIcon(icon_repository))
         self.pbYoutube.setIcon(QtGui.QIcon(icon_youtube))
         
-
+        
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
@@ -166,7 +171,22 @@ class FramePart(QtWidgets.QFrame):
     
 
     def back_window(self):
-        
+
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_id_window = json.loads(json_str)
+        id_window_type_application = str_id_window['window_type_application_id']
+
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["window_table_id"] = id_window_type_application
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
+
+        '''
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -180,6 +200,7 @@ class FramePart(QtWidgets.QFrame):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
+        '''
 
 
 

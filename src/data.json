@@ -1,11 +1,11 @@
 {
     "route_create_database": "/Users/fersilent/Desktop",
     "route_open_database": "/Users/fersilent/Desktop/programming-directories.db",
-    "frame_id": 3,
+    "frame_id": 0,
     "status_table_widget": 0,
-    "window_table_id": "18",
-    "window_programming_language_id": "12",
-    "window_type_creation_id": "14",
-    "window_type_application_id": "18",
+    "window_table_id": "10",
+    "window_programming_language_id": "10",
+    "window_type_creation_id": "12",
+    "window_type_application_id": "16",
     "window_project_tutorial_id": "4"
 }

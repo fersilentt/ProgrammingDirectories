@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>363</width>
+    <width>636</width>
     <height>441</height>
    </rect>
   </property>
@@ -40,98 +40,208 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <property name="spacing">
-          <number>-1</number>
-         </property>
-         <item>
-          <widget class="QLineEdit" name="leName">
-           <property name="placeholderText">
-            <string>Type Creation</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leProgrammingLanguageVersion">
-           <property name="placeholderText">
-            <string>Programming Language Version</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leFramework">
-           <property name="placeholderText">
-            <string>Framework</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leGraphicalInterface">
-           <property name="placeholderText">
-            <string>Graphical Interface</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leDatabase">
-           <property name="placeholderText">
-            <string>Database</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leDataBaseVersion">
-           <property name="placeholderText">
-            <string>Database Version</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leOrm">
-           <property name="placeholderText">
-            <string>ORM</string>
-           </property>
-          </widget>
-         </item>
-         <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="8" column="1">
           <widget class="QLineEdit" name="leVirtualEnvironment">
            <property name="placeholderText">
-            <string>Virtual Environment</string>
+            <string>Pipenv</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="leArchitecture">
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="leOrm">
            <property name="placeholderText">
-            <string>Architecture</string>
+            <string>SQAlchemy</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="10" column="1">
           <widget class="QLineEdit" name="leCloudServer">
            <property name="placeholderText">
-            <string>Cloud Server</string>
+            <string>Heroku</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="leDataBaseVersion">
+           <property name="placeholderText">
+            <string>10.6.12</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <widget class="QPushButton" name="pbAddUpdate">
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
           <widget class="QLineEdit" name="leNumberProjectTutorial">
            <property name="placeholderText">
-            <string>Number Project Tutorial</string>
+            <string>1</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="leFramework">
+           <property name="placeholderText">
+            <string>Flask</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QLineEdit" name="leArchitecture">
+           <property name="placeholderText">
+            <string>MVC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="leName">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Project or tutorial name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="leGraphicalInterface">
+           <property name="placeholderText">
+            <string>Jinja</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="leProgrammingLanguageVersion">
+           <property name="placeholderText">
+            <string>3.8.10</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="leDatabase">
+           <property name="placeholderText">
+            <string>MariaDB</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="1">
           <widget class="QLabel" name="lMessageForm">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QPushButton" name="pbAddUpdate">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>Add</string>
+            <string>Name:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Programming language version:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Framework:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Graphical interface:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Database:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Database Version:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>ORM:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Virtual environment:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Architecture:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Cloud server:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Nº Project tutorial:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
