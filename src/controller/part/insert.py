@@ -17,8 +17,12 @@ class Insert:
         Session = sessionmaker(bind=engine)
         session = Session()
  
-        part = Part(name, repository, youtube_video, id_part, id)
-        session.add(part)
+        try:
+            part = Part(name, repository, youtube_video, id_part, id)
+            session.add(part)
 
-        session.commit()
+            session.commit()
+        
+        finally:
+            session.close()
     

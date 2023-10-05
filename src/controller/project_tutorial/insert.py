@@ -26,26 +26,26 @@ class Insert:
         number_project_tutorial,
         id):
 
-
         Session = sessionmaker(bind=engine)
         session = Session()
 
+        try:
+            project_tutorial = ProjectTutorial(
+                name,
+                programming_language_version, 
+                framework, 
+                graphical_interface, 
+                data_base,
+                data_base_version, 
+                orm, 
+                virtual_environment, 
+                architecture,
+                cloud_server, 
+                number_project_tutorial,
+                id)
 
-        project_tutorial = ProjectTutorial(
-            name,
-            programming_language_version, 
-            framework, 
-            graphical_interface, 
-            data_base,
-            data_base_version, 
-            orm, 
-            virtual_environment, 
-            architecture,
-            cloud_server, 
-            number_project_tutorial,
-            id)
+            session.add(project_tutorial)
+            session.commit()
 
-        session.add(project_tutorial)
-
-    
-        session.commit()
+        finally:
+            session.close()

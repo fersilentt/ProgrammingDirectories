@@ -16,8 +16,12 @@ class Delete:
 
         Session = sessionmaker(bind=engine)
         session = Session()
- 
-        project_tutorial = session.query(ProjectTutorial).filter(ProjectTutorial.id == id)
-        project_tutorial.delete()
 
-        session.commit()
+        try:
+            project_tutorial = session.query(ProjectTutorial).filter(ProjectTutorial.id == id)
+            project_tutorial.delete()
+
+            session.commit()
+            
+        finally:
+            session.close()

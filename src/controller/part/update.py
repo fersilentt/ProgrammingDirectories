@@ -17,11 +17,14 @@ class Update:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        part = session.query(Part).filter(Part.id == id)
-        part.update({Part.name: name})
-        part.update({Part.repository: repository})
-        part.update({Part.youtube_video: youtube_video})
-        part.update({Part.id_part: id_part})
+        try:
+            part = session.query(Part).filter(Part.id == id)
+            part.update({Part.name: name})
+            part.update({Part.repository: repository})
+            part.update({Part.youtube_video: youtube_video})
+            part.update({Part.id_part: id_part})
 
+            session.commit()
         
-        session.commit()
+        finally:
+            session.close()

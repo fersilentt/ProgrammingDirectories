@@ -17,7 +17,10 @@ class CountSearch:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        count_rows_search = session.query(ProgrammingLanguage).filter(or_(
-            ProgrammingLanguage.name.like('%{}%'.format(data)))).count()
-          
+        try:
+            count_rows_search = session.query(ProgrammingLanguage).filter(or_(
+                ProgrammingLanguage.name.like('%{}%'.format(data)))).count()
+        finally:
+            session.close()
+            
         return count_rows_search

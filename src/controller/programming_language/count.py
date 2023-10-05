@@ -8,17 +8,17 @@ sys.path.insert(0, file)
 from model.database_open import *
 from model.database_open import engine
 
-
-
 class Count:
-
 
     def count_rows():
         
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        # Contamos la cantidad de filas en nuestra tabla
-        count_rows = session.query(ProgrammingLanguage).count()
+        try:
+            # Contamos la cantidad de filas en nuestra tabla
+            count_rows = session.query(ProgrammingLanguage).count()
+        finally:
+            session.close()
           
         return count_rows

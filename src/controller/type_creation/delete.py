@@ -17,7 +17,11 @@ class Delete:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        type_creation = session.query(TypeCreation).filter(TypeCreation.id == id)
-        type_creation.delete()
+        try:
+            type_creation = session.query(TypeCreation).filter(TypeCreation.id == id)
+            type_creation.delete()
 
-        session.commit()
+            session.commit()
+
+        finally:
+            session.close()

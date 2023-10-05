@@ -17,8 +17,12 @@ class Insert:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        programming_language = ProgrammingLanguage(name)
-        session.add(programming_language)
+        try:
+            programming_language = ProgrammingLanguage(name)
+            session.add(programming_language)
 
-        # Hacemos un commit en la base de datos
-        session.commit()
+            # Hacemos un commit en la base de datos
+            session.commit()
+        
+        finally:
+            session.close()

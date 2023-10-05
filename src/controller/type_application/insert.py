@@ -17,7 +17,11 @@ class Insert:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        type_application = TypeApplication(name, id)
-        session.add(type_application)
+        try:
+            type_application = TypeApplication(name, id)
+            session.add(type_application)
 
-        session.commit()
+            session.commit()
+            
+        finally:
+            session.close()

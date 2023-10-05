@@ -34,17 +34,21 @@ class List:
         id_type_creation = []
         
 
-        data = session.query(TypeApplication, TypeCreation).join(TypeApplication).filter(
-            TypeApplication.id_type_creation == id_window).order_by(TypeApplication.name.desc()).all()
+        try:
+            data = session.query(TypeApplication, TypeCreation).join(TypeApplication).filter(
+                TypeApplication.id_type_creation == id_window).order_by(TypeApplication.name.desc()).all()
 
 
-        for type_application, type_creation in data:
-            id.append(type_application.id)
-            name.append(type_application.name)
-            name_type_creation.append(type_creation.name)
-            id_type_creation.append(type_creation.id)
-            
-        my_list = [(id), (name), (name_type_creation), (id_type_creation)]
+            for type_application, type_creation in data:
+                id.append(type_application.id)
+                name.append(type_application.name)
+                name_type_creation.append(type_creation.name)
+                id_type_creation.append(type_creation.id)
+                
+            my_list = [(id), (name), (name_type_creation), (id_type_creation)]
+
+        finally:
+            session.close()
           
         
         return my_list

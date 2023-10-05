@@ -20,12 +20,14 @@ class Count:
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
 
-        
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        count_rows = session.query(ProjectTutorial, TypeApplication).join(ProjectTutorial).filter(
-            ProjectTutorial.id_type_application == id_window).count()
+        try:
+            count_rows = session.query(ProjectTutorial, TypeApplication).join(ProjectTutorial).filter(
+                ProjectTutorial.id_type_application == id_window).count()
+        
+        finally:
+            session.close()
 
-          
         return count_rows

@@ -20,13 +20,15 @@ class Count:
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
 
-        
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        
-        # Realizamos la relacion con la tabla y obtenemos la cantidad de datos de acuerdo al id filtradp
-        count_rows = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
-            TypeCreation.id_programming_language == id_window).count()
+        try:
+            # Realizamos la relacion con la tabla y obtenemos la cantidad de datos de acuerdo al id filtradp
+            count_rows = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
+                TypeCreation.id_programming_language == id_window).count()
+
+        finally:
+            session.close()
           
         return count_rows

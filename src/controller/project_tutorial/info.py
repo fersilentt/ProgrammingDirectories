@@ -25,12 +25,16 @@ class Info:
 
         name_type_application = []
 
-        data = session.query(ProjectTutorial, TypeApplication).join(ProjectTutorial).filter(
-            ProjectTutorial.id_type_application == id_window_type_application).all()
+        try:
+            data = session.query(ProjectTutorial, TypeApplication).join(ProjectTutorial).filter(
+                ProjectTutorial.id_type_application == id_window_type_application).all()
 
-        for project_tutorial, type_application in data[:1]:
-            name_type_application.append(type_application.name)
+            for project_tutorial, type_application in data[:1]:
+                name_type_application.append(type_application.name)
 
-        info_name_type_application = name_type_application[0]  
+            info_name_type_application = name_type_application[0]  
+            
+        finally:
+            session.close()
            
         return info_name_type_application

@@ -66,30 +66,33 @@ class List:
         name = []
         
 
+        # Creamos un manejo de exepciones para cerrar la conexion de la base de datos un vez ejecutada la transaccion
+        # y asi evitar que la aplicacion colapse por exesivas peticiones a la base de datos
+        try:
+            # Recorremos el objeto donde almacena la informacion 
 
+            # programming_language = variable que almacena los datos obtenidos de nuestra consulta 
+            # desc() = aqui le indicamos que ordene la consulta en forma descendente por el campo que hemos establecido 
+            for programming_language in session.query(ProgrammingLanguage).order_by(ProgrammingLanguage.name.desc()):
+                
+                # Creamos un nuevo arreglo, llenos de arreglos obtenidos de los datos
+                # que vamos obteniendo del for
 
-        # Recorremos el objeto donde almacena la informacion 
+                # append = permite crear un arreglo a partir de la obtencion de datos del for
+                id.append(programming_language.id)
+                name.append(programming_language.name)
+                
 
-        # programming_language = variable que almacena los datos obtenidos de nuestra consulta 
-        # desc() = aqui le indicamos que ordene la consulta en forma descendente por el campo que hemos establecido 
-        for programming_language in session.query(ProgrammingLanguage).order_by(ProgrammingLanguage.name.desc()):
             
-            # Creamos un nuevo arreglo, llenos de arreglos obtenidos de los datos
-            # que vamos obteniendo del for
+            # Creamos un nuevo arreglo con la lista de arreglos obtenidos
+            # para despues recorrerlos y mostrarlos en la vista
+            my_list = [(id), (name)]
 
-            # append = permite crear un arreglo a partir de la obtencion de datos del for
-            id.append(programming_language.id)
-            name.append(programming_language.name)
-            
-
-        
-        # Creamos un nuevo arreglo con la lista de arreglos obtenidos
-        # para despues recorrerlos y mostrarlos en la vista
-        my_list = [(id), (name)]
+        finally:
+            session.close()
           
         
   
-
 
         # Retornamos el arreglo nuevo con la lista de arreglos con la finalidad
         # de importarlo despues

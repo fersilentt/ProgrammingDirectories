@@ -19,12 +19,16 @@ class Search:
         id = []
         name = []
         
-        for programming_language in session.query(ProgrammingLanguage).filter(or_(
-            ProgrammingLanguage.name.like('%{}%'.format(data)))).all():
+        try:
+            for programming_language in session.query(ProgrammingLanguage).filter(or_(
+                ProgrammingLanguage.name.like('%{}%'.format(data)))).all():
 
-            id.append(programming_language.id)
-            name.append(programming_language.name)
+                id.append(programming_language.id)
+                name.append(programming_language.name)
 
-        my_list = [(id), (name)]
+            my_list = [(id), (name)]
+        
+        finally:
+            session.close()
 
         return my_list

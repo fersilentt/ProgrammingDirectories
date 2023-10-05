@@ -25,13 +25,17 @@ class Info:
 
         name_type_creation = []
 
-        data = session.query(TypeApplication, TypeCreation).join(TypeApplication).filter(
-            TypeApplication.id_type_creation == id_window_type_creation).all()
+        try:
+            data = session.query(TypeApplication, TypeCreation).join(TypeApplication).filter(
+                TypeApplication.id_type_creation == id_window_type_creation).all()
 
-        for type_application, type_creation in data[:1]:
-            name_type_creation.append(type_creation.name)
+            for type_application, type_creation in data[:1]:
+                name_type_creation.append(type_creation.name)
 
-        info_name_type_creation = name_type_creation[0]
+            info_name_type_creation = name_type_creation[0]
+            
+        finally:
+            session.close()
                   
         return info_name_type_creation
     

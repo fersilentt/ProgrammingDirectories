@@ -16,7 +16,11 @@ class Update:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        type_creation = session.query(TypeCreation).filter(TypeCreation.id == id)
-        type_creation.update({TypeCreation.name: name})
+        try:
+            type_creation = session.query(TypeCreation).filter(TypeCreation.id == id)
+            type_creation.update({TypeCreation.name: name})
 
-        session.commit()
+            session.commit()
+        
+        finally:
+            session.close()

@@ -16,7 +16,11 @@ class Delete:
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        type_application = session.query(TypeApplication).filter(TypeApplication.id == id)
-        type_application.delete()
+        try:
+            type_application = session.query(TypeApplication).filter(TypeApplication.id == id)
+            type_application.delete()
 
-        session.commit()
+            session.commit()
+            
+        finally:
+            session.close()

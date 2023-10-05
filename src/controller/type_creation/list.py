@@ -45,21 +45,24 @@ class List:
         id_programming_language = []
         
 
+        try:
+            # Realizamos la consulta de los campos que tienen relacion mediante un join y  lo
+            # almacenamos en una variable
+            data = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
+                TypeCreation.id_programming_language == id_window).order_by(TypeCreation.name.desc()).all()
 
-        # Realizamos la consulta de los campos que tienen relacion mediante un join y  lo
-        # almacenamos en una variable
-        data = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
-            TypeCreation.id_programming_language == id_window).order_by(TypeCreation.name.desc()).all()
+            for type_creation, programming_language in data:
+        
+                id.append(type_creation.id)
+                name.append(type_creation.name)
+                name_programming_language.append(programming_language.name)
+                id_programming_language.append(programming_language.id)
+                
+            my_list = [(id), (name), (name_programming_language), (id_programming_language)]
 
-        for type_creation, programming_language in data:
-    
-            id.append(type_creation.id)
-            name.append(type_creation.name)
-            name_programming_language.append(programming_language.name)
-            id_programming_language.append(programming_language.id)
-            
-
-        my_list = [(id), (name), (name_programming_language), (id_programming_language)]
+        finally:
+            session.close()
+         
           
         return my_list
     

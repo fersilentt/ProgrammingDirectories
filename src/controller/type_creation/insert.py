@@ -16,7 +16,10 @@ class Insert:
         Session = sessionmaker(bind=engine)
         session = Session()
  
-        type_creation = TypeCreation(name, id_programming_language)
-        session.add(type_creation)
+        try:
+            type_creation = TypeCreation(name, id_programming_language)
+            session.add(type_creation)
 
-        session.commit()
+            session.commit()
+        finally:
+            session.close()
