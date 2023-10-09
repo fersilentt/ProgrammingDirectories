@@ -16,6 +16,9 @@ sys.path.insert(0, file)
 # navegador tanto para abrir el repositorio como el video youtube
 import webbrowser
 
+# Importamos este modulo para realizar validaciones en este caso de una
+# url
+import validators
 
 
 
@@ -30,8 +33,8 @@ class FramePart(QtWidgets.QFrame):
             "Name", 
             "repository", 
             "youtube_video", 
-            "Id part", 
             "Project Tutorial", 
+            "Id part", 
             "id_project_tutorial"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
@@ -189,12 +192,18 @@ class FramePart(QtWidgets.QFrame):
         r = self.tableWidget.currentRow()
         repository = self.tableWidget.item(r,2).text()
 
-        # Abrimos en una nueva pestaña del navegador la url del repositorio que vamos a obtener
+        # Realizamos la validacion de si la url es valida o no
+        result_url = validators.url(repository)
 
-        # repository = esta es la url del repositorio que vamos a abrir en el navegador
-        # new=2 = este parametro indica que vamos abrir la url en una nueva pestaña del navegador
-        # autoraise=True = este parametro indica la autorizacion para abrir la url
-        webbrowser.open(repository, new=2, autoraise=True)
+        if result_url:
+            # Abrimos en una nueva pestaña del navegador la url del repositorio que vamos a obtener
+
+            # repository = esta es la url del repositorio que vamos a abrir en el navegador
+            # new=2 = este parametro indica que vamos abrir la url en una nueva pestaña del navegador
+            # autoraise=True = este parametro indica la autorizacion para abrir la url
+            webbrowser.open(repository, new=2, autoraise=True)
+        else:
+            self.lMessageList.setText('<font color="red">No repository exists</font>')
     
 
 
@@ -202,7 +211,15 @@ class FramePart(QtWidgets.QFrame):
     def open_youtube(self):
         r = self.tableWidget.currentRow()
         youtube_video = self.tableWidget.item(r,3).text()
-        webbrowser.open(youtube_video, new=2, autoraise=True)
+
+        result_url = validators.url(youtube_video)
+
+        if result_url:
+            webbrowser.open(youtube_video, new=2, autoraise=True)
+        else:
+            self.lMessageList.setText('<font color="red">No video exists</font>')
+
+        
             
 
    
@@ -243,9 +260,9 @@ class FramePart(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
             self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
-            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_id_part))
-            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
-            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(name_project_tutorial))
+            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_part))
 
             tablerow+=1
 

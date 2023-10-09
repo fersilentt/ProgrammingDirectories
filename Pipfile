@@ -7,6 +7,7 @@ name = "pypi"
 sqlalchemy = "*"
 py2app = "*"
 pyqt5 = "*"
+validators = "*"
 
 [dev-packages]
 
