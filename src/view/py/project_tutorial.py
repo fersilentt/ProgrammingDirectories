@@ -68,6 +68,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
         self.pbView.clicked.connect(self.view_window_modal)
+        self.leSearch.textChanged.connect(self.scan_q_line_edit)
 
         self.get_data() 
 
@@ -284,21 +285,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate()
 
-        '''
-        with open('src/data.json', 'r') as f:
-            data = json.load(f)
-
-        json_str = json.dumps(data)
-        str_id_window = json.loads(json_str)
-        id_window_type_application = str_id_window['window_type_application_id']
-
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id_window_type_application
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
-        '''
             
             
 
@@ -466,6 +452,60 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
+
+    
+    
+    def search_data(self, data):
+
+        from controller.project_tutorial.search import Search
+        from controller.project_tutorial.count_search import CountSearch
+        
+        list_search = Search.search_data(data)
+        count_rows_search = CountSearch.count_rows_search(data)
+
+        tablerow=0
+        self.tableWidget.setRowCount(count_rows_search)
+        
+        for id, name, programming_language_version, framework, graphical_interface, data_base, data_base_version, orm, virtual_environment, architecture,cloud_server, number_project_tutorial, name_type_application, id_type_application in zip(*list_search): 
+
+            item_id = QtWidgets.QTableWidgetItem()
+            item_number_project_tutorial = QtWidgets.QTableWidgetItem()
+            item_id_type_application = QtWidgets.QTableWidgetItem()
+                   
+            item_id.setData(Qt.EditRole, id)
+            item_number_project_tutorial.setData(Qt.EditRole, number_project_tutorial)
+            item_id_type_application.setData(Qt.EditRole, id_type_application)
+
+            
+            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
+            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(framework))
+            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(graphical_interface))
+            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(data_base))
+            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(data_base_version))
+            self.tableWidget.setItem(tablerow, 7, QtWidgets.QTableWidgetItem(orm))
+            self.tableWidget.setItem(tablerow, 8, QtWidgets.QTableWidgetItem(virtual_environment))
+            self.tableWidget.setItem(tablerow, 9, QtWidgets.QTableWidgetItem(architecture))
+            self.tableWidget.setItem(tablerow, 10, QtWidgets.QTableWidgetItem(cloud_server))
+            self.tableWidget.setItem(tablerow, 11, QtWidgets.QTableWidgetItem(item_number_project_tutorial))
+            self.tableWidget.setItem(tablerow, 12, QtWidgets.QTableWidgetItem(name_type_application))
+            self.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
+
+            tablerow+=1
+        
+        list_selection = [0]
+        self.select_rows(list_selection)
+    
+
+
+
+    def scan_q_line_edit(self, event):
+
+        if event:
+            self.search_data(event)
+        else:
+            self.get_data()
 
 
 

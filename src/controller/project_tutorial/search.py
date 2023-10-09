@@ -18,14 +18,18 @@ class Search:
         
         id = []
         name = []
+        programming_language_version = []
         framework = []
         graphical_interface = []
         data_base = []
+        data_base_version = []
         orm = []
         virtual_environment = []
         architecture = []
         cloud_server = []
+        number_project_tutorial = []
         name_type_application = []
+        id_type_application = []
         
 
         try:
@@ -33,26 +37,36 @@ class Search:
                 ProjectTutorial.name.like('%{}%'.format(data)))).all()
             
             for project_tutorial, type_application in query:
+
                 id.append(project_tutorial.id)
                 name.append(project_tutorial.name)
+                programming_language_version.append(project_tutorial.programming_language_version)
                 framework.append(project_tutorial.framework)
                 graphical_interface.append(project_tutorial.graphical_interface)
                 data_base.append(project_tutorial.data_base)
+                data_base_version.append(project_tutorial.data_base_version)
                 orm.append(project_tutorial.orm)
                 virtual_environment.append(project_tutorial.virtual_environment)
                 architecture.append(project_tutorial.architecture)
                 cloud_server.append(project_tutorial.cloud_server)
+                number_project_tutorial.append(project_tutorial.number_project_tutorial)
                 name_type_application.append(type_application.name)
-
+                id_type_application.append(type_application.id)
+                
             my_list = [(id), 
-            (name), 
+            (name),
+            (programming_language_version), 
             (framework), 
             (graphical_interface), 
-            (data_base), (orm), 
+            (data_base), 
+            (data_base_version),
+            (orm), 
             (virtual_environment),
             (architecture),
             (cloud_server),
-            (name_type_application)]
+            (number_project_tutorial),
+            (name_type_application),
+            (id_type_application)]
         
         finally:
             session.close()

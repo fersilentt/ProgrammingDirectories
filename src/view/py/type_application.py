@@ -163,23 +163,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate()
         
-        '''
-        with open('src/data.json', 'r') as f:
-            data = json.load(f)
 
-        json_str = json.dumps(data)
-        str_id_window = json.loads(json_str)
-        id_window_type_creation = str_id_window['window_type_creation_id']
-
-        print(id_window_type_creation)
-
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id_window_type_creation
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
-        '''
     
 
 

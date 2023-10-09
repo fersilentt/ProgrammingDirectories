@@ -35,13 +35,11 @@ class FramePart(QtWidgets.QFrame):
             "id_project_tutorial"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(2,True)
         self.tableWidget.setColumnHidden(3,True)
         self.tableWidget.setColumnHidden(6,True)
-
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
@@ -49,21 +47,20 @@ class FramePart(QtWidgets.QFrame):
         icon_view  = QtGui.QPixmap(os.path.abspath("src/static/view.svg"))
         icon_repository  = QtGui.QPixmap(os.path.abspath("src/static/repository.svg"))
         icon_youtube  = QtGui.QPixmap(os.path.abspath("src/static/youtube.svg"))
-        
-        
+          
         self.pbAdd.setIcon(QtGui.QIcon(icon_add))
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         self.pbView.setIcon(QtGui.QIcon(icon_view))
         self.pbRepository.setIcon(QtGui.QIcon(icon_repository))
-        self.pbYoutube.setIcon(QtGui.QIcon(icon_youtube))
-        
+        self.pbYoutube.setIcon(QtGui.QIcon(icon_youtube))    
         
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
         self.pbRepository.clicked.connect(self.open_repository)
         self.pbYoutube.clicked.connect(self.open_youtube)
+        self.leSearch.textChanged.connect(self.scan_q_line_edit)
 
         self.get_data() 
 
@@ -80,15 +77,12 @@ class FramePart(QtWidgets.QFrame):
         uic.loadUi(file+"/view/ui/part/form.ui", self.window)
         self.window.show()
 
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
-
-
         
         if id_window_modal != 0:
 
@@ -186,21 +180,6 @@ class FramePart(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate()
 
-        '''
-        with open('src/data.json', 'r') as f:
-            data = json.load(f)
-
-        json_str = json.dumps(data)
-        str_id_window = json.loads(json_str)
-        id_window_project_tutorial = str_id_window['window_project_tutorial_id']
-
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id_window_project_tutorial
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
-        '''
 
 
 
@@ -259,7 +238,6 @@ class FramePart(QtWidgets.QFrame):
             item_id.setData(Qt.EditRole, id)
             item_id_part.setData(Qt.EditRole, id_part)
             item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
-
             
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
@@ -270,7 +248,6 @@ class FramePart(QtWidgets.QFrame):
             self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
 
             tablerow+=1
-        
 
         list_selection = [0]
         self.select_rows(list_selection)
@@ -335,6 +312,7 @@ class FramePart(QtWidgets.QFrame):
 
 
 
+
     def delete_data(self, id):
 
         from controller.part.delete import Delete
@@ -344,6 +322,53 @@ class FramePart(QtWidgets.QFrame):
 
 
 
+
+
+    def search_data(self, data):
+
+        from controller.part.search import Search
+        from controller.part.count_search import CountSearch
+        
+        list_search = Search.search_data(data)
+        count_rows_search = CountSearch.count_rows_search(data)
+
+        tablerow=0
+        self.tableWidget.setRowCount(count_rows_search)
+        
+        for id, name, repository, youtube_video, id_part, name_project_tutorial, id_project_tutorial  in zip(*list_search): 
+
+            item_id = QtWidgets.QTableWidgetItem()
+            item_id_part = QtWidgets.QTableWidgetItem()
+            item_id_project_tutorial = QtWidgets.QTableWidgetItem()
+            
+            item_id.setData(Qt.EditRole, id)
+            item_id_part.setData(Qt.EditRole, id_part)
+            item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
+            
+            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
+            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
+            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_id_part))
+            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
+            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+
+            tablerow+=1
+
+        list_selection = [0]
+        self.select_rows(list_selection)
+    
+
+
+
+
+    def scan_q_line_edit(self, event):
+
+        if event:
+            self.search_data(event)
+        else:
+            self.get_data()
+            
 
 
 
