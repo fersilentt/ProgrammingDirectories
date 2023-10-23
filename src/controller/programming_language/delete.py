@@ -8,6 +8,7 @@ sys.path.insert(0, file)
 from model.database_open import *
 from model.database_open import engine
 
+
 class Delete:
 
     # Creamos una funcion que va actualizar los datos

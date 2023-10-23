@@ -23,11 +23,9 @@ class FrameTypeApplication(QtWidgets.QFrame):
         self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Type Creation", "Id Type Creation"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(3,True)
-
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
@@ -37,12 +35,11 @@ class FrameTypeApplication(QtWidgets.QFrame):
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         
-
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
 
-        self.get_data() 
+
 
 
 
@@ -52,7 +49,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
     # FUNCIONES DE LAS VENTANAS
-
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -65,7 +61,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
-
         
         if id_window_modal != 0:
 
@@ -111,16 +106,11 @@ class FrameTypeApplication(QtWidgets.QFrame):
     
 
 
-    def select_rows(self, selection: list):
-        for i in selection:
-            self.tableWidget.selectRow(i)
-
-
 
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 2
+            data["frame_id"] = 3
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
@@ -130,15 +120,23 @@ class FrameTypeApplication(QtWidgets.QFrame):
     def go_window(self): 
 
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id
-            data["window_type_application_id"] = id
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        
+        else:
+            id = self.tableWidget.item(r,0).text()
+
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                data["window_table_id"] = id
+                data["window_type_application_id"] = id
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+            return True
+            
         
 
 
@@ -174,7 +172,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
     # FUNCIONES PARA REALIZAR EL CRUD 
-
     def get_data(self):
     
         from controller.type_application.list import List
@@ -203,8 +200,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
             tablerow+=1
 
-        list_selection = [0]
-        self.select_rows(list_selection)
 
 
 

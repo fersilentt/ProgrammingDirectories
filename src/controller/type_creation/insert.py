@@ -8,7 +8,6 @@ sys.path.insert(0, file)
 from model.database_open import *
 from model.database_open import engine
 
-
 class Insert:
 
     def add_data(name, id_programming_language):

@@ -39,7 +39,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             "id_type_application"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         
-
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(2,True)
@@ -52,7 +51,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.tableWidget.setColumnHidden(11,True)
         self.tableWidget.setColumnHidden(13,True)
 
-
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
         icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
@@ -62,16 +60,12 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         self.pbView.setIcon(QtGui.QIcon(icon_view))
-        
 
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
         self.pbView.clicked.connect(self.view_window_modal)
         self.leSearch.textChanged.connect(self.scan_q_line_edit)
-
-        self.get_data() 
-
 
 
 
@@ -86,14 +80,12 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
         self.window.show()
 
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
-
         
         if id_window_modal != 0:
 
@@ -235,17 +227,10 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
-
-    def select_rows(self, selection: list):
-        for i in selection:
-            self.tableWidget.selectRow(i)
-
-
-
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 3
+            data["frame_id"] = 4
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
@@ -254,18 +239,24 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     
     def go_window(self): 
 
-        self.get_data()
-
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
+
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
         
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["window_table_id"] = id
-            data["window_project_tutorial_id"] = id
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
+        else:
+            
+            id = self.tableWidget.item(r,0).text()
+            
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                data["window_table_id"] = id
+                data["window_project_tutorial_id"] = id
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate() 
+            return True
     
 
 
@@ -341,8 +332,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
             tablerow+=1
         
-        list_selection = [0]
-        self.select_rows(list_selection)
 
 
 

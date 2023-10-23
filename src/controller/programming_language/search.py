@@ -20,8 +20,8 @@ class Search:
         name = []
         
         try:
-            for programming_language in session.query(ProgrammingLanguage).filter(or_(
-                ProgrammingLanguage.name.like('%{}%'.format(data)))).all():
+            for programming_language in session.query(ProgrammingLanguage).filter(
+                ProgrammingLanguage.name.like('%{}%'.format(data))).all():
 
                 id.append(programming_language.id)
                 name.append(programming_language.name)

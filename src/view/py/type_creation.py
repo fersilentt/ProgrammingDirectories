@@ -5,12 +5,13 @@ from PyQt5.uic import loadUi
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
-import json
-
 import sys
 import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
+
+import json
+import importlib
 
 
 
@@ -23,12 +24,10 @@ class FrameTypeCreation(QtWidgets.QFrame):
         self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Programming Language", "Id Programming Language"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-
         self.tableWidget.setSortingEnabled(True)
         # Ocultamos los id de la tabla
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(3,True)
-
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
@@ -38,12 +37,11 @@ class FrameTypeCreation(QtWidgets.QFrame):
         self.pbEdit.setIcon(QtGui.QIcon(icon_update))
         self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         
-
         self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
         self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
         self.pbDelete.clicked.connect(self.delete_window)
 
-        self.get_data() 
+
 
         
 
@@ -54,13 +52,11 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
     # FUNCIONES DE LAS VENTANAS
-
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
         uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
         self.window.show()
-
 
         # Obtenemos el id de la ventana anterior, que es el id de de realacion con
         # esta tabla
@@ -114,38 +110,36 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
-    def select_rows(self, selection: list):
-        for i in selection:
-            self.tableWidget.selectRow(i)
-
-
-
-
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 1
+            data["frame_id"] = 2
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
         
 
-            
-
+        
     def go_window(self): 
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        with open('src/data.json', 'r+') as f:
-                data = json.load(f)
-                data["window_table_id"] = id
-                data["window_type_creation_id"] = id
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        
+        else:
+            id = self.tableWidget.item(r,0).text()
+
+            with open('src/data.json', 'r+') as f:
+                    data = json.load(f)
+                    data["window_table_id"] = id
+                    data["window_type_creation_id"] = id
+                    f.seek(0)
+                    json.dump(data, f, indent=4)
+                    f.truncate()
+            return True
         
 
-        
 
     # Obtenemos el id del Frame para que la anterior ventana cargue
     def back_window(self):
@@ -167,6 +161,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate()
 
+    
+
 
 
 
@@ -176,12 +172,11 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     # FUNCIONES PARA REALIZAR EL CRUD 
     def get_data(self):
-    
-        from controller.type_creation.list import List
-        from controller.type_creation.count import Count
+        import controller.type_creation.list
+        import controller.type_creation.count
         
-        lista = List.list_data()
-        count_rows = Count.count_rows()
+        lista = controller.type_creation.list.List.list_data()
+        count_rows = controller.type_creation.count.Count.count_rows()
 
         tablerow=0
 
@@ -195,7 +190,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
             item_id.setData(Qt.EditRole, id)
             item_id_programming_language.setData(Qt.EditRole, id_programming_language)
 
-            
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(name_programming_language))
@@ -203,18 +197,16 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
             tablerow+=1
         
-        list_selection = [0]
-        self.select_rows(list_selection)
 
 
 
 
-    def add_data(self, name, id_programming_language):  
-
-        from controller.type_creation.insert import Insert
+    def add_data(self, name, id_programming_language):
+        
+        import controller.type_creation.insert
 
         if self.validation_add_update_window_modal(name):
-            Insert.add_data(name, id_programming_language)
+            controller.type_creation.insert.Insert.add_data(name, id_programming_language)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data added successfully</font>')
             self.get_data()
@@ -223,10 +215,10 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def update_data(self, id, name):
 
-        from controller.type_creation.update import Update
+        import controller.type_creation.update
 
         if self.validation_add_update_window_modal(name):
-            Update.update_data(id, name)
+            controller.type_creation.update.Update.update_data(id, name)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
@@ -235,10 +227,15 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def delete_data(self, id):
 
-        from controller.type_creation.delete import Delete
-        Delete.delete_data(id)
+        import controller.type_creation.delete
+
+        controller.type_creation.delete.Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
+
+    
+
+    
 
 
 

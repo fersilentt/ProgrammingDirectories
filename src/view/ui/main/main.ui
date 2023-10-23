@@ -56,34 +56,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pbFrameProgrammingLanguage">
-        <property name="text">
-         <string>PL</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbFrameTypeCreation">
-        <property name="text">
-         <string>TC</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbFrameTypeApplication">
-        <property name="text">
-         <string>TA</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbFrameProjectTutorial">
-        <property name="text">
-         <string>PT</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -103,6 +75,38 @@
       <property name="spacing">
        <number>0</number>
       </property>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="pbFrameProgrammingLanguage">
+          <property name="text">
+           <string>Programming language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbFrameTypeCreation">
+          <property name="text">
+           <string>Type creation</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbFrameTypeApplication">
+          <property name="text">
+           <string>Type application</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbFrameProjectTutorial">
+          <property name="text">
+           <string>Project tutorial</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item>
        <widget class="QLabel" name="lTitleMain">
         <property name="text">

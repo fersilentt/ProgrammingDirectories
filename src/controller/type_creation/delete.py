@@ -9,7 +9,6 @@ from model.database_open import *
 from model.database_open import engine
 
 
-
 class Delete:
 
     def delete_data(id):

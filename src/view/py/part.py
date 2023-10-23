@@ -65,7 +65,7 @@ class FramePart(QtWidgets.QFrame):
         self.pbYoutube.clicked.connect(self.open_youtube)
         self.leSearch.textChanged.connect(self.scan_q_line_edit)
 
-        self.get_data() 
+        #self.get_data() 
 
 
 
@@ -160,7 +160,7 @@ class FramePart(QtWidgets.QFrame):
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 4
+            data["frame_id"] = 5
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 

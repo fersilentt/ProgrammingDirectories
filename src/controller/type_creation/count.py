@@ -5,7 +5,9 @@ import sys
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
-from model.database_open import *
+import json
+
+import model.database_open
 from model.database_open import engine
 
 
@@ -25,8 +27,8 @@ class Count:
 
         try:
             # Realizamos la relacion con la tabla y obtenemos la cantidad de datos de acuerdo al id filtradp
-            count_rows = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
-                TypeCreation.id_programming_language == id_window).count()
+            count_rows = session.query(model.database_open.TypeCreation, model.database_open.ProgrammingLanguage).join(model.database_open.TypeCreation).filter(
+                model.database_open.TypeCreation.id_programming_language == id_window).count()
 
         finally:
             session.close()

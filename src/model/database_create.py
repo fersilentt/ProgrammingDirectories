@@ -21,30 +21,26 @@ route_create_database = resp['route_create_database']
 
 
 
-
 # We create the path where the database is going to be created, from here the other CRUD files will inherit the path
 #engine = create_engine('sqlite:///dictionary-english.db', echo=True)
-engine = create_engine('sqlite:///{}/programming-directories.db'.format(route_create_database), echo=True)
+engine = create_engine('sqlite:///{}'.format(route_create_database), echo=True)
 Base = declarative_base()
 
 
 
 
-
+'''
 # We edit the .json file containing the object, where the path field where the database will be opened is found
-
-# We store the database path and name in a variable
-route_open_database = route_create_database+"/programming-directories.db"
-
-with open('data.json', 'r+') as f:
+with open('src/data.json', 'r+') as f:
     data = json.load(f)
     # Here we edit the value of the "route_open_database" field and replace it with "route_open_database"
-    data["route_open_database"] = route_open_database
+    data["route_open_database"] = route_create_database
     # Should reset file position to the beginning
     f.seek(0)        
     json.dump(data, f, indent=4)
     # Remove remaining part
-    f.truncate()     
+    f.truncate() 
+'''
 
 
 

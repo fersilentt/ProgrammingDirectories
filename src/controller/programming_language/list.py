@@ -23,14 +23,14 @@ sys.path.insert(0, file)
 
 
 
-
 # Importamos las clases donde se va a realizar un CRUD
 from model.database_open import *
 
-
 # Importamos la variable que conetiene la ruta de donde se creara
-# la base de datos para evitar
+# la base de datos
 from model.database_open import engine
+
+
 
 
 
@@ -90,9 +90,6 @@ class List:
 
         finally:
             session.close()
-          
-        
-  
 
         # Retornamos el arreglo nuevo con la lista de arreglos con la finalidad
         # de importarlo despues

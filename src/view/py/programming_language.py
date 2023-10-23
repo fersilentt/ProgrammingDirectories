@@ -35,6 +35,10 @@ sys.path.insert(0, file)
 
 
 
+import importlib
+
+
+
 
 
 
@@ -47,20 +51,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         super(FrameProgrammingLanguage,self).__init__()
         # Importamos el archivo .ui llamando a la ruta aboluta que anetriormente hemos creado
         loadUi(file+"/view/ui/programming_language/list.ui",self)
-
         
-
-
-        # Editamos el campo de nuestro objeto json para almacenar el id del Frame para asi poder
-        # movernos con el boton desde el menu principal
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            data["frame_id"] = 0
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
-        
-
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0)
 
@@ -92,11 +83,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         # reemplazando a las caberceras en el caso que ya las tuviera
         self.tableWidget.setHorizontalHeaderLabels(["Id","Name"])
 
-        # Agregamos eto para poder seleccionar toda la fila en ligar de seleccionar celda por celda
+        # Agregamos esto para poder seleccionar toda la fila en lugar de seleccionar celda por celda
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         #self.tableWidget.verticalHeader().setVisible(False)
-        # Ordenamos de forma ascendente y descendente con un clic todas las clumnas de la tabla
+        # Ordenamos de forma ascendente y descendente con un clic todas las columnas de la tabla
         self.tableWidget.setSortingEnabled(True)
 
         # Ocultamos la columna 0 de la tabla
@@ -124,8 +115,10 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         self.pbDelete.clicked.connect(self.delete_window)
         self.leSearch.textChanged.connect(self.scan_q_line_edit)
 
-        # Llamamos a la funcion que nos va a cargar los datos
-        self.get_data() 
+        # Realizamos una limpieza del label que actua como mensaje
+        self.lMessageList.setText("")
+
+ 
 
 
         
@@ -139,49 +132,39 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # Creamos la ventana para agregar y actualizar los datos
     def add_update_window_modal(self, id_window_modal):
 
-        # Ejecutamos la ventana modal y la abrimos
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
-        self.window.show()
-
-
-        # Realizamos una limpieza del mensaje
-        self.lMessageList.setText("")
-
-
         # Validamos si el id del formulario es 0 sera para insertar, 1 sera para actualizar
         if id_window_modal != 0:
-
 
             # Obtenemos los datos de la fila seleccionada
             r = self.tableWidget.currentRow()
 
-            # Creamos un try-catch, para evitar errores, en el caso que el usuario no  haya
-            # seleccionado ningun dato para actualizar
-            try:
-                
+            if r == -1:
+                self.lMessageList.setText('<font color="red">Please select a record</font>')
+            else:
+                # Ejecutamos la ventana modal y la abrimos
+                self.window = QtWidgets.QMainWindow()
+                uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
+                self.window.show()
+
                 # Obtemos los datos de la fila de acuerdo a su posicion
                 id = self.tableWidget.item(r,0).text()
                 name = self.tableWidget.item(r,1).text()
 
-            # Mostramos un mensaje de error para que el usuario seleccione una fila de datos
-            # que necesita editar
-            except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
-                return
-            
+                # Enviamos los datos a las cajas de texto
+                self.window.leName.setText(name)
 
-            # Enviamos los datos a las cajas de texto
-            self.window.leName.setText(name)
-
-            # Cambiamos el nombre del boton
-            self.window.pbAddUpdate.setText("Update")
-            
-            # Enviamos los datos para actualizar
-            self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
+                # Cambiamos el nombre del boton
+                self.window.pbAddUpdate.setText("Update")
+                
+                # Enviamos los datos para actualizar
+                self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id, self.window.leName.text()))
 
 
         else:
+            self.window = QtWidgets.QMainWindow()
+            uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
+            self.window.show()
+
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text()))
 
@@ -209,11 +192,12 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             print("No!")
 
     
-
+    '''
     # Seleccionamos la fila que le pasemos, para que se preseleccione al cargar la lista de datos
     def select_rows(self, selection: list):
         for i in selection:
             self.tableWidget.selectRow(i)
+    '''
 
 
 
@@ -221,7 +205,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
-            data["frame_id"] = 0
+            data["frame_id"] = 1
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
@@ -230,19 +214,30 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
     # Obtenemos el id de la tabla para que la siguiente ventana cargue
-    def go_window(self): 
+    def go_window(self):
+        
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        # Editamos los campos de nuestro objeto json para almacenar el id de la tabla que se va a obtener
-        with open('src/data.json', 'r+') as f:
-            data = json.load(f)
-            # Aqui editamos el valor del campo "window_table_id" y lo reemplazamos por el id de la tabla
-            data["window_table_id"] = id
-            data["window_programming_language_id"] = id
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate() 
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        else: 
+            id = self.tableWidget.item(r,0).text()
+
+            # Editamos los campos de nuestro objeto json para almacenar el id de la tabla que se va a obtener
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                # Aqui editamos el valor del campo "window_table_id" y lo reemplazamos por el id de la tabla
+                data["window_table_id"] = id
+                data["window_programming_language_id"] = id
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate() 
+            return True
+    
+
+    
+    
         
 
 
@@ -253,35 +248,33 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
-
-
     # FUNCIONES PARA REALIZAR EL CRUD 
 
     # Creamos una funcion para obtener la lista de datos
     def get_data(self):
-    
-        from controller.programming_language.list import List
-        from controller.programming_language.count import Count
-        
+        import controller.programming_language.list
+        import controller.programming_language.count
 
+        #importlib.reload(controller.programming_language.list)
+        #importlib.reload(controller.programming_language.count)
+        #self.reload_modules()
+        
         # LLamamos a la funcion list_word(), que va a traer la lista de
         # estudiantes de la base de datos
-        lista = List.list_data()
-        count_rows = Count.count_rows()
+        lista = controller.programming_language.list.List.list_data()
+        count_rows = controller.programming_language.count.Count.count_rows()
 
 
         # Establecemos en 0 el valor que incrementa cada fila en nuestra tabla
         tablerow=0
 
         # Establecemos el numero de registros que vamos a obteber de nuestra consulta
+        self.tableWidget.setRowCount(0)
         self.tableWidget.setRowCount(count_rows)
-        
         
 
         # LLenamos los datos obtenidos de la consulta en la tabla
         for id,name in zip(*lista): 
-
-            #print(id,name)
 
             # Creamos este codigo para mostrar enteros en nuestra tabla usando Roles
             # si no usamos este codigo no podremos ver los numeros en nuestra tabla
@@ -294,10 +287,35 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             # Incrementamos en 1 la fila de nuestra tabla
             tablerow+=1
 
-
+        '''
         # Enviamos la posicion de la fila que queremos que se preseleccione
         list_selection = [0]
         self.select_rows(list_selection)
+        '''
+    
+
+
+    def get_data_general_search(self):
+        import controller.programming_language.list
+        import controller.programming_language.count
+
+        lista = controller.programming_language.list.List.list_data()
+        count_rows = controller.programming_language.count.Count.count_rows()
+
+        tablerow=0
+
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.setRowCount(count_rows)
+        
+        for id,name in zip(*lista): 
+
+            item = QtWidgets.QTableWidgetItem()
+            item.setData(Qt.EditRole, id)
+            
+            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
+            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+
+            tablerow+=1
 
 
 
@@ -306,14 +324,14 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # Creamos una funcion para insertar los datos
     def add_data(self, name):  
 
-        from controller.programming_language.insert import Insert
-
+        import controller.programming_language.insert
+        #self.reload_modules()
 
         # LLamamos a la funcion de validacion para comprobar que las cajas de texto no esten vacias
         if self.validation_add_update_window(name):
 
             # Insertamos los datos
-            Insert.add_data(name)
+            controller.programming_language.insert.Insert.add_data(name)
             # Ocultamos la ventana
             self.window.hide()
             # Mostramos un mensaje  con un color
@@ -326,11 +344,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # Creamos una funcion para actualizar los datos
     def update_data(self, id, name):
 
-        from controller.programming_language.update import Update
+        import controller.programming_language.update
 
         if self.validation_add_update_window(name):
 
-            Update.update_data(id, name)
+            controller.programming_language.update.Update.update_data(id, name)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
@@ -338,11 +356,13 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
+
     # Creamos una funcion para eliminar los datos
     def delete_data(self, id):
 
-        from controller.programming_language.delete import Delete
-        Delete.delete_data(id)
+        import controller.programming_language.delete
+
+        controller.programming_language.delete.Delete.delete_data(id)
         self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
     
@@ -352,11 +372,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # Creamos una funcion para buscar los datos
     def search_data(self, data):
 
-        from controller.programming_language.search import Search
-        from controller.programming_language.count_search import CountSearch
+        import controller.programming_language.search
+        import controller.programming_language.count_search
         
-        list_search = Search.search_data(data)
-        count_rows_search = CountSearch.count_rows_search(data)
+        list_search = controller.programming_language.search.Search.search_data(data)
+        count_rows_search = controller.programming_language.count_search.CountSearch.count_rows_search(data)
 
         tablerow=0
         self.tableWidget.setRowCount(count_rows_search)
@@ -371,8 +391,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
             tablerow+=1
 
-        list_selection = [0]
-        self.select_rows(list_selection)
     
 
 
@@ -389,14 +407,13 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             self.search_data(event)
         # Caso contrario mostraremos toda la lista de datos
         else:
-            self.get_data()
+            self.get_data_general_search()
             
 
 
 
     
-
-
+    
 
 
 
