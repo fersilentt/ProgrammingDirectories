@@ -32,15 +32,17 @@ class MainWindow(QtWidgets.QMainWindow):
         loadUi(file+"/view/ui/main/main.ui",self)
 
          # Creamos los iconos para los botones
-        icon_open_database  = QtGui.QPixmap(os.path.abspath("src/static/open_database.svg"))
+        icon_open_file_database  = QtGui.QPixmap(os.path.abspath("src/static/open_file_database.svg"))
         icon_create_database  = QtGui.QPixmap(os.path.abspath("src/static/create_database.svg"))
+        icon_open_database  = QtGui.QPixmap(os.path.abspath("src/static/open_database.svg"))
         icon_go  = QtGui.QPixmap(os.path.abspath("src/static/go.svg"))
         icon_back  = QtGui.QPixmap(os.path.abspath("src/static/back.svg"))
         icon_frame  = QtGui.QPixmap(os.path.abspath("src/static/frame.svg"))
         icon_info  = QtGui.QPixmap(os.path.abspath("src/static/info.svg"))
     
-        self.pbOpenDatabase.setIcon(QtGui.QIcon(icon_open_database))
+        self.pbOpenFileDatabase.setIcon(QtGui.QIcon(icon_open_file_database))
         self.pbCreateDatabase.setIcon(QtGui.QIcon(icon_create_database))
+        self.pbOpenDatabase.setIcon(QtGui.QIcon(icon_open_database))
         self.pbGo.setIcon(QtGui.QIcon(icon_go))
         self.pbBack.setIcon(QtGui.QIcon(icon_back))
         self.pbFrameProgrammingLanguage.setIcon(QtGui.QIcon(icon_frame))
@@ -73,8 +75,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         # Mostramos un mensaje al pasar el mouse sobre el boton
-        self.pbOpenDatabase.setToolTip("Open database")
+        self.pbOpenFileDatabase.setToolTip("Open file database")
         self.pbCreateDatabase.setToolTip("Create database")
+        self.pbOpenDatabase.setToolTip("Open database")
         self.pbGo.setToolTip("Next frame")
         self.pbBack.setToolTip("Previous frame")
         self.pbFrameProgrammingLanguage.setToolTip("Frame Programming Language")
@@ -84,8 +87,9 @@ class MainWindow(QtWidgets.QMainWindow):
       
 
         # Ejecutamos las funciones en los botones del menu principal
-        self.pbOpenDatabase.clicked.connect(self.open_file_database)
+        self.pbOpenFileDatabase.clicked.connect(self.open_file_database)
         self.pbCreateDatabase.clicked.connect(self.close_database)
+        self.pbOpenDatabase.clicked.connect(self.open_database)
         self.pbGo.clicked.connect(self.change_frame_go)
         self.pbBack.clicked.connect(self.change_frame_back)
         self.pbInfo.clicked.connect(self.window_info_modal)
@@ -382,6 +386,7 @@ class MainWindow(QtWidgets.QMainWindow):
         options |= QFileDialog.DontUseNativeDialog
         #fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
         file_name, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","SQLite Files (*.db)", options=options)
+        
         if file_name:
 
             with open('src/data.json', 'r+') as f:
@@ -391,54 +396,21 @@ class MainWindow(QtWidgets.QMainWindow):
                 json.dump(data, f, indent=4)
                 f.truncate()
             
+            with open('src/list_databases.json', 'r+') as f:
+                data = json.load(f)
+                data[file_name] = ""
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+            
+            # Recargamos los modulos del proyecto
             self.reload_modules()
 
-            #self.stackedWidget.setCurrentIndex(0)
-            #self.stackedWidget.removeWidget(self.frame_programming_language)
-            self.frame_programming_language.get_data()
+            #self.frame_programming_language.get_data()
             self.stackedWidget.setCurrentIndex(1)
             self.frame_programming_language.get_data()
             self.frame_programming_language.insert_frame_id()
             self.enable_disable_buttons()
-    
-
-    '''
-    # Abrimos el archivo de base de datos
-    def open_file_database(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        #fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
-        file_name, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","SQLite Files (*.db)", options=options)
-        if file_name:
-            
-            with open('src/data.json', 'r+') as f:
-                data = json.load(f)
-                data["route_open_database"] = file_name
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
-            
-            with open('src/data.json', 'r') as f:
-                data = json.load(f)
-                json_str = json.dumps(data)
-                str_frame_id = json.loads(json_str)
-                frame_id = str_frame_id['frame_id']
-            
-            if frame_id == 0:
-                print("primera forma")
-                #self.stackedWidget.setCurrentIndex(0)
-                #self.stackedWidget.removeWidget(self.frame_programming_language)
-                self.stackedWidget.setCurrentIndex(1)
-                self.frame_programming_language.get_data()
-                self.frame_programming_language.insert_frame_id()
-                self.enable_disable_buttons()
-            else:
-                print("segunda forma")
-                self.stackedWidget.setCurrentIndex(1)
-                self.frame_programming_language.get_data_c()
-                self.frame_programming_language.insert_frame_id()
-                self.enable_disable_buttons()
-    '''
     
 
 
@@ -482,6 +454,15 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.frame_programming_language.get_data()
                 self.enable_disable_buttons()
     
+
+    def open_database(self):
+        self.frame_option_database.on_clicked()
+        self.stackedWidget.setCurrentIndex(1)
+        self.frame_programming_language.get_data()
+        self.frame_programming_language.insert_frame_id()
+        self.enable_disable_buttons()
+        
+
 
     def close_database(self):
         self.stackedWidget.setCurrentIndex(0)

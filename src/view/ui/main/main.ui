@@ -21,7 +21,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pbOpenDatabase">
+       <widget class="QPushButton" name="pbOpenFileDatabase">
         <property name="text">
          <string/>
         </property>
@@ -29,6 +29,13 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbCreateDatabase">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOpenDatabase">
         <property name="text">
          <string/>
         </property>
