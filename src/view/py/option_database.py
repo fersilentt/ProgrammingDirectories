@@ -27,42 +27,18 @@ class FrameOptionDatabase(QtWidgets.QFrame):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
-        
 
         self.pbDeleteRecentDatabase.clicked.connect(self.delete_recent_database)
         
-
         self.model = QStandardItemModel()
         self.lvListDatabases.setModel(self.model)
         #self.lvListDatabases.setObjectName("listView-1")
         self.lvListDatabases.setModelColumn(1)
 
-
-        '''
-        values = ['one','two', 'three']
-        print(values)
-        for i in values:
-            self.model.appendRow(QStandardItem(i))
-        '''
-        
-        #self.lvListDatabases.clicked[QModelIndex].connect(self.on_clicked1)
-
         self.get_data()
     
 
-    '''
-    def on_clicked1(self, index):
-        item = self.model.itemFromIndex(index)
-        print (item.text())
-    '''
 
-    '''
-    def on_clicked(self, index):
-        data = self.lvListDatabases.currentIndex().data()
-        index = self.lvLis
-        tDatabases.currentIndex().row()
-        print(index, data)
-    '''
 
     def get_data(self):
 
@@ -125,34 +101,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     
 
 
-    '''
-    def delete_recent_databases(self):
-        with open('src/list_databases.json', 'r+') as f:
-            data = json.load(f)
-            del data['route_3']
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
-
-        self.model = QStandardItemModel()
-        self.lvListDatabases.setModel(self.model)
-            
-        values = []
-
-        for i in values:
-            self.model.appendRow(QStandardItem(i))
-
-        self.get_data()
-    '''
-
-
     
-
-
-        
-
-
-        
 
 '''
 app=QApplication(sys.argv)
