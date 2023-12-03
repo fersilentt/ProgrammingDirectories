@@ -25,13 +25,12 @@ class Info:
         name_project_tutorial = []           
         
         try:
-            data = session.query(Part, ProjectTutorial).join(Part).filter(
-                Part.id_project_tutorial == id_window_project_tutorial).all()
 
-            for part, project_tutorial in data[:1]:
-                name_project_tutorial.append(project_tutorial.name)                       
+            for project_tutorial in session.query(ProjectTutorial).filter(ProjectTutorial.id == id_window_project_tutorial):
+                name_project_tutorial.append(project_tutorial.name)
 
-            info_name_project_tutorial = name_project_tutorial[0] 
+            info_name_project_tutorial = name_project_tutorial[0]
+
 
         finally:
             session.close()

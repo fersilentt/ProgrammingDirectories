@@ -26,10 +26,8 @@ class Info:
         name_type_creation = []
 
         try:
-            data = session.query(TypeApplication, TypeCreation).join(TypeApplication).filter(
-                TypeApplication.id_type_creation == id_window_type_creation).all()
-
-            for type_application, type_creation in data[:1]:
+                        
+            for type_creation in session.query(TypeCreation).filter(TypeCreation.id == id_window_type_creation):
                 name_type_creation.append(type_creation.name)
 
             info_name_type_creation = name_type_creation[0]

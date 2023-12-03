@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QMessageBox, QLabel
 from PyQt5.uic import loadUi
 from PyQt5 import uic
 
@@ -92,11 +92,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbOpenDatabase.clicked.connect(self.open_database)
         self.pbGo.clicked.connect(self.change_frame_go)
         self.pbBack.clicked.connect(self.change_frame_back)
-        self.pbInfo.clicked.connect(self.window_info_modal)
+        self.pbInfo.clicked.connect(self.about)
         self.pbFrameProgrammingLanguage.clicked.connect(lambda:self.change_frame_button(1))
         self.pbFrameTypeCreation.clicked.connect(lambda:self.change_frame_button(2))
         self.pbFrameTypeApplication.clicked.connect(lambda:self.change_frame_button(3))
         self.pbFrameProjectTutorial.clicked.connect(lambda:self.change_frame_button(4))
+
+        
         
 
         
@@ -135,6 +137,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 # informacion desplegada al avanzar o retroceder con el boton
                 self.frame_type_creation.get_data() 
                 self.enable_disable_buttons()
+                self.location_information()
 
         elif frame_id_plus == 3:
             if self.frame_type_creation.go_window():       
@@ -142,13 +145,15 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.frame_type_application.insert_frame_id()
                 self.frame_type_application.get_data()
                 self.enable_disable_buttons()
+                self.location_information()
         
         elif frame_id_plus == 4:         
             if self.frame_type_application.go_window():
                 self.stackedWidget.setCurrentIndex(4)
                 self.frame_project_tutorial.insert_frame_id()
                 self.frame_project_tutorial.get_data() 
-                self.enable_disable_buttons()       
+                self.enable_disable_buttons()
+                self.location_information()       
         
         elif frame_id_plus == 5:
             if self.frame_project_tutorial.go_window():
@@ -156,6 +161,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.frame_part.insert_frame_id()
                 self.frame_part.get_data()
                 self.enable_disable_buttons()
+                self.location_information()
 
 
 
@@ -185,6 +191,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_project_tutorial.insert_frame_id()
             self.frame_project_tutorial.get_data() 
             self.enable_disable_buttons()
+            self.location_information()
         
         elif frame_id_less == 3:
             self.frame_project_tutorial.back_window()
@@ -192,6 +199,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_type_application.insert_frame_id()
             self.frame_type_application.get_data()
             self.enable_disable_buttons()
+            self.location_information()
  
         
         elif frame_id_less == 2:
@@ -200,6 +208,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_type_creation.insert_frame_id()
             self.frame_type_creation.get_data()
             self.enable_disable_buttons()
+            self.location_information()
 
         
         elif frame_id_less == 1:
@@ -208,16 +217,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self.frame_programming_language.insert_frame_id()
             self.frame_programming_language.get_data()
             self.enable_disable_buttons()
+            self.location_information()
 
 
 
 
 
-    # Creamos esta funcion para mostrar la informacion de los frames anteriores seleccionados
-    def window_info_modal(self):
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/main/info.ui", self.window)
-        self.window.show()
+    # Creamos esta funcion para mostrar la informacion de donde estamos ubicados
+    def location_information(self):
+        #self.window = QtWidgets.QMainWindow()
+        #uic.loadUi(file+"/view/ui/main/info.ui", self.window)
+        #self.window.show()
 
         with open('src/data.json', 'r') as f:
             data = json.load(f)
@@ -225,15 +235,6 @@ class MainWindow(QtWidgets.QMainWindow):
         json_str = json.dumps(data)
         str_frame_id = json.loads(json_str)
         frame_id = str_frame_id['frame_id']
-
-      
-        self.window.pbClose.clicked.connect(self.window.hide)
-
-        # Agregamos negrita a los labels
-        self.window.lTextProgrammingLanguage.setStyleSheet("font-weight: bold")
-        self.window.lTextTypeCreation.setStyleSheet("font-weight: bold")
-        self.window.lTextTypeApplication.setStyleSheet("font-weight: bold")
-        self.window.lTextProjectTutorial.setStyleSheet("font-weight: bold")
 
         from controller.type_creation.info import Info as class_type_creation_info
         from controller.type_application.info import Info as class_type_application_info
@@ -245,35 +246,22 @@ class MainWindow(QtWidgets.QMainWindow):
         info_name_type_application = class_project_tutorial_info.list_info()
         info_name_project_tutorial = class_part_info.list_info()
 
-        
-        # De acuerdo en el frame que se encuentre va a mostrar la informacion de los labels
         if frame_id == 1:
-            self.window.lProgrammingLanguage.setText(info_name_programming_language)
-            self.window.lTypeCreation.setText("None")
-            self.window.lTypeApplication.setText("None")
-            self.window.lProjectTutorial.setText("None")
-        
+            self.lInformation.setText("")
+
         elif frame_id == 2:
-            self.window.lProgrammingLanguage.setText(info_name_programming_language)
-            self.window.lTypeCreation.setText(info_name_type_creation)
-            self.window.lTypeApplication.setText("None")
-            self.window.lProjectTutorial.setText("None")
+            self.lInformation.setText(info_name_programming_language)
         
         elif frame_id == 3:
-            self.window.lProgrammingLanguage.setText(info_name_programming_language)
-            self.window.lTypeCreation.setText(info_name_type_creation)
-            self.window.lTypeApplication.setText(info_name_type_application)
-            self.window.lProjectTutorial.setText("None")
+            self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation)
         
         elif frame_id == 4:
-            self.window.lProgrammingLanguage.setText(info_name_programming_language)
-            self.window.lTypeCreation.setText(info_name_type_creation)
-            self.window.lTypeApplication.setText(info_name_type_application)
-            self.window.lProjectTutorial.setText(info_name_project_tutorial)
+            self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation+"/"+info_name_type_application)
+        
+        elif frame_id == 5:
+            self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation+"/"+info_name_type_application+"/"+info_name_project_tutorial)
 
         
-
-
         
 
 
@@ -285,21 +273,25 @@ class MainWindow(QtWidgets.QMainWindow):
             self.stackedWidget.setCurrentIndex(1)
             self.frame_programming_language.insert_frame_id()
             self.enable_disable_buttons()
+            self.location_information()
         
         elif frame_id_button == 2:
             self.stackedWidget.setCurrentIndex(2)
             self.frame_type_creation.insert_frame_id()
             self.enable_disable_buttons()
+            self.location_information()
 
         elif frame_id_button == 3:
             self.stackedWidget.setCurrentIndex(3)
             self.frame_type_application.insert_frame_id()
             self.enable_disable_buttons()
+            self.location_information()
         
         elif frame_id_button == 4:
             self.stackedWidget.setCurrentIndex(4)
             self.frame_project_tutorial.insert_frame_id()
             self.enable_disable_buttons()
+            self.location_information()
 
 
 
@@ -322,25 +314,30 @@ class MainWindow(QtWidgets.QMainWindow):
         if frame_id == 0:
             self.pbGo.setEnabled(False)
             self.pbBack.setEnabled(False)
-            self.pbInfo.setEnabled(False)
+            self.pbOpenDatabase.setEnabled(True)
+            self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(False)
             self.pbFrameTypeCreation.setEnabled(False)
             self.pbFrameTypeApplication.setEnabled(False)
             self.pbFrameProjectTutorial.setEnabled(False)
+            self.lMainIcon.setHidden(False)
 
         elif frame_id == 1:
             self.pbGo.setEnabled(True)
             self.pbBack.setEnabled(False)
-            self.pbInfo.setEnabled(False)
+            self.pbOpenDatabase.setEnabled(False)
+            self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(False)
             self.pbFrameTypeCreation.setEnabled(False)
             self.pbFrameTypeApplication.setEnabled(False)
             self.pbFrameProjectTutorial.setEnabled(False)
             self.lTitleMain.setText("Programming language")
+            self.lMainIcon.setHidden(True)
 
         elif frame_id == 2:
             self.pbGo.setEnabled(True)
             self.pbBack.setEnabled(True)
+            self.pbOpenDatabase.setEnabled(False)
             self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(False)
@@ -351,6 +348,7 @@ class MainWindow(QtWidgets.QMainWindow):
         elif frame_id == 3:
             self.pbGo.setEnabled(True)
             self.pbBack.setEnabled(True)
+            self.pbOpenDatabase.setEnabled(False)
             self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(True)
@@ -361,6 +359,7 @@ class MainWindow(QtWidgets.QMainWindow):
         elif frame_id == 4:
             self.pbGo.setEnabled(True)
             self.pbBack.setEnabled(True)
+            self.pbOpenDatabase.setEnabled(False)
             self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(True)
@@ -371,6 +370,7 @@ class MainWindow(QtWidgets.QMainWindow):
         elif frame_id == 5:
             self.pbGo.setEnabled(False)
             self.pbBack.setEnabled(True)
+            self.pbOpenDatabase.setEnabled(False)
             self.pbInfo.setEnabled(True)
             self.pbFrameProgrammingLanguage.setEnabled(True)
             self.pbFrameTypeCreation.setEnabled(True)
@@ -455,6 +455,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.enable_disable_buttons()
     
 
+
+    # Abrimos la base de datos seleccionada en la lista de recientes bases de datso abierta
     def open_database(self):
         self.frame_option_database.on_clicked()
         self.stackedWidget.setCurrentIndex(1)
@@ -467,6 +469,35 @@ class MainWindow(QtWidgets.QMainWindow):
     def close_database(self):
         self.stackedWidget.setCurrentIndex(0)
         self.enable_disable_buttons()
+
+
+
+
+    # Abrimos una ventana con informacion del proyecto
+    def about(self):
+        self.window = QtWidgets.QMainWindow()
+        uic.loadUi(file+"/view/ui/main/info.ui", self.window)
+        self.window.show()
+
+        # Habilitamos los enlaces externos para poder mostrar la url como enlace y poder abrirlo en el navegador
+        self.window.lRepository.setOpenExternalLinks(True)
+
+        # Creamos el enlace que se va abrir
+        urlLink="<a href=\"https://github.com/fersilentt/ProgrammingDirectories\">https://github.com/fersilentt/ProgrammingDirectories</a>"
+
+        self.window.lLicence.setText("ProgrammingDirectories is distributed under \n the GNU License (GPL) version 3.")
+        self.window.lConstruction.setText("ProgrammingDirectories is built with \n Python 3.8 and Qt5.")
+        self.window.lDeveloped.setText("Developed by Fersilent.")
+        self.window.lRepository.setText("Repository: "+urlLink)
+
+        self.window.pbClose.clicked.connect(self.window.hide)
+    
+
+
+
+ 
+
+
     
 
     # Creamos una funcion para recargar los modulos del CRUD que importamos con la finalidad
@@ -538,15 +569,21 @@ class MainWindow(QtWidgets.QMainWindow):
                 
     
 
-
-
     def validation_form_database_window(self, name_database):
         if(len(name_database) == 0):
             self.window.lMessageForm.setText('<font color="red">Database name is required</font>')
         else:
             return name_database
     
-                
+
+
+
+class HyperlinkLabel(QLabel):
+    def __init__(self, parent=None):
+        super().__init__()
+        self.setStyleSheet('font-size: 35px')
+        self.setOpenExternalLinks(True)
+        self.setParent(parent)
 
 
 
