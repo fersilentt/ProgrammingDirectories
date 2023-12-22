@@ -2,32 +2,30 @@ from sqlalchemy.orm import sessionmaker
 
 
 
-# Importamos este modulo para obtener una ruta absoluta de
-# nuestro proyecto, para poder importar las imagenes para 
-# nuestros botones
+# We import this module to get an absolute path to our project, 
+# in order to import the images for  our buttons
 import os
 
 
-# Importamos este modulo para poder inertar el path, de donde se encuentran 
-# los archivos del CRUD, de esta manera podremos importar nuestros archivos
-# independientemmente de cualquier carpeta de donde se encuentren
+# We import this module to be able to inert the path, where the CRUD 
+# files are located, in this way we will be able to import our files 
+# independently of any folder where they are located.
 import sys
 
-# os.path.abspath("src") = obtenemos la ruta absoluta del proyecto para desepues importar
-#                          los archivos
+# os.path.abspath("src") = we get the absolute path of the project and then we import the files
 file = os.path.abspath("src")
 
-# Agregamoso la ruta absoluta de nuestro proyeto, para que reconozca la ruta de importacion
-# de los archivos que realizan el CRUD
+# We add the absolute path of our project, so that it recognizes the path of importing of the files 
+# that make the CRUD
 sys.path.insert(0, file)
 
 
 
-# Importamos las clases donde se va a realizar un CRUD
+# We import the classes where a CRUD is going to be made
 from model.database_open import *
 
-# Importamos la variable que conetiene la ruta de donde se creara
-# la base de datos
+# We import the variable that contains the path where the database will be created. the database will 
+# be created
 from model.database_open import engine
 
 
@@ -55,44 +53,42 @@ class List:
         #engine = create_engine('sqlite:///student.db', echo=True)
 
 
-        # Creamos una sesion
+        # Create a session
         Session = sessionmaker(bind=engine)
         session = Session()
 
 
-        # Creamos arreglos vacios para almacenar la informacion que obtendremos
-        # al recorrer el for
+        # We create empty arrays to store the information that we will obtain when traversing the for
         id = []
         name = []
         
 
-        # Creamos un manejo de exepciones para cerrar la conexion de la base de datos un vez ejecutada la transaccion
-        # y asi evitar que la aplicacion colapse por exesivas peticiones a la base de datos
+        # We create an exception handling to close the database connection once the transaction has been 
+        # executed to prevent the application from collapsing due to excessive requests to the database
         try:
-            # Recorremos el objeto donde almacena la informacion 
+            # We traverse the object where the information is stored 
 
-            # programming_language = variable que almacena los datos obtenidos de nuestra consulta 
-            # desc() = aqui le indicamos que ordene la consulta en forma descendente por el campo que hemos establecido 
+            # programming_language = variable storing the data obtained from our query 
+            # desc() = here we tell it to sort the query in descending order by the field we have set up 
             for programming_language in session.query(ProgrammingLanguage).order_by(ProgrammingLanguage.name.desc()):
                 
-                # Creamos un nuevo arreglo, llenos de arreglos obtenidos de los datos
-                # que vamos obteniendo del for
+                # We create a new array, filled with arrays obtained from the data we get from the for we 
+                # get from the for
 
-                # append = permite crear un arreglo a partir de la obtencion de datos del for
+                # append = allows you to create an array from the data retrieved from the for
                 id.append(programming_language.id)
                 name.append(programming_language.name)
                 
 
             
-            # Creamos un nuevo arreglo con la lista de arreglos obtenidos
-            # para despues recorrerlos y mostrarlos en la vista
+            # We create a new array with the list of arrays we have obtained and then traverse and display 
+            # them in the view
             my_list = [(id), (name)]
 
         finally:
             session.close()
 
-        # Retornamos el arreglo nuevo con la lista de arreglos con la finalidad
-        # de importarlo despues
+        # We return the new array with the list of arrays in order to import it later
         return my_list
     
 

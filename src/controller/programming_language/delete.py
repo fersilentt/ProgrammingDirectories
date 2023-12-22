@@ -11,7 +11,7 @@ from model.database_open import engine
 
 class Delete:
 
-    # Creamos una funcion que va actualizar los datos
+    # We create a function that will delete the data
     def delete_data(id):
 
         Session = sessionmaker(bind=engine)

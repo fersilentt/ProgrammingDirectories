@@ -72,8 +72,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
-
-    # FUNCIONES DE LAS VENTANAS
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -285,13 +283,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     
 
 
-
-
-
-
-
-
-    # FUNCIONES PARA REALIZAR EL CRUD 
     def get_data(self):
     
         from controller.project_tutorial.list import List
@@ -501,15 +492,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
 
-
-
-
-
-
-
-
-
-    # FUNCIONES QUE VAN A VALIDAR LAS CAJAS DE TEXTO
     def validation_add_update_window_modal(self,
             name,
             programming_language_version, 

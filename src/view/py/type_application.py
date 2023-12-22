@@ -46,9 +46,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
 
-
-
-    # FUNCIONES DE LAS VENTANAS
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -144,7 +141,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
         
     def back_window(self):
 
-        # Abrimos el id de la ventana anterior
+        # Open the id of the previous window
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -152,8 +149,8 @@ class FrameTypeApplication(QtWidgets.QFrame):
         str_id_window = json.loads(json_str)
         id_window_programming_language = str_id_window['window_programming_language_id']
 
-        # Guardamos el id de la ventana especifica en el id de la ventana principal
-        # para despues obtener los datos de ese id especifico
+        # We store the id of the specific window in the id of the main window and then we get the data of that 
+        # specific id
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_programming_language
@@ -166,12 +163,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
 
-
-
-
-
-
-    # FUNCIONES PARA REALIZAR EL CRUD 
     def get_data(self):
     
         from controller.type_application.list import List
@@ -240,15 +231,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
 
-
-
-
-
-
-
-
-
-    # FUNCIONES QUE VAN A VALIDAR LAS CAJAS DE TEXTO
     def validation_add_update_window_modal(self, name):
         if(len(name) == 0):
             self.window.lMessageForm.setText('<font color="red">Name is required</font>')

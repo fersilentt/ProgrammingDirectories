@@ -10,7 +10,7 @@ from model.database_open import engine
 
 class Update:
 
-    # Creamos una funcion que va actualizar los datos
+    # We create a function that will update the data
     def update_data(id, name):
 
         Session = sessionmaker(bind=engine)

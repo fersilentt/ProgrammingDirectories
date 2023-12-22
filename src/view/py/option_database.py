@@ -19,8 +19,8 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         super(FrameOptionDatabase,self).__init__()
         loadUi(file+"/view/ui/option_database/option_database.ui",self)
 
-        # Editamos el campo de nuestro objeto json para almacenar el id del Frame para asi poder
-        # movernos con el boton desde el menu principal
+        # We edit the field of our json object to store the id of the Frame so that we can to move with the 
+        # button from the main menu
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["frame_id"] = 0
@@ -39,7 +39,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     
 
 
-
+    # We get the list of recently opened databases
     def get_data(self):
 
         with open('src/list_databases.json', 'r') as f:
@@ -52,7 +52,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         for i in data:
             self.model.appendRow(QStandardItem(i))
         
-        # Seleccionamos el primer elemento del ListView
+        # Select the first item of the ListView
         ix = self.model.index(0, 0)
         sm = self.lvListDatabases.selectionModel()
         sm.select(ix, QtCore.QItemSelectionModel.Select)
@@ -60,8 +60,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
 
 
 
-    # Obtenemos la base de datos seleccionada en el ListView y la insertamos en
-    # la ruta para abrir la base de datos
+    # We get the selected database in the ListView and insert it in the path to open the database
     def on_clicked(self):
         
         # Obtenemos el elemento seleccionado en el ListView
@@ -76,7 +75,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     
 
 
-    # Eliminamos la base de datos seleccionada en el ListView
+    # Delete the selected database in the ListView
     def delete_recent_database(self):
         route_database = self.lvListDatabases.currentIndex().data()
 
@@ -88,7 +87,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
             json.dump(data, f, indent=4)
             f.truncate()
 
-        # Realizamos una limpieza del ListView insertando un arreglo vacio
+        # Perform a ListView cleanup by inserting an empty array
         self.model = QStandardItemModel()
         self.lvListDatabases.setModel(self.model)
             

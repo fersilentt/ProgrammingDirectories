@@ -11,7 +11,7 @@ from model.database_open import engine
 
 class Insert:
 
-    # Creamos una funcion que va a insertar los datos
+    # We create a function that will insert the data
     def add_data(name):
        
         Session = sessionmaker(bind=engine)
@@ -21,7 +21,7 @@ class Insert:
             programming_language = ProgrammingLanguage(name)
             session.add(programming_language)
 
-            # Hacemos un commit en la base de datos
+            # We commit to the database
             session.commit()
         
         finally:

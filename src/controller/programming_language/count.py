@@ -17,7 +17,7 @@ class Count:
         session = Session()
 
         try:
-            # Contamos la cantidad de filas en nuestra tabla
+            # We count the number of rows in our table
             count_rows = session.query(ProgrammingLanguage).count()
         finally:
             session.close()

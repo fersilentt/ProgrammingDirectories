@@ -11,7 +11,7 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
-# Importamos las clases de los Frames que se van a mostrar en esta clase principal
+# We import the classes of the Frames that will be displayed in this main class
 from view.py.option_database import FrameOptionDatabase
 from view.py.programming_language import FrameProgrammingLanguage
 from view.py.type_creation import FrameTypeCreation
@@ -31,7 +31,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow,self).__init__()
         loadUi(file+"/view/ui/main/main.ui",self)
 
-         # Creamos los iconos para los botones
+        # We create the icons for the buttons
         icon_open_file_database  = QtGui.QPixmap(os.path.abspath("src/static/open_file_database.svg"))
         icon_create_database  = QtGui.QPixmap(os.path.abspath("src/static/create_database.svg"))
         icon_open_database  = QtGui.QPixmap(os.path.abspath("src/static/open_database.svg"))
@@ -52,7 +52,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbInfo.setIcon(QtGui.QIcon(icon_info))
         
 
-        # Cargamos los Frames en variables
+        # We load the Frames in variables
         self.frame_option_database= FrameOptionDatabase()
         self.frame_programming_language= FrameProgrammingLanguage()
         self.frame_type_creation= FrameTypeCreation()
@@ -61,7 +61,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.frame_part= FramePart()
         
 
-        # Agregamos los Frames a stackedWidget, para que pueda visualizarse
+        # We add the Frames to stackedWidget, so that it can be viewed
         self.stackedWidget.addWidget(self.frame_option_database)
         self.stackedWidget.addWidget(self.frame_programming_language)
         self.stackedWidget.addWidget(self.frame_type_creation)
@@ -70,11 +70,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stackedWidget.addWidget(self.frame_part)
 
 
-        # Deshabilitamos o habilitamos los botones del menu
+        # Disable or enable menu buttons
         self.enable_disable_buttons()
 
 
-        # Mostramos un mensaje al pasar el mouse sobre el boton
+        # We display a message when hovering the mouse over the button
         self.pbOpenFileDatabase.setToolTip("Open file database")
         self.pbCreateDatabase.setToolTip("Create database")
         self.pbOpenDatabase.setToolTip("Open database")
@@ -86,9 +86,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbFrameProjectTutorial.setToolTip("Frame Project Tutorial")
       
 
-        # Ejecutamos las funciones en los botones del menu principal
+        # Execute the functions in the main menu buttons
         self.pbOpenFileDatabase.clicked.connect(self.open_file_database)
-        self.pbCreateDatabase.clicked.connect(self.close_database)
+        self.pbCreateDatabase.clicked.connect(self.create_file_database)
         self.pbOpenDatabase.clicked.connect(self.open_database)
         self.pbGo.clicked.connect(self.change_frame_go)
         self.pbBack.clicked.connect(self.change_frame_back)
@@ -107,10 +107,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos esta funcion para cambiar de frame hacia delante
+    # We change the frame forwards
     def change_frame_go(self):
 
-        # Obtenemos el id del frame abriendo el archivo .json
+        # We obtain the id of the frame by opening the .json file
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -118,23 +118,21 @@ class MainWindow(QtWidgets.QMainWindow):
         str_frame_id = json.loads(json_str)
         frame_id = str_frame_id['frame_id']
 
-        # Aumentamos en 1 el id del frame para moverse al siguiente frame de acuerdo
-        # a su valor
+        # We increment the frame id by 1 to move to the next frame according to its value according to its value
         frame_id_plus = frame_id+1
 
-        # Realizamos una validacion del id del frame aumentado, para que el boton sepa
-        # que frame ejecutar
+        # We perform a validation of the id of the augmented frame, so that the button will know which frame to 
+        # execute
         if frame_id_plus == 2:
-            # Ejecutamos la funcion del primer Frame la cual va a obtener el id de la fila 
-            # seleccionada en la tabla y de esta manera que la siguiente ventana muestre los
-            # datos de acuerdo a la relacion de ese id
+            # We execute the function of the first Frame which will obtain the id of the selected row in the 
+            # table and in this way the next window will show the data according to the relation of that id
             if self.frame_programming_language.go_window():
-                # Cargamos el siguiente Frame de acuerdo a la su posicion
+                # We load the following Frame according to its position
                 self.stackedWidget.setCurrentIndex(2)
-                # Ejecutamos esta funcon del Frame que cargamos para que inserte el id del Frame
+                # We execute this function of the Frame we loaded to insert the id of the Frame
                 self.frame_type_creation.insert_frame_id()
-                # Actualizamos la lista del Frame que cargamos para que no exista conflicto con la 
-                # informacion desplegada al avanzar o retroceder con el boton
+                # We update the list of the Frame we loaded so that there is no conflict with the  information displayed 
+                # when we move forward or backward with the button
                 self.frame_type_creation.get_data() 
                 self.enable_disable_buttons()
                 self.location_information()
@@ -171,7 +169,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos esta funcion para cambiar de frame hacia atras
+    # We change frame backward
     def change_frame_back(self):
 
         with open('src/data.json', 'r') as f:
@@ -181,8 +179,8 @@ class MainWindow(QtWidgets.QMainWindow):
         str_frame_id = json.loads(json_str)
         frame_id = str_frame_id['frame_id']
 
-        # Disminuimos en 1 el id del frame para moverse al anterior frame de acuerdo
-        # a su valor
+        # We decrease by 1 the id of the frame to move to the previous frame according to its value according to 
+        # its value
         frame_id_less = frame_id-1
 
         if frame_id_less == 4:
@@ -223,11 +221,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos esta funcion para mostrar la informacion de donde estamos ubicados
+    # We show the information of where we are located
     def location_information(self):
-        #self.window = QtWidgets.QMainWindow()
-        #uic.loadUi(file+"/view/ui/main/info.ui", self.window)
-        #self.window.show()
 
         with open('src/data.json', 'r') as f:
             data = json.load(f)
@@ -266,7 +261,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos esta funcion para ejecutar el frame respectivo de acuerdo a su id
+    # We execute the respective frame according to its id
     def change_frame_button(self, frame_id_button):
 
         if frame_id_button == 1:
@@ -300,8 +295,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos esta funcion para habilitar o deshabilitar los botones de la ventana principal
-    # de acuerdo al id del frame
+    # We enable or disable the buttons of the main window according to the frame id
     def enable_disable_buttons(self):
 
         with open('src/data.json', 'r') as f:
@@ -380,7 +374,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     
-    # Abrimos el archivo de base de datos
+    # Open the database file
     def open_file_database(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
@@ -403,7 +397,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 json.dump(data, f, indent=4)
                 f.truncate()
             
-            # Recargamos los modulos del proyecto
+            # We reload the project modules
             self.reload_modules()
 
             #self.frame_programming_language.get_data()
@@ -416,7 +410,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    # Creamos el archivo de base de datos
+    # Create the database file
     def create_file_database(self):
         self.window = QtWidgets.QMainWindow()
         uic.loadUi(file+"/view/ui/option_database/form.ui", self.window)
@@ -426,7 +420,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window.pbCancel.clicked.connect(self.window.hide)
     
 
-    # Abrimos el directorio donde se va a crear la base de datos
+
+
+    # Open the directory where the database is to be created
     def open_directory(self, name_database):
 
         if self.validation_form_database_window(name_database):
@@ -446,7 +442,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     json.dump(data, f, indent=4)
                     f.truncate()
 
-                # Ejecutamos el archivo python para que se cree la base de datos
+                # Execute the python file to create the database
                 from model import database_create
             
                 self.stackedWidget.setCurrentIndex(1)
@@ -456,7 +452,7 @@ class MainWindow(QtWidgets.QMainWindow):
     
 
 
-    # Abrimos la base de datos seleccionada en la lista de recientes bases de datso abierta
+    # Open the selected database in the list of recently opened databases
     def open_database(self):
         self.frame_option_database.on_clicked()
         self.stackedWidget.setCurrentIndex(1)
@@ -466,23 +462,17 @@ class MainWindow(QtWidgets.QMainWindow):
         
 
 
-    def close_database(self):
-        self.stackedWidget.setCurrentIndex(0)
-        self.enable_disable_buttons()
 
-
-
-
-    # Abrimos una ventana con informacion del proyecto
+    # We open a window with project information
     def about(self):
         self.window = QtWidgets.QMainWindow()
         uic.loadUi(file+"/view/ui/main/info.ui", self.window)
         self.window.show()
 
-        # Habilitamos los enlaces externos para poder mostrar la url como enlace y poder abrirlo en el navegador
+        # We enable external links to display the url as a link and open it in the browser.
         self.window.lRepository.setOpenExternalLinks(True)
 
-        # Creamos el enlace que se va abrir
+        # Create the link to be opened
         urlLink="<a href=\"https://github.com/fersilentt/ProgrammingDirectories\">https://github.com/fersilentt/ProgrammingDirectories</a>"
 
         self.window.lLicence.setText("ProgrammingDirectories is distributed under \n the GNU License (GPL) version 3.")
@@ -500,8 +490,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     
 
-    # Creamos una funcion para recargar los modulos del CRUD que importamos con la finalidad
-    # de que cuando se cambie la base de datos, los datos se actualicen automaticamente
+    # Reload the CRUD modules that we imported in order to so that when the database is changed, the data will 
+    # be updated automatically
     def reload_modules(self):
         import importlib
 
@@ -568,23 +558,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
                 
     
-
+    # Validate that the database name is not empty
     def validation_form_database_window(self, name_database):
         if(len(name_database) == 0):
             self.window.lMessageForm.setText('<font color="red">Database name is required</font>')
         else:
             return name_database
     
-
-
-
-class HyperlinkLabel(QLabel):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.setStyleSheet('font-size: 35px')
-        self.setOpenExternalLinks(True)
-        self.setParent(parent)
-
 
 
 app=QApplication(sys.argv)

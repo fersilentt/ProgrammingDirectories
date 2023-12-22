@@ -26,7 +26,7 @@ class Count:
         session = Session()
 
         try:
-            # Realizamos la relacion con la tabla y obtenemos la cantidad de datos de acuerdo al id filtradp
+            # We make the relation with the table and get the amount of data according to the filtered id
             count_rows = session.query(model.database_open.TypeCreation, model.database_open.ProgrammingLanguage).join(model.database_open.TypeCreation).filter(
                 model.database_open.TypeCreation.id_programming_language == id_window).count()
 

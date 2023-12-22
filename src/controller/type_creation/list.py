@@ -16,8 +16,7 @@ class List:
     def list_data():
         
         
-        # Abrimos el archivo .json y su campo que contiene el id del dato que hemos seleccionado en la ventana
-        # anterior
+        # We open the .json file and its field containing the id of the data we have selected in the previous window
 
         # Load the data into an element
         with open('src/data.json', 'r') as f:
@@ -46,8 +45,8 @@ class List:
         
 
         try:
-            # Realizamos la consulta de los campos que tienen relacion mediante un join y  lo
-            # almacenamos en una variable
+            # We perform the query of the fields that are related by means of a join and we store it in a variable 
+            # stored in a variable
             data = session.query(TypeCreation, ProgrammingLanguage).join(TypeCreation).filter(
                 TypeCreation.id_programming_language == id_window).order_by(TypeCreation.name.desc()).all()
 

@@ -12,12 +12,11 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
-# Importamos este modulo para poder abrir una pestaña nueva en nuestro
-# navegador tanto para abrir el repositorio como el video youtube
+# We import this module to open a new tab in our browser to open both 
+# the repository and the youtube video
 import webbrowser
 
-# Importamos este modulo para realizar validaciones en este caso de una
-# url
+# We import this module to perform validations in this case of an url
 import validators
 
 
@@ -73,7 +72,6 @@ class FramePart(QtWidgets.QFrame):
 
 
 
-    # FUNCIONES DE LAS VENTANAS
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
@@ -222,27 +220,27 @@ class FramePart(QtWidgets.QFrame):
 
 
     
-    # Abrimos el repositorio de codigo en el navegador predeterminado del sistema
+    # Open the code repository in the system default browser
     def open_repository(self):
         r = self.tableWidget.currentRow()
         repository = self.tableWidget.item(r,2).text()
 
-        # Realizamos la validacion de si la url es valida o no
+        # We validate if the url is valid or not
         result_url = validators.url(repository)
 
         if result_url:
-            # Abrimos en una nueva pestaña del navegador la url del repositorio que vamos a obtener
+            # We open in a new browser tab the url of the repository we are going to obtain
 
-            # repository = esta es la url del repositorio que vamos a abrir en el navegador
-            # new=2 = este parametro indica que vamos abrir la url en una nueva pestaña del navegador
-            # autoraise=True = este parametro indica la autorizacion para abrir la url
+            # repository = this is the url of the repository that we are going to open in the browser
+            # new=2 = this parameter indicates that we are going to open the url in a new browser tab
+            # autoraise=True = this parameter indicates the authorization to open the url
             webbrowser.open(repository, new=2, autoraise=True)
         else:
             self.lMessageList.setText('<font color="red">No repository exists</font>')
     
 
 
-    # Abrimos el video de youtube en el navegador predeterminado del sistema
+    # Open the youtube video in the default system browser
     def open_youtube(self):
         r = self.tableWidget.currentRow()
         youtube_video = self.tableWidget.item(r,3).text()
@@ -273,11 +271,6 @@ class FramePart(QtWidgets.QFrame):
 
 
 
-
-
-
-
-    # FUNCIONES PARA REALIZAR EL CRUD 
     def get_data(self):
     
         from controller.part.list import List
@@ -436,12 +429,6 @@ class FramePart(QtWidgets.QFrame):
 
 
 
-
-
-
-
-
-    # FUNCIONES QUE VAN A VALIDAR LAS CAJAS DE TEXTO
     def validation_add_update_window_modal(self, 
         name,
         repository,

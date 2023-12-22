@@ -21,7 +21,8 @@ route_create_database = resp['route_create_database']
 
 
 
-# We create the path where the database is going to be created, from here the other CRUD files will inherit the path
+# We create the path where the database is going to be created, from here the other CRUD files will inherit 
+# the path
 #engine = create_engine('sqlite:///dictionary-english.db', echo=True)
 engine = create_engine('sqlite:///{}'.format(route_create_database), echo=True)
 Base = declarative_base()
@@ -46,8 +47,7 @@ with open('src/data.json', 'r+') as f:
 
 
 
-# Creamos las clases que crearan la base de datos con sus tablas
-# relacionadas
+# We create the classes that will create the database with its tables tables
 
 ########################################################################
 class ProgrammingLanguage(Base):
@@ -166,5 +166,5 @@ class Part(Base):
         self.id_project_tutorial = id_project_tutorial
 
 
-# Creamos las tablas
+# We create the tables
 Base.metadata.create_all(engine)

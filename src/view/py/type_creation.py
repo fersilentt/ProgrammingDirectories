@@ -25,7 +25,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         self.tableWidget.setSortingEnabled(True)
-        # Ocultamos los id de la tabla
+        # We hide the table ids
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(3,True)
 
@@ -51,15 +51,16 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
-    # FUNCIONES DE LAS VENTANAS
+
     def add_update_window_modal(self, id_window_modal):
 
         self.window = QtWidgets.QMainWindow()
         uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
         self.window.show()
 
-        # Obtenemos el id de la ventana anterior, que es el id de de realacion con
-        # esta tabla
+        # We get the id of the previous window, which is the id of the realacion 
+        # with this table
+
         # Load the data into an element
         with open('src/data.json', 'r') as f:
             data = json.load(f)
@@ -141,7 +142,7 @@ class FrameTypeCreation(QtWidgets.QFrame):
         
 
 
-    # Obtenemos el id del Frame para que la anterior ventana cargue
+    # We obtain the id of the Frame for the previous window to load
     def back_window(self):
 
         # Abrimos el id de la ventana anterior
@@ -152,8 +153,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
         str_id_window = json.loads(json_str)
         id_window_programming_language = str_id_window['window_programming_language_id']
 
-        # Guardamos el id de la ventana especifica en el id de la ventana principal
-        # para despues obtener los datos de ese id especifico
+        # We store the id of the specific window in the id of the main window and then we get 
+        # the data of that specific id
         with open('src/data.json', 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_programming_language
@@ -170,7 +171,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
-    # FUNCIONES PARA REALIZAR EL CRUD 
     def get_data(self):
         import controller.type_creation.list
         import controller.type_creation.count
@@ -239,16 +239,6 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
 
-
-
-
-
-
-
-
-
-
-    # FUNCIONES QUE VAN A VALIDAR LAS CAJAS DE TEXTO
     def validation_add_update_window_modal(self, name):
         if(len(name) == 0):
             self.window.lMessageForm.setText('<font color="red">Name is required</font>')

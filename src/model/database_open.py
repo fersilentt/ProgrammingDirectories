@@ -6,8 +6,6 @@ from sqlalchemy.orm import relationship, backref
 import json
 
 
-
-# We open the .json file that will contain the object where the path to open the database is found
 with open('src/data.json', 'r') as f:
     data = json.load(f)
 
@@ -15,15 +13,9 @@ json_str = json.dumps(data)
 resp = json.loads(json_str)
 route_open_database = resp['route_open_database']
 
-# Creamos la ruta donde se va a crear la base de datos, de aqui los demas archivos
-# del CRUD heredaran la ruta
 #engine = create_engine('sqlite:///dictionary-english.db', echo=True)
 engine = create_engine('sqlite:///{}'.format(route_open_database), echo=True)
 Base = declarative_base()
-
-
-# Creamos las clases que crearan la base de datos con sus tablas
-# relacionadas
 
 ########################################################################
 class ProgrammingLanguage(Base):
