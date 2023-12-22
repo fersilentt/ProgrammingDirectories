@@ -510,12 +510,14 @@ class MainWindow(QtWidgets.QMainWindow):
         import controller.type_creation.insert
         import controller.type_creation.update
         import controller.type_creation.delete
+        import controller.type_creation.info
 
         import controller.type_application.list
         import controller.type_application.count
         import controller.type_application.insert
         import controller.type_application.update
         import controller.type_application.delete
+        import controller.type_application.info
 
         import controller.project_tutorial.list
         import controller.project_tutorial.count
@@ -524,6 +526,7 @@ class MainWindow(QtWidgets.QMainWindow):
         import controller.project_tutorial.delete
         import controller.project_tutorial.search
         import controller.project_tutorial.count_search
+        import controller.project_tutorial.info
 
         importlib.reload(model.database_open)
         
@@ -540,12 +543,14 @@ class MainWindow(QtWidgets.QMainWindow):
         importlib.reload(controller.type_creation.insert)
         importlib.reload(controller.type_creation.update)
         importlib.reload(controller.type_creation.delete)
+        importlib.reload(controller.type_creation.info)
 
         importlib.reload(controller.type_application.list)
         importlib.reload(controller.type_application.count)
         importlib.reload(controller.type_application.insert)
         importlib.reload(controller.type_application.update)
         importlib.reload(controller.type_application.delete)
+        importlib.reload(controller.type_application.info)
 
         importlib.reload(controller.project_tutorial.list)
         importlib.reload(controller.project_tutorial.count)
@@ -554,6 +559,7 @@ class MainWindow(QtWidgets.QMainWindow):
         importlib.reload(controller.project_tutorial.delete)
         importlib.reload(controller.project_tutorial.search)
         importlib.reload(controller.project_tutorial.count_search)
+        importlib.reload(controller.project_tutorial.info)
 
 
                 
