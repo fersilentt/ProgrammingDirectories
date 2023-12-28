@@ -6,6 +6,6 @@
 
 
 <br/>
-    <i>This program allows you to add words of any language as if it were a dictionary, with the purpose of being a support tool when we start learning a new language.</i>
+    <i>This project is created to manage projects and programming tutorials that we have stored in different repositories such as GitHub, GitLab, BitBucket, etc.</i>
 <br/>
 <br/>
