@@ -1,7 +1,7 @@
 <h1 align="center">Programming Directories</h1>
 
 <p align="center">
-  <img src="https://github.com/tarantulaman/LanguageDictionary/blob/master/resources/language-dictionary.png" width="8%" />
+  <img src="https://github.com/fersilentt/ProgrammingDirectories/blob/master/resources/main_icon.png" width="8%" />
 </p>
 
 
