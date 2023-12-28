@@ -20,8 +20,10 @@ class Delete:
         try:
             programming_language = session.query(ProgrammingLanguage).filter(ProgrammingLanguage.id == id)
             programming_language.delete()
-
             session.commit()
+        
+        except IndexError as e:
+                print(e)
             
         finally:
             session.close()

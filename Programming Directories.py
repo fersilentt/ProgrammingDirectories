@@ -31,11 +31,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 
 
-
 # Main file that will start the application
 from src.view.py.main import MainWindow
-
-
-
-
 

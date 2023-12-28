@@ -32,15 +32,15 @@ class FramePart(QtWidgets.QFrame):
             "repository", 
             "youtube_video", 
             "Project Tutorial", 
-            "Nº part", 
-            "id_project_tutorial"])
+            "id_project_tutorial", 
+            "Nº part"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnHidden(0,True)
         self.tableWidget.setColumnHidden(2,True)
         self.tableWidget.setColumnHidden(3,True)
-        self.tableWidget.setColumnHidden(6,True)
+        self.tableWidget.setColumnHidden(5,True)
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
         icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
@@ -180,12 +180,9 @@ class FramePart(QtWidgets.QFrame):
 
         
 
-
-
     def select_rows(self, selection: list):
         for i in selection:
             self.tableWidget.selectRow(i)
-
 
 
 
@@ -198,7 +195,6 @@ class FramePart(QtWidgets.QFrame):
             f.truncate() 
            
     
-
     def back_window(self):
 
         with open('src/data.json', 'r') as f:
@@ -263,10 +259,6 @@ class FramePart(QtWidgets.QFrame):
         
             
 
-   
-
-    
-
 
 
 
@@ -315,13 +307,13 @@ class FramePart(QtWidgets.QFrame):
         id_part,
         id_project_tutorial):  
 
-        from controller.part.insert import Insert
-
         if self.validation_add_update_window_modal(
             name, 
             repository, 
             youtube_video, 
             id_part):
+
+            from controller.part.insert import Insert
 
             Insert.add_data(
                 name, 
@@ -344,13 +336,13 @@ class FramePart(QtWidgets.QFrame):
         youtube_video, 
         id_part):
 
-        from controller.part.update import Update
-
         if self.validation_add_update_window_modal(
             name,
             repository, 
             youtube_video, 
             id_part):
+
+            from controller.part.update import Update
 
             Update.update_data(
                 id, 

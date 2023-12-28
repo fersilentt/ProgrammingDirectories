@@ -134,7 +134,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 self.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
                 # We run the modal window and open it
-                self.window = QtWidgets.QMainWindow()
+                self.window = QtWidgets.QFrame()
                 uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
                 self.window.show()
 
@@ -153,7 +153,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
         else:
-            self.window = QtWidgets.QMainWindow()
+            self.window = QtWidgets.QFrame()
             uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
             self.window.show()
 

@@ -229,31 +229,41 @@ class MainWindow(QtWidgets.QMainWindow):
 
         json_str = json.dumps(data)
         str_frame_id = json.loads(json_str)
-        frame_id = str_frame_id['frame_id']
-
-        from controller.type_creation.info import Info as class_type_creation_info
-        from controller.type_application.info import Info as class_type_application_info
-        from controller.project_tutorial.info import Info as class_project_tutorial_info
-        from controller.part.info import Info as class_part_info
-        
-        info_name_programming_language = class_type_creation_info.list_info()
-        info_name_type_creation = class_type_application_info.list_info()
-        info_name_type_application = class_project_tutorial_info.list_info()
-        info_name_project_tutorial = class_part_info.list_info()
+        frame_id = str_frame_id['frame_id']    
 
         if frame_id == 1:
             self.lInformation.setText("")
 
         elif frame_id == 2:
+            from controller.type_creation.info import Info as class_type_creation_info
+            info_name_programming_language = class_type_creation_info.list_info()
             self.lInformation.setText(info_name_programming_language)
         
         elif frame_id == 3:
+            from controller.type_creation.info import Info as class_type_creation_info
+            from controller.type_application.info import Info as class_type_application_info
+            info_name_programming_language = class_type_creation_info.list_info()
+            info_name_type_creation = class_type_application_info.list_info()
             self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation)
         
         elif frame_id == 4:
+            from controller.type_creation.info import Info as class_type_creation_info
+            from controller.type_application.info import Info as class_type_application_info
+            from controller.project_tutorial.info import Info as class_project_tutorial_info
+            info_name_programming_language = class_type_creation_info.list_info()
+            info_name_type_creation = class_type_application_info.list_info()
+            info_name_type_application = class_project_tutorial_info.list_info()
             self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation+"/"+info_name_type_application)
         
         elif frame_id == 5:
+            from controller.type_creation.info import Info as class_type_creation_info
+            from controller.type_application.info import Info as class_type_application_info
+            from controller.project_tutorial.info import Info as class_project_tutorial_info
+            from controller.part.info import Info as class_part_info
+            info_name_programming_language = class_type_creation_info.list_info()
+            info_name_type_creation = class_type_application_info.list_info()
+            info_name_type_application = class_project_tutorial_info.list_info()
+            info_name_project_tutorial = class_part_info.list_info()
             self.lInformation.setText(info_name_programming_language+"/"+info_name_type_creation+"/"+info_name_type_application+"/"+info_name_project_tutorial)
 
         
@@ -437,18 +447,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
                 with open('src/data.json', 'r+') as f:
                     data = json.load(f)
-                    data["route_create_database"] = directory_database
+                    data["route_open_database"] = directory_database
+                    f.seek(0)
+                    json.dump(data, f, indent=4)
+                    f.truncate()
+                
+                with open('src/list_databases.json', 'r+') as f:
+                    data = json.load(f)
+                    data[directory_database] = ""
                     f.seek(0)
                     json.dump(data, f, indent=4)
                     f.truncate()
 
                 # Execute the python file to create the database
-                from model import database_create
-            
+                from model import database_open
+
+                self.reload_modules()
+                
                 self.stackedWidget.setCurrentIndex(1)
                 self.frame_programming_language.insert_frame_id()
                 self.frame_programming_language.get_data()
                 self.enable_disable_buttons()
+
+                
     
 
 
