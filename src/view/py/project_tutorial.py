@@ -73,10 +73,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
-        self.window.show()
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -88,7 +84,14 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
             r = self.tableWidget.currentRow()
 
-            try:
+            if r == -1:
+                self.lMessageList.setText('<font color="red">Please select a record</font>')
+            else:
+
+                self.window = QtWidgets.QFrame()
+                uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
+                self.window.show()
+
                 id = self.tableWidget.item(r,0).text()
                 name = self.tableWidget.item(r,1).text()
                 programming_language_version = self.tableWidget.item(r,2).text()
@@ -102,39 +105,40 @@ class FrameProjectTutorial(QtWidgets.QFrame):
                 cloud_server = self.tableWidget.item(r,10).text()
                 number_project_tutorial = self.tableWidget.item(r,11).text()
 
-            except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
-                return
-            
-            self.window.leName.setText(name)
-            self.window.leProgrammingLanguageVersion.setText(programming_language_version)
-            self.window.leFramework.setText(framework)
-            self.window.leGraphicalInterface.setText(graphical_interface)
-            self.window.leDatabase.setText(data_base)
-            self.window.leDataBaseVersion.setText(data_base_version)
-            self.window.leOrm.setText(orm)
-            self.window.leVirtualEnvironment.setText(virtual_environment)
-            self.window.leArchitecture.setText(architecture)
-            self.window.leCloudServer.setText(cloud_server)
-            self.window.leNumberProjectTutorial.setText(number_project_tutorial)
-            self.window.pbAddUpdate.setText("Update")
+                self.window.leName.setText(name)
+                self.window.leProgrammingLanguageVersion.setText(programming_language_version)
+                self.window.leFramework.setText(framework)
+                self.window.leGraphicalInterface.setText(graphical_interface)
+                self.window.leDatabase.setText(data_base)
+                self.window.leDataBaseVersion.setText(data_base_version)
+                self.window.leOrm.setText(orm)
+                self.window.leVirtualEnvironment.setText(virtual_environment)
+                self.window.leArchitecture.setText(architecture)
+                self.window.leCloudServer.setText(cloud_server)
+                self.window.leNumberProjectTutorial.setText(number_project_tutorial)
+                self.window.pbAddUpdate.setText("Update")
 
-            self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(
-                id,
-                self.window.leName.text(),
-                self.window.leProgrammingLanguageVersion.text(),
-                self.window.leFramework.text(),
-                self.window.leGraphicalInterface.text(),
-                self.window.leDatabase.text(),
-                self.window.leDataBaseVersion.text(),
-                self.window.leOrm.text(),
-                self.window.leVirtualEnvironment.text(),
-                self.window.leArchitecture.text(),
-                self.window.leCloudServer.text(),
-                self.window.leNumberProjectTutorial.text()))
+                self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(
+                    id,
+                    self.window.leName.text(),
+                    self.window.leProgrammingLanguageVersion.text(),
+                    self.window.leFramework.text(),
+                    self.window.leGraphicalInterface.text(),
+                    self.window.leDatabase.text(),
+                    self.window.leDataBaseVersion.text(),
+                    self.window.leOrm.text(),
+                    self.window.leVirtualEnvironment.text(),
+                    self.window.leArchitecture.text(),
+                    self.window.leCloudServer.text(),
+                    self.window.leNumberProjectTutorial.text()))
 
 
         else:
+
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
+            self.window.show()
+            
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(
                 self.window.leName.text(), 
@@ -155,71 +159,82 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
     def delete_window(self): 
-        
+
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("I have a question!")
-        dlg.setText("Do you want to delete this data?")
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setIcon(QMessageBox.Question)
-        button = dlg.exec()
-
-        if button == QMessageBox.Yes:
-            print("Yes!")
-            self.delete_data(id)
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
         else:
-            print("No!")
+            id = self.tableWidget.item(r,0).text()
+
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("I have a question!")
+            dlg.setText("Do you want to delete this data?")
+            dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            dlg.setIcon(QMessageBox.Question)
+            button = dlg.exec()
+
+            if button == QMessageBox.Yes:
+                print("Yes!")
+                self.delete_data(id)
+            else:
+                print("No!")
+
+
+
 
 
 
 
     def view_window_modal(self):
 
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/project_tutorial/view.ui", self.window)
-        self.window.show()
-
-        self.window.pbClose.clicked.connect(self.window.hide)
-
-        self.window.lTextName.setStyleSheet("font-weight: bold")
-        self.window.lTextProgrammingLanguageVersion.setStyleSheet("font-weight: bold")
-        self.window.lTextFramework.setStyleSheet("font-weight: bold")
-        self.window.lTextGraphicalInterface.setStyleSheet("font-weight: bold")
-        self.window.lTextDatabase.setStyleSheet("font-weight: bold")
-        self.window.lTextDataBaseVersion.setStyleSheet("font-weight: bold")
-        self.window.lTextOrm.setStyleSheet("font-weight: bold")
-        self.window.lTextVirtualEnvironment.setStyleSheet("font-weight: bold")
-        self.window.lTextArchitecture.setStyleSheet("font-weight: bold")
-        self.window.lTextCloudServer.setStyleSheet("font-weight: bold")
-        self.window.lTextNumberProjectTutorial.setStyleSheet("font-weight: bold")
-
         r = self.tableWidget.currentRow()
 
-        name = self.tableWidget.item(r,1).text()
-        programming_language_version = self.tableWidget.item(r,2).text()
-        framework = self.tableWidget.item(r,3).text()
-        graphical_interface = self.tableWidget.item(r,4).text()
-        data_base = self.tableWidget.item(r,5).text()
-        data_base_version = self.tableWidget.item(r,6).text()
-        orm = self.tableWidget.item(r,7).text()
-        virtual_environment = self.tableWidget.item(r,8).text()
-        architecture = self.tableWidget.item(r,9).text()
-        cloud_server = self.tableWidget.item(r,10).text()
-        number_project_tutorial = self.tableWidget.item(r,11).text()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+        else:
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/project_tutorial/view.ui", self.window)
+            self.window.show()
 
-        self.window.lName.setText(name)
-        self.window.lProgrammingLanguageVersion.setText(programming_language_version)
-        self.window.lFramework.setText(framework)
-        self.window.lGraphicalInterface.setText(graphical_interface)
-        self.window.lDatabase.setText(data_base)
-        self.window.lDataBaseVersion.setText(data_base_version)
-        self.window.lOrm.setText(orm)
-        self.window.lVirtualEnvironment.setText(virtual_environment)
-        self.window.lArchitecture.setText(architecture)
-        self.window.lCloudServer.setText(cloud_server)
-        self.window.lNumberProjectTutorial.setText(number_project_tutorial)
+            self.window.pbClose.clicked.connect(self.window.hide)
+
+            self.window.lTextName.setStyleSheet("font-weight: bold")
+            self.window.lTextProgrammingLanguageVersion.setStyleSheet("font-weight: bold")
+            self.window.lTextFramework.setStyleSheet("font-weight: bold")
+            self.window.lTextGraphicalInterface.setStyleSheet("font-weight: bold")
+            self.window.lTextDatabase.setStyleSheet("font-weight: bold")
+            self.window.lTextDataBaseVersion.setStyleSheet("font-weight: bold")
+            self.window.lTextOrm.setStyleSheet("font-weight: bold")
+            self.window.lTextVirtualEnvironment.setStyleSheet("font-weight: bold")
+            self.window.lTextArchitecture.setStyleSheet("font-weight: bold")
+            self.window.lTextCloudServer.setStyleSheet("font-weight: bold")
+            self.window.lTextNumberProjectTutorial.setStyleSheet("font-weight: bold")
+
+            name = self.tableWidget.item(r,1).text()
+            programming_language_version = self.tableWidget.item(r,2).text()
+            framework = self.tableWidget.item(r,3).text()
+            graphical_interface = self.tableWidget.item(r,4).text()
+            data_base = self.tableWidget.item(r,5).text()
+            data_base_version = self.tableWidget.item(r,6).text()
+            orm = self.tableWidget.item(r,7).text()
+            virtual_environment = self.tableWidget.item(r,8).text()
+            architecture = self.tableWidget.item(r,9).text()
+            cloud_server = self.tableWidget.item(r,10).text()
+            number_project_tutorial = self.tableWidget.item(r,11).text()
+
+            self.window.lName.setText(name)
+            self.window.lProgrammingLanguageVersion.setText(programming_language_version)
+            self.window.lFramework.setText(framework)
+            self.window.lGraphicalInterface.setText(graphical_interface)
+            self.window.lDatabase.setText(data_base)
+            self.window.lDataBaseVersion.setText(data_base_version)
+            self.window.lOrm.setText(orm)
+            self.window.lVirtualEnvironment.setText(virtual_environment)
+            self.window.lArchitecture.setText(architecture)
+            self.window.lCloudServer.setText(cloud_server)
+            self.window.lNumberProjectTutorial.setText(number_project_tutorial)
 
 
 

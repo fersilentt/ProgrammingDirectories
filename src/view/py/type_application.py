@@ -47,10 +47,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
-        self.window.show()
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -62,19 +58,25 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
             r = self.tableWidget.currentRow()
 
-            try:
+            if r == -1:
+                self.lMessageList.setText('<font color="red">Please select a record</font>')
+            else:
+                self.window = QtWidgets.QFrame()
+                uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
+                self.window.show()
+
                 id = self.tableWidget.item(r,0).text()
                 name = self.tableWidget.item(r,1).text()
-            except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
-                return
-            
-            self.window.leName.setText(name)
-            self.window.pbAddUpdate.setText("Update")
-            self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
 
+                self.window.leName.setText(name)
+                self.window.pbAddUpdate.setText("Update")
+                self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
 
         else:
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
+            self.window.show()
+
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text(), id_window))
         
@@ -85,20 +87,25 @@ class FrameTypeApplication(QtWidgets.QFrame):
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("I have a question!")
-        dlg.setText("Do you want to delete this data?")
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setIcon(QMessageBox.Question)
-        button = dlg.exec()
-
-        if button == QMessageBox.Yes:
-            print("Yes!")
-            self.delete_data(id)
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
         else:
-            print("No!")
+            id = self.tableWidget.item(r,0).text()
+
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("I have a question!")
+            dlg.setText("Do you want to delete this data?")
+            dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            dlg.setIcon(QMessageBox.Question)
+            button = dlg.exec()
+
+            if button == QMessageBox.Yes:
+                print("Yes!")
+                self.delete_data(id)
+            else:
+                print("No!")
     
 
 

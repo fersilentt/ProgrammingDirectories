@@ -73,10 +73,6 @@ class FramePart(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/part/form.ui", self.window)
-        self.window.show()
-
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -88,30 +84,38 @@ class FramePart(QtWidgets.QFrame):
 
             r = self.tableWidget.currentRow()
 
-            try:
+            if r == -1:
+                self.lMessageList.setText('<font color="red">Please select a record</font>')
+            else:
+                
+                self.window = QtWidgets.QFrame()
+                uic.loadUi(file+"/view/ui/part/form.ui", self.window)
+                self.window.show()
+                
                 id = self.tableWidget.item(r,0).text()
                 name = self.tableWidget.item(r,1).text()
                 repository = self.tableWidget.item(r,2).text()
                 youtube_video = self.tableWidget.item(r,3).text()
                 id_project_tutorial = self.tableWidget.item(r,5).text()
-            
-            except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
-                return
-            
-            self.window.leName.setText(name)
-            self.window.leRepository.setText(repository)
-            self.window.leYoutubeVideo.setText(youtube_video)
-            self.window.leIdProjectTutorial.setText(id_project_tutorial)
-            self.window.pbAddUpdate.setText("Update")
-            self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(
-                id,
-                self.window.leName.text(),
-                self.window.leRepository.text(), 
-                self.window.leYoutubeVideo.text(),
-                self.window.leIdProjectTutorial.text()))
+        
+                self.window.leName.setText(name)
+                self.window.leRepository.setText(repository)
+                self.window.leYoutubeVideo.setText(youtube_video)
+                self.window.leIdProjectTutorial.setText(id_project_tutorial)
+                self.window.pbAddUpdate.setText("Update")
+                self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(
+                    id,
+                    self.window.leName.text(),
+                    self.window.leRepository.text(), 
+                    self.window.leYoutubeVideo.text(),
+                    self.window.leIdProjectTutorial.text()))
 
         else:
+
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/part/form.ui", self.window)
+            self.window.show()
+
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(
                 self.window.leName.text(),
@@ -127,64 +131,71 @@ class FramePart(QtWidgets.QFrame):
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("I have a question!")
-        dlg.setText("Do you want to delete this data?")
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setIcon(QMessageBox.Question)
-        button = dlg.exec()
-
-        if button == QMessageBox.Yes:
-            print("Yes!")
-            self.delete_data(id)
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
         else:
-            print("No!")
+
+            id = self.tableWidget.item(r,0).text()
+
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("I have a question!")
+            dlg.setText("Do you want to delete this data?")
+            dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            dlg.setIcon(QMessageBox.Question)
+            button = dlg.exec()
+
+            if button == QMessageBox.Yes:
+                print("Yes!")
+                self.delete_data(id)
+            else:
+                print("No!")
 
     
 
 
     def view_window_modal(self):
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/part/view.ui", self.window)
-        self.window.show()
-
-        self.window.lRepository.setOpenExternalLinks(True)
-
-        self.window.pbClose.clicked.connect(self.window.hide)
-
-        self.window.lTextName.setStyleSheet("font-weight: bold")
-        self.window.lTextRepository.setStyleSheet("font-weight: bold")
-        self.window.lTextYoutubeVideo.setStyleSheet("font-weight: bold")
-        self.window.lTextIdProjectTutorial.setStyleSheet("font-weight: bold")
 
         r = self.tableWidget.currentRow()
 
-        try:
-            name = self.tableWidget.item(r,1).text()
-            repository = self.tableWidget.item(r,2).text()
-            youtube_video = self.tableWidget.item(r,3).text()
-            id_project_tutorial = self.tableWidget.item(r,5).text()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+        else:
 
-        except IndexError as e:
-            self.lMessageList.setText('<font color="red">Please select a data</font>')
-            return
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/part/view.ui", self.window)
+            self.window.show()
 
-        urlLink="<a href=\"{}\">https://github.com/fersilentt/ProgrammingDirectories</a>".format(youtube_video)
+            self.window.lRepository.setOpenExternalLinks(True)
 
-        self.window.lName.setText(name)
-        self.window.lRepository.setText(repository)
-        self.window.lYoutubeVideo.setText(urlLink)
-        self.window.lIdProjectTutorial.setText(id_project_tutorial)
+            self.window.pbClose.clicked.connect(self.window.hide)
+
+            self.window.lTextName.setStyleSheet("font-weight: bold")
+            self.window.lTextRepository.setStyleSheet("font-weight: bold")
+            self.window.lTextYoutubeVideo.setStyleSheet("font-weight: bold")
+            self.window.lTextIdProjectTutorial.setStyleSheet("font-weight: bold")
+
+            r = self.tableWidget.currentRow()
+
+            try:
+                name = self.tableWidget.item(r,1).text()
+                repository = self.tableWidget.item(r,2).text()
+                youtube_video = self.tableWidget.item(r,3).text()
+                id_project_tutorial = self.tableWidget.item(r,5).text()
+
+            except IndexError as e:
+                self.lMessageList.setText('<font color="red">Please select a data</font>')
+                return
+
+            urlLink="<a href=\"{}\">https://github.com/fersilentt/ProgrammingDirectories</a>".format(youtube_video)
+
+            self.window.lName.setText(name)
+            self.window.lRepository.setText(repository)
+            self.window.lYoutubeVideo.setText(urlLink)
+            self.window.lIdProjectTutorial.setText(id_project_tutorial)
 
         
-
-    def select_rows(self, selection: list):
-        for i in selection:
-            self.tableWidget.selectRow(i)
-
-
 
     def insert_frame_id(self):
         with open('src/data.json', 'r+') as f:
@@ -217,35 +228,46 @@ class FramePart(QtWidgets.QFrame):
     
     # Open the code repository in the system default browser
     def open_repository(self):
+
         r = self.tableWidget.currentRow()
-        repository = self.tableWidget.item(r,2).text()
 
-        # We validate if the url is valid or not
-        result_url = validators.url(repository)
-
-        if result_url:
-            # We open in a new browser tab the url of the repository we are going to obtain
-
-            # repository = this is the url of the repository that we are going to open in the browser
-            # new=2 = this parameter indicates that we are going to open the url in a new browser tab
-            # autoraise=True = this parameter indicates the authorization to open the url
-            webbrowser.open(repository, new=2, autoraise=True)
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
-            self.lMessageList.setText('<font color="red">No repository exists</font>')
+
+            repository = self.tableWidget.item(r,2).text()
+
+            # We validate if the url is valid or not
+            result_url = validators.url(repository)
+
+            if result_url:
+                # We open in a new browser tab the url of the repository we are going to obtain
+
+                # repository = this is the url of the repository that we are going to open in the browser
+                # new=2 = this parameter indicates that we are going to open the url in a new browser tab
+                # autoraise=True = this parameter indicates the authorization to open the url
+                webbrowser.open(repository, new=2, autoraise=True)
+            else:
+                self.lMessageList.setText('<font color="red">No repository exists</font>')
     
 
 
     # Open the youtube video in the default system browser
     def open_youtube(self):
+
         r = self.tableWidget.currentRow()
-        youtube_video = self.tableWidget.item(r,3).text()
 
-        result_url = validators.url(youtube_video)
-
-        if result_url:
-            webbrowser.open(youtube_video, new=2, autoraise=True)
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
-            self.lMessageList.setText('<font color="red">No video exists</font>')
+            youtube_video = self.tableWidget.item(r,3).text()
+
+            result_url = validators.url(youtube_video)
+
+            if result_url:
+                webbrowser.open(youtube_video, new=2, autoraise=True)
+            else:
+                self.lMessageList.setText('<font color="red">No video exists</font>')
 
 
     
@@ -257,8 +279,6 @@ class FramePart(QtWidgets.QFrame):
 
 
         
-            
-
 
 
 
@@ -294,8 +314,6 @@ class FramePart(QtWidgets.QFrame):
 
             tablerow+=1
 
-        list_selection = [0]
-        self.select_rows(list_selection)
 
 
 

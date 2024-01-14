@@ -119,8 +119,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
-
-
     # We create the window to add and update the data
     def add_update_window_modal(self, id_window_modal):
 
@@ -151,7 +149,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 # We send the data to update
                 self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id, self.window.leName.text()))
 
-
         else:
             self.window = QtWidgets.QFrame()
             uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
@@ -167,25 +164,30 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     def delete_window(self): 
 
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        # We display an information message to indicate whether or not you want to delete the data
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("I have a question!")
-        dlg.setText("Do you want to delete this data?")
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setIcon(QMessageBox.Question)
-        button = dlg.exec()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        else: 
+            id = self.tableWidget.item(r,0).text()
 
-        if button == QMessageBox.Yes:
-            print("Yes!")
-            self.delete_data(id)
-        else:
-            print("No!")
+            # We display an information message to indicate whether or not you want to delete the data
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("I have a question!")
+            dlg.setText("Do you want to delete this data?")
+            dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            dlg.setIcon(QMessageBox.Question)
+            button = dlg.exec()
+
+            if button == QMessageBox.Yes:
+                print("Yes!")
+                self.delete_data(id)
+            else:
+                print("No!")
 
     
     '''
-    # Seleccionamos la fila que le pasemos, para que se preseleccione al cargar la lista de datos
+    # We select the row we pass to it, so that it is preselected when loading the data list
     def select_rows(self, selection: list):
         for i in selection:
             self.tableWidget.selectRow(i)

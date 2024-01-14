@@ -12,7 +12,6 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
-
 class FrameOptionDatabase(QtWidgets.QFrame):
 
     def __init__(self):
@@ -63,7 +62,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     # We get the selected database in the ListView and insert it in the path to open the database
     def on_clicked(self):
         
-        # Obtenemos el elemento seleccionado en el ListView
+        # We obtain the selected item in the ListView
         route_database = self.lvListDatabases.currentIndex().data()
         
         with open('src/data.json', 'r+') as f:
@@ -79,7 +78,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     def delete_recent_database(self):
         route_database = self.lvListDatabases.currentIndex().data()
 
-        # Eliminamos la base de datos seleccionada en el objeto json
+        # Delete the selected database in the json object
         with open('src/list_databases.json', 'r+') as f:
             data = json.load(f)
             del data[route_database]

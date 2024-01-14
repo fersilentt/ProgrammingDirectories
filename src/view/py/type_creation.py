@@ -54,14 +54,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        self.window = QtWidgets.QMainWindow()
-        uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
-        self.window.show()
-
         # We get the id of the previous window, which is the id of the realacion 
         # with this table
-
-        # Load the data into an element
         with open('src/data.json', 'r') as f:
             data = json.load(f)
 
@@ -69,44 +63,60 @@ class FrameTypeCreation(QtWidgets.QFrame):
         str_id_window = json.loads(json_str)
         id_window = str_id_window['window_table_id']
 
-        
         if id_window_modal != 0:
             r = self.tableWidget.currentRow()
 
-            try:
+            if r == -1:
+                self.lMessageList.setText('<font color="red">Please select a record</font>')
+            else:
+                self.window = QtWidgets.QFrame()
+                uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
+                self.window.show()
+
                 id = self.tableWidget.item(r,0).text()
                 name = self.tableWidget.item(r,1).text()
-            except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
-                return
-            
-            self.window.leName.setText(name)
-            self.window.pbAddUpdate.setText("Update")
-            self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
+
+                self.window.leName.setText(name)
+                self.window.pbAddUpdate.setText("Update")
+                self.window.pbAddUpdate.clicked.connect(lambda: self.update_data(id,self.window.leName.text()))
+        
         else:
+            self.window = QtWidgets.QFrame()
+            uic.loadUi(file+"/view/ui/type_creation/form.ui", self.window)
+            self.window.show()
+
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text(), id_window))
         
 
 
+            
+        
 
-    def delete_window(self): 
 
+
+    def delete_window(self):
+        
         r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0).text()
 
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("I have a question!")
-        dlg.setText("Do you want to delete this data?")
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setIcon(QMessageBox.Question)
-        button = dlg.exec()
+        if r == -1:
+            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        else:  
+            id = self.tableWidget.item(r,0).text()
 
-        if button == QMessageBox.Yes:
-            print("Yes!")
-            self.delete_data(id)
-        else:
-            print("No!")
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("I have a question!")
+            dlg.setText("Do you want to delete this data?")
+            dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            dlg.setIcon(QMessageBox.Question)
+            button = dlg.exec()
+
+            if button == QMessageBox.Yes:
+                print("Yes!")
+                self.delete_data(id)
+            else:
+                print("No!")
         
 
 
