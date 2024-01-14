@@ -319,7 +319,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             item_number_project_tutorial.setData(Qt.EditRole, number_project_tutorial)
             item_id_type_application.setData(Qt.EditRole, id_type_application)
 
-            
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
@@ -355,7 +354,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             number_project_tutorial,
             id_type_application):  
 
-        from controller.project_tutorial.insert import Insert
+        
 
         if self.validation_add_update_window_modal(
             name,
@@ -369,6 +368,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             architecture,
             cloud_server, 
             number_project_tutorial):
+
+            from controller.project_tutorial.insert import Insert
             
             Insert.add_data(
                 name,
@@ -404,8 +405,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             cloud_server, 
             number_project_tutorial):
 
-        from controller.project_tutorial.update import Update
-
         if self.validation_add_update_window_modal(
             name,
             programming_language_version, 
@@ -418,6 +417,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             architecture,
             cloud_server, 
             number_project_tutorial):
+
+            from controller.project_tutorial.update import Update
             
             Update.update_data(
                 id, 

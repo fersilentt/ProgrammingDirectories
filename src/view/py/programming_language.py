@@ -315,13 +315,12 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
     # We insert data
     def add_data(self, name):  
-
-        import controller.programming_language.insert
         #self.reload_modules()
 
         # We call the validation function to check that the text boxes are not empty
         if self.validation_add_update_window(name):
 
+            import controller.programming_language.insert
             # we insert data
             controller.programming_language.insert.Insert.add_data(name)
             # We hide the window
@@ -336,10 +335,9 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # We update data
     def update_data(self, id, name):
 
-        import controller.programming_language.update
-
         if self.validation_add_update_window(name):
-
+            
+            import controller.programming_language.update
             controller.programming_language.update.Update.update_data(id, name)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data updated successfully</font>')

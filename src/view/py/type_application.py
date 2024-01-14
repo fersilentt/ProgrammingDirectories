@@ -203,9 +203,8 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def add_data(self, name, id_type_creation):  
 
-        from controller.type_application.insert import Insert
-
         if self.validation_add_update_window_modal(name):
+            from controller.type_application.insert import Insert
             Insert.add_data(name, id_type_creation)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data added successfully</font>')
@@ -215,9 +214,8 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def update_data(self, id, name):
 
-        from controller.type_application.update import Update
-
         if self.validation_add_update_window_modal(name):
+            from controller.type_application.update import Update
             Update.update_data(id, name)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data updated successfully</font>')

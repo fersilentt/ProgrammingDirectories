@@ -212,10 +212,9 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
 
     def add_data(self, name, id_programming_language):
-        
-        import controller.type_creation.insert
 
         if self.validation_add_update_window_modal(name):
+            import controller.type_creation.insert
             controller.type_creation.insert.Insert.add_data(name, id_programming_language)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data added successfully</font>')
@@ -225,9 +224,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
 
     def update_data(self, id, name):
 
-        import controller.type_creation.update
-
         if self.validation_add_update_window_modal(name):
+            import controller.type_creation.update
             controller.type_creation.update.Update.update_data(id, name)
             self.window.hide()
             self.lMessageList.setText('<font color="green">Data updated successfully</font>')
