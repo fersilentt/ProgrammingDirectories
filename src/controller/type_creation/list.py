@@ -32,8 +32,6 @@ class List:
         id_window = str_id_window['window_table_id']
 
 
-
-
         Session = sessionmaker(bind=engine)
         session = Session()
 
