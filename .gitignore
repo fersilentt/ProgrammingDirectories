@@ -2,3 +2,5 @@
 build
 dist
 setup.py
+src/data.json
+src/list_databases.json
