@@ -490,6 +490,15 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(file+"/view/ui/main/info.ui", self.window)
         self.window.show()
 
+        # Get the version of the application from the .json file
+        with open('src/version.json', 'r') as f:
+            version = json.load(f)
+
+        json_str = json.dumps(version)
+        str_app_version = json.loads(json_str)
+        app_version = str_app_version['app_version'] 
+
+
         # We enable external links to display the url as a link and open it in the browser.
         self.window.lRepository.setOpenExternalLinks(True)
 
@@ -499,6 +508,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window.lLicence.setText("ProgrammingDirectories is distributed under \n the GNU License (GPL) version 3.")
         self.window.lConstruction.setText("ProgrammingDirectories is built with \n Python 3.8 and Qt5.")
         self.window.lDeveloped.setText("Developed by Fersilent.")
+        self.window.lVersion.setText(app_version)
         self.window.lRepository.setText("Repository: "+urlLink)
 
         self.window.pbClose.clicked.connect(self.window.hide)

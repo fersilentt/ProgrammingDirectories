@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>379</width>
-    <height>222</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -136,6 +136,23 @@
          </item>
          <item>
           <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lVersion">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_5">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
