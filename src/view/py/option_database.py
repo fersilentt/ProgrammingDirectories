@@ -43,7 +43,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
 
         with open('src/list_databases.json', 'r') as f:
             data = json.load(f)
-            print(data)
+            #print(data)
         
         #for i in data:
         #    self.model.appendRow(QStandardItem(data[i]))
@@ -62,15 +62,27 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     # We get the selected database in the ListView and insert it in the path to open the database
     def on_clicked(self):
         
-        # We obtain the selected item in the ListView
-        route_database = self.lvListDatabases.currentIndex().data()
-        
-        with open('src/data.json', 'r+') as f:
+        with open('src/list_databases.json', 'r') as f:
             data = json.load(f)
-            data["route_open_database"] = route_database
-            f.seek(0)        
-            json.dump(data, f, indent=4)
-            f.truncate() 
+
+        # We convert the json object to string to perform validation
+        data_str = str(data)
+    
+        if data_str == "{}":
+            self.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
+            return False
+        else: 
+            # We obtain the selected item in the ListView
+            route_database = self.lvListDatabases.currentIndex().data()
+        
+            with open('src/data.json', 'r+') as f:
+                data = json.load(f)
+                data["route_open_database"] = route_database
+                f.seek(0)        
+                json.dump(data, f, indent=4)
+                f.truncate() 
+            
+            return True
     
 
 

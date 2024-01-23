@@ -475,11 +475,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Open the selected database in the list of recently opened databases
     def open_database(self):
-        self.frame_option_database.on_clicked()
-        self.stackedWidget.setCurrentIndex(1)
-        self.frame_programming_language.get_data()
-        self.frame_programming_language.insert_frame_id()
-        self.enable_disable_buttons()
+
+        # Validate that the function is set to True in order to advance to the next window, otherwise a new database 
+        # file will have to be created
+        if self.frame_option_database.on_clicked():
+            self.stackedWidget.setCurrentIndex(1)
+            self.frame_programming_language.get_data()
+            self.frame_programming_language.insert_frame_id()
+            self.enable_disable_buttons()
         
 
 
