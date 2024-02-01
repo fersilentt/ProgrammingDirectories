@@ -5,6 +5,9 @@ from PyQt5.uic import loadUi
 from PyQt5 import uic
 
 import json
+# We import this module to validate the version of the installed application with the latest version of the 
+# application uploaded to GitHub, using the GitHub api
+import requests
 
 import sys
 import os
@@ -97,6 +100,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbFrameTypeCreation.clicked.connect(lambda:self.change_frame_button(2))
         self.pbFrameTypeApplication.clicked.connect(lambda:self.change_frame_button(3))
         self.pbFrameProjectTutorial.clicked.connect(lambda:self.change_frame_button(4))
+
+
+        # Validate the version of the installed application with the latest version of the application uploaded to GitHub, 
+        # using the GitHub api
+
+        # The repository must be without the "pre-release" option, in order to be detected by GitHub api and get the latest 
+        # version of the project
+        response = requests.get("https://api.github.com/repos/fersilentt/ProgrammingDirectories/releases/latest")
+        print(response.json()["name"])
 
         
         

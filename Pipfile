@@ -8,6 +8,7 @@ sqlalchemy = "*"
 py2app = "*"
 pyqt5 = "*"
 validators = "*"
+requests = "*"
 
 [dev-packages]
 
