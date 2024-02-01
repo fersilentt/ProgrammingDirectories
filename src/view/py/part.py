@@ -33,7 +33,7 @@ class FramePart(QtWidgets.QFrame):
             "youtube_video", 
             "Project Tutorial", 
             "id_project_tutorial", 
-            "Nº part"])
+            "Nº"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         self.tableWidget.setSortingEnabled(True)

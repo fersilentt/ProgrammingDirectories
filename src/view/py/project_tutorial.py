@@ -33,7 +33,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             "virtual_environment",
             "Architecture",
             "cloud_server",
-            "number_project_tutorial",
+            "Nº",
             "Type Application",
             "id_type_application"])
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
@@ -47,7 +47,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.tableWidget.setColumnHidden(7,True)
         self.tableWidget.setColumnHidden(8,True)
         self.tableWidget.setColumnHidden(10,True)
-        self.tableWidget.setColumnHidden(11,True)
+        #self.tableWidget.setColumnHidden(11,True)
         self.tableWidget.setColumnHidden(13,True)
 
         icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
