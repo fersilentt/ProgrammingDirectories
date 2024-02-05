@@ -12,6 +12,7 @@ import json
 import importlib
 import webbrowser
 import validators
+import requests
 
 import sys
 import os
