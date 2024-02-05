@@ -5,9 +5,6 @@ from PyQt5.uic import loadUi
 from PyQt5 import uic
 
 import json
-# We import this module to validate the version of the installed application with the latest version of the 
-# application uploaded to GitHub, using the GitHub api
-import requests
 
 import sys
 import os
@@ -41,6 +38,7 @@ class MainWindow(QtWidgets.QMainWindow):
         icon_go  = QtGui.QPixmap(os.path.abspath("src/static/go.svg"))
         icon_back  = QtGui.QPixmap(os.path.abspath("src/static/back.svg"))
         icon_frame  = QtGui.QPixmap(os.path.abspath("src/static/frame.svg"))
+        icon_settings  = QtGui.QPixmap(os.path.abspath("src/static/settings.svg"))
         icon_info  = QtGui.QPixmap(os.path.abspath("src/static/info.svg"))
     
         self.pbOpenFileDatabase.setIcon(QtGui.QIcon(icon_open_file_database))
@@ -52,6 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbFrameTypeCreation.setIcon(QtGui.QIcon(icon_frame))
         self.pbFrameTypeApplication.setIcon(QtGui.QIcon(icon_frame))
         self.pbFrameProjectTutorial.setIcon(QtGui.QIcon(icon_frame))
+        self.pbSettings.setIcon(QtGui.QIcon(icon_settings))
         self.pbInfo.setIcon(QtGui.QIcon(icon_info))
         
 
@@ -95,6 +94,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbOpenDatabase.clicked.connect(self.open_database)
         self.pbGo.clicked.connect(self.change_frame_go)
         self.pbBack.clicked.connect(self.change_frame_back)
+        self.pbSettings.clicked.connect(self.settings)
         self.pbInfo.clicked.connect(self.about)
         self.pbFrameProgrammingLanguage.clicked.connect(lambda:self.change_frame_button(1))
         self.pbFrameTypeCreation.clicked.connect(lambda:self.change_frame_button(2))
@@ -102,16 +102,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pbFrameProjectTutorial.clicked.connect(lambda:self.change_frame_button(4))
 
 
-        # Validate the version of the installed application with the latest version of the application uploaded to GitHub, 
-        # using the GitHub api
-
-        # The repository must be without the "pre-release" option, in order to be detected by GitHub api and get the latest 
-        # version of the project
-        response = requests.get("https://api.github.com/repos/fersilentt/ProgrammingDirectories/releases/latest")
-        print(response.json()["name"])
-
         
-        
+
 
         
 
@@ -501,7 +493,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # We open a window with project information
     def about(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QtWidgets.QFrame()
         uic.loadUi(file+"/view/ui/main/info.ui", self.window)
         self.window.show()
 
@@ -528,6 +520,30 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.window.pbClose.clicked.connect(self.window.hide)
     
+
+
+
+
+    def settings(self):
+        self.window = QtWidgets.QFrame()
+        uic.loadUi(file+"/view/ui/main/settings.ui", self.window)
+        self.window.show()
+
+        self.window.cbSearchUpdate.setChecked(True)
+        self.window.pbSaveSettings.clicked.connect(lambda: self.save_settings(str(self.window.cbSearchUpdate.isChecked())))
+
+
+
+
+    def save_settings(self, search_update):
+        with open('src/data.json', 'r+') as f:
+            data = json.load(f)
+            data["search_updates"] = search_update
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
+
+
 
 
 
@@ -616,6 +632,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.window.lMessageForm.setText('<font color="red">Database name is required</font>')
         else:
             return name_database
+    
+
+
+
+    
+           
     
 
 

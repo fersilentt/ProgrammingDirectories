@@ -44,7 +44,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         super(FrameProgrammingLanguage,self).__init__()
         # We import the .ui file by calling the absolute path we have previously created
         loadUi(file+"/view/ui/programming_language/list.ui",self)
-        
+
+        '''        
         r = self.tableWidget.currentRow()
         id = self.tableWidget.item(r,0)
 
@@ -64,6 +65,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 f.seek(0)
                 json.dump(data, f, indent=4)
                 f.truncate()
+        '''
 
         # Here we set the size that each column is going to have according to its position, but in 
         # this case we comment it so that it remains in its original form

@@ -6,6 +6,9 @@ from PyQt5.QtCore import QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 import json
+# We import this module to validate the version of the installed application with the latest version of the 
+# application uploaded to GitHub, using the GitHub api
+import requests
 
 import sys
 import os
@@ -35,6 +38,8 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         self.lvListDatabases.setModelColumn(1)
 
         self.get_data()
+
+        self.checking_application_updates()
     
 
 
@@ -86,28 +91,85 @@ class FrameOptionDatabase(QtWidgets.QFrame):
     
 
 
+
     # Delete the selected database in the ListView
     def delete_recent_database(self):
-        route_database = self.lvListDatabases.currentIndex().data()
 
-        # Delete the selected database in the json object
-        with open('src/list_databases.json', 'r+') as f:
+        with open('src/list_databases.json', 'r') as f:
             data = json.load(f)
-            del data[route_database]
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
 
-        # Perform a ListView cleanup by inserting an empty array
-        self.model = QStandardItemModel()
-        self.lvListDatabases.setModel(self.model)
+        # We convert the json object to string to perform validation
+        data_str = str(data)
+    
+        if data_str == "{}":
+            self.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
+            return False
+        else: 
+
+            route_database = self.lvListDatabases.currentIndex().data()
+
+            # Delete the selected database in the json object
+            with open('src/list_databases.json', 'r+') as f:
+                data = json.load(f)
+                del data[route_database]
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+
+            # Perform a ListView cleanup by inserting an empty array
+            self.model = QStandardItemModel()
+            self.lvListDatabases.setModel(self.model)
+                
+            values = []
+
+            for i in values:
+                self.model.appendRow(QStandardItem(i))
+
+            self.get_data()
+
+        
+    
+
+
+
+
+
+    # Validate the version of the installed application with the latest version of the application uploaded to GitHub, 
+    # using the GitHub api
+    def checking_application_updates(self):
+
+        # We check that the search for updates is enabled
+        with open('src/data.json', 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_search_updates = json.loads(json_str)
+        search_updates = str_search_updates['search_updates']
+
+        if search_updates == "True":
+            # The repository must be without the "pre-release" option, in order to be detected by GitHub api and get the latest 
+            # version of the project
+            response_version_github = requests.get("https://api.github.com/repos/fersilentt/ProgrammingDirectories/releases/latest")
+            app_version_github = response_version_github.json()["name"]
+        
+
+            # We obtain the current version of the application
+            with open('src/version.json', 'r') as f:
+                data = json.load(f)
+
+            json_str = json.dumps(data)
+            str_app_version = json.loads(json_str)
+            app_version = str_app_version['app_version']
+
+            if app_version != app_version_github:
+                self.lMessageOptionDatabase.setOpenExternalLinks(True)
+                message = "<font color='orange'>Is there a new version of the application, would you like to update it? </font>"
+                urlLink = "<a href=\"https://github.com/fersilentt/ProgrammingDirectories/releases/latest\"> Yes</a>"
+                update_message = message+urlLink
+                self.lMessageOptionDatabase.setText(update_message)
+
+        
             
-        values = []
-
-        for i in values:
-            self.model.appendRow(QStandardItem(i))
-
-        self.get_data()
     
 
 
