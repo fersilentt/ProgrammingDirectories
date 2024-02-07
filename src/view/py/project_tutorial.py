@@ -458,6 +458,10 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         list_search = Search.search_data(data)
         count_rows_search = CountSearch.count_rows_search(data)
 
+        print(list_search)
+        print(count_rows_search)
+
+        
         tablerow=0
         self.tableWidget.setRowCount(count_rows_search)
         
@@ -471,7 +475,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             item_number_project_tutorial.setData(Qt.EditRole, number_project_tutorial)
             item_id_type_application.setData(Qt.EditRole, id_type_application)
 
-            
             self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
@@ -489,8 +492,6 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
             tablerow+=1
         
-        list_selection = [0]
-        self.select_rows(list_selection)
     
 
 
