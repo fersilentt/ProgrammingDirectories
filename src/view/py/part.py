@@ -188,7 +188,7 @@ class FramePart(QtWidgets.QFrame):
                 self.lMessageList.setText('<font color="red">Please select a data</font>')
                 return
 
-            urlLink="<a href=\"{}\">https://github.com/fersilentt/ProgrammingDirectories</a>".format(youtube_video)
+            urlLink="<a href=\"{}\">{}</a>".format(youtube_video, youtube_video)
 
             self.window.lName.setText(name)
             self.window.lRepository.setText(repository)
