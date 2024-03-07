@@ -47,18 +47,9 @@ pip install -r requirements.txt
 pip install sqlalchemy
 pip install pyqt5==5.15.2
 pip install validators
-```
-
-
-```
 pip install requests
-```
-
-```
 pip install py2app
 ```
-
-
 
 3. We start the application
 
