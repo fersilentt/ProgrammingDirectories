@@ -48,7 +48,7 @@ pip install sqlalchemy
 pip install pyqt5==5.15.2
 pip install validators
 pip install requests
-pip install py2app
+pip install PyInstaller==4.8
 ```
 
 3. We start the application
