@@ -80,6 +80,6 @@ c. Copy the "src" folder, inside "/Contents/Resources"
 ```
 
 ```
-pyuic5 src/view/ui/main/main.ui -o mainForm.py
+pyuic5 src/view/ui/main/main.ui -o main_form.py
 ```
 
