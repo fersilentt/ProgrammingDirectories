@@ -34,13 +34,12 @@
 
 1. To install all the modules run
 ```
+pyenv shell 3.8.10
+python -V
+python -m venv venv
 source venv/bin/activate
-```
-```
 pip install -r requirements.txt 
 ```
-
-
 2. To install module by module
 
 ```
@@ -54,7 +53,7 @@ pip install PyInstaller==4.8
 3. We start the application
 
 ```
-python src/view/py/main.py
+python src/app.py
 ```
 
 #### Commands to create icon in MacOS
