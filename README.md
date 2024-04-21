@@ -48,7 +48,7 @@ pip install sqlalchemy
 pip install pyqt5==5.15.2
 pip install validators
 pip install requests
-pip install py2app
+pip install PyInstaller==4.8
 ```
 
 3. We start the application
@@ -59,25 +59,19 @@ python src/view/py/main.py
 
 #### Commands to create icon in MacOS
 
-1. Clean up your build directories.
+1. We create the executable to build our application with **py2applet**.
 
 ```
-rm -rf build dist
+pyinstaller -n "Programming Directories" --windowed app.py
 ```
 
-2. We create the executable to build our application with **py2applet**.
+2. We build the application, so that it creates the .app file
 
 ```
-py2applet --make-setup Programming\ Directories.py resources/main_icon.icns
+pyinstaller Programming\ Directories.spec
 ```
 
-3. We build the application, so that it creates the .app file
-
-```
-python setup.py py2app
-```
-
-4. Copy the contents of the missing code by following these steps
+3. Copy the contents of the missing code by following these steps
 
 ```
 a. Enter the "dist" folder
@@ -85,4 +79,7 @@ b. In the created application we click on "Show package contents"
 c. Copy the "src" folder, inside "/Contents/Resources"
 ```
 
+```
+pyuic5 src/view/ui/main/main.ui -o main_form.py
+```
 
