@@ -15,7 +15,7 @@
 
 
 - [Important](#Important)
-- [Commands used](#Commands-used)
+- [Build application](#Build-application)
 - [Commands to create icon in MacOS](#Commands-to-create-icon-in-MacOS)
 
 ---
@@ -26,11 +26,11 @@
 
 2. The python version and venv are created with pyenv
 
-3. To build the project, we execute the commands in section **[Commands used](#Commands-used)**
+3. To build the project, we execute the commands in section **[Build application](#Build-application)**
 
 ---
 
-#### Commands used
+#### Build application
 
 1. To install all the modules run
 ```
