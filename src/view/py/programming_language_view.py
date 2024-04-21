@@ -9,41 +9,29 @@ from PyQt5.QtCore import Qt
 
 # We import this module to work with json objects
 import json
-
-
-
 # We import this module to be able to inert the path, where the CRUD files are located, in this way 
 # we can import our files independently of any folder where they are located
 import sys
-
 # We import this module to get an absolute path to our project, in order to import the images for 
 # our buttons
 import os
-
-# os.path.abspath("src") = we get the absolute path of the project and then we import the files
-file = os.path.abspath("src")
-
-# We add the absolute path of our project, so that it recognizes the path of importing of the files 
-# that make the CRUD
-sys.path.insert(0, file)
-
-
 import importlib
 
+from view.ui_py.programming_language_list_ui import Ui_Frame
+import config
 
-
-
-
-
-
+root_dir = config.ROOT_DIR
+data_json = config.DATA_JSON
+list_databases_json = config.LIST_DATABASES_JSON
+version_json = config.VERSION_JSON
 
 
 class FrameProgrammingLanguage(QtWidgets.QFrame):
 
     def __init__(self):
         super(FrameProgrammingLanguage,self).__init__()
-        # We import the .ui file by calling the absolute path we have previously created
-        loadUi(file+"/view/ui/programming_language/list.ui",self)
+        self.ui = Ui_Frame()
+        self.ui.setupUi(self)
 
         '''        
         r = self.tableWidget.currentRow()
@@ -75,42 +63,38 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         
         #  We send the names of the headers that our table will have, replacing the headers in case it 
         # already has them
-        self.tableWidget.setHorizontalHeaderLabels(["Id","Name"])
+        self.ui.tableWidget.setHorizontalHeaderLabels(["Id","Name"])
 
         # We add this to be able to select the whole row instead of selecting cell by cell
-        self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         #self.tableWidget.verticalHeader().setVisible(False)
         # Sort in ascending and descending order with one click all the columns of the table
-        self.tableWidget.setSortingEnabled(True)
+        self.ui.tableWidget.setSortingEnabled(True)
 
         # We hide column 0 of the table
-        self.tableWidget.setColumnHidden(0,True)
+        self.ui.tableWidget.setColumnHidden(0,True)
 
-
-
-        # We create the icons for the buttons
-
-        # We obtain the path to the image and then add it to the button
-        icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
-        icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
-        icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
+        
+        icon_add  = config.ICON_ADD
+        icon_update  = config.ICON_UPDATE
+        icon_delete  = config.ICON_DELETE
         
         # Add the image to the button
-        self.pbAdd.setIcon(QtGui.QIcon(icon_add))
-        self.pbEdit.setIcon(QtGui.QIcon(icon_update))
-        self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.ui.pbAdd.setIcon(QtGui.QIcon(icon_add))
+        self.ui.pbEdit.setIcon(QtGui.QIcon(icon_update))
+        self.ui.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         #self.pbAdd.setIconSize(QtCore.QSize(200,200))
 
 
         # We execute the CRUD functions
-        self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
-        self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
-        self.pbDelete.clicked.connect(self.delete_window)
-        self.leSearch.textChanged.connect(self.scan_q_line_edit)
+        self.ui.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
+        self.ui.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
+        self.ui.pbDelete.clicked.connect(self.delete_window)
+        self.ui.leSearch.textChanged.connect(self.scan_q_line_edit)
 
         # We perform a cleaning of the label that acts as a message
-        self.lMessageList.setText("")
+        self.ui.lMessageList.setText("")
 
  
 
@@ -128,19 +112,19 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         if id_window_modal != 0:
 
             # We obtain the data of the selected row
-            r = self.tableWidget.currentRow()
+            r = self.ui.tableWidget.currentRow()
 
             if r == -1:
-                self.lMessageList.setText('<font color="red">Please select a record</font>')
+                self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
                 # We run the modal window and open it
                 self.window = QtWidgets.QFrame()
-                uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
+                uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
                 self.window.show()
 
                 # Let's get the row data according to their position
-                id = self.tableWidget.item(r,0).text()
-                name = self.tableWidget.item(r,1).text()
+                id = self.ui.tableWidget.item(r,0).text()
+                name = self.ui.tableWidget.item(r,1).text()
 
                 # We send the data to the text boxes
                 self.window.leName.setText(name)
@@ -153,7 +137,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
         else:
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/programming_language/form.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
             self.window.show()
 
             self.window.pbAddUpdate.setText("Add")
@@ -165,13 +149,13 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # We create a window to delete the data
     def delete_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         else: 
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
             # We display an information message to indicate whether or not you want to delete the data
             dlg = QMessageBox(self)
@@ -199,7 +183,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
     # Insert the id of the Frame, so that it can be identified
     def insert_frame_id(self):
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["frame_id"] = 1
             f.seek(0)
@@ -212,16 +196,16 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
     # We obtain the id of the table so that the following window will load
     def go_window(self):
         
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         else: 
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
             # We edit the fields of our json object to store the id of the table to be retrieved
-            with open('src/data.json', 'r+') as f:
+            with open(data_json, 'r+') as f:
                 data = json.load(f)
                 # Here we edit the value of the "window_table_id" field and replace it with the id of the table
                 data["window_table_id"] = id
@@ -262,8 +246,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         tablerow=0
 
         # We set the number of records we are going to obtain from our query
-        self.tableWidget.setRowCount(0)
-        self.tableWidget.setRowCount(count_rows)
+        self.ui.tableWidget.setRowCount(0)
+        self.ui.tableWidget.setRowCount(count_rows)
         
 
         # We fill the data obtained from the query into the table
@@ -274,8 +258,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             item = QtWidgets.QTableWidgetItem()
             item.setData(Qt.EditRole, id)
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
 
             # We increase the row of our table by 1
             tablerow+=1
@@ -298,16 +282,16 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
         tablerow=0
 
-        self.tableWidget.setRowCount(0)
-        self.tableWidget.setRowCount(count_rows)
+        self.ui.tableWidget.setRowCount(0)
+        self.ui.tableWidget.setRowCount(count_rows)
         
         for id,name in zip(*lista): 
 
             item = QtWidgets.QTableWidgetItem()
             item.setData(Qt.EditRole, id)
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
 
             tablerow+=1
 
@@ -328,7 +312,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             # We hide the window
             self.window.hide()
             # We display a message with a color
-            self.lMessageList.setText('<font color="green">Data added successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data added successfully</font>')
             # We update the data list
             self.get_data()
 
@@ -342,7 +326,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             import controller.programming_language.update
             controller.programming_language.update.Update.update_data(id, name)
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data updated successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
 
 
@@ -355,7 +339,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         import controller.programming_language.delete
 
         controller.programming_language.delete.Delete.delete_data(id)
-        self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
+        self.ui.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
     
 
@@ -371,15 +355,15 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         count_rows_search = controller.programming_language.count_search.CountSearch.count_rows_search(data)
 
         tablerow=0
-        self.tableWidget.setRowCount(count_rows_search)
+        self.ui.tableWidget.setRowCount(count_rows_search)
         
         for id,name in zip(*list_search): 
 
             item = QtWidgets.QTableWidgetItem()
             item.setData(Qt.EditRole, id)
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
 
             tablerow+=1
 

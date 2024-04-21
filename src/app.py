@@ -33,5 +33,11 @@ from sqlalchemy.orm import relationship, backref
 
 
 # Main file that will start the application
-from src.view.py.main import MainWindow
+from view.py.main_view import MainWindow
+
+
+
+app = QtWidgets.QApplication(sys.argv)
+w = MainWindow()
+app.exec()
 

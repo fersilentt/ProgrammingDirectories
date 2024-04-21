@@ -6,9 +6,13 @@ from sqlalchemy.orm import relationship, backref
 # We import this library to work with .json objects
 import json
 
+# We import the locations of the project configuration files
+import config
+data_json = config.DATA_JSON
+
 
 # We open the .json file that will contain the object where the path to create the database is located
-with open('src/data.json', 'r') as f:
+with open(data_json, 'r') as f:
     data = json.load(f)
 
 # Dumps the json object into an element

@@ -18,15 +18,25 @@ import webbrowser
 # We import this module to perform validations in this case of an url
 import validators
 
+from view.ui_py.part_list_ui import Ui_Frame
+import config
+
+root_dir = config.ROOT_DIR
+data_json = config.DATA_JSON
+list_databases_json = config.LIST_DATABASES_JSON
+version_json = config.VERSION_JSON
+
+
 
 
 class FramePart(QtWidgets.QFrame):
 
     def __init__(self):
         super(FramePart,self).__init__()
-        loadUi(file+"/view/ui/part/list.ui",self)
+        self.ui = Ui_Frame()
+        self.ui.setupUi(self)
 
-        self.tableWidget.setHorizontalHeaderLabels([
+        self.ui.tableWidget.setHorizontalHeaderLabels([
             "id",
             "Name", 
             "repository", 
@@ -34,35 +44,35 @@ class FramePart(QtWidgets.QFrame):
             "Project Tutorial", 
             "id_project_tutorial", 
             "Nº"])
-        self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-        self.tableWidget.setSortingEnabled(True)
-        self.tableWidget.setColumnHidden(0,True)
-        self.tableWidget.setColumnHidden(2,True)
-        self.tableWidget.setColumnHidden(3,True)
-        self.tableWidget.setColumnHidden(5,True)
+        self.ui.tableWidget.setSortingEnabled(True)
+        self.ui.tableWidget.setColumnHidden(0,True)
+        self.ui.tableWidget.setColumnHidden(2,True)
+        self.ui.tableWidget.setColumnHidden(3,True)
+        self.ui.tableWidget.setColumnHidden(5,True)
 
-        icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
-        icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
-        icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
-        icon_view  = QtGui.QPixmap(os.path.abspath("src/static/view.svg"))
-        icon_repository  = QtGui.QPixmap(os.path.abspath("src/static/repository.svg"))
-        icon_youtube  = QtGui.QPixmap(os.path.abspath("src/static/youtube.svg"))
+        icon_add  = config.ICON_ADD
+        icon_update  = config.ICON_UPDATE
+        icon_delete  = config.ICON_DELETE
+        icon_view = config.ICON_VIEW
+        icon_repository  = config.ICON_REPOSITORY
+        icon_youtube  = config.ICON_YOUTUBE
           
-        self.pbAdd.setIcon(QtGui.QIcon(icon_add))
-        self.pbEdit.setIcon(QtGui.QIcon(icon_update))
-        self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
-        self.pbView.setIcon(QtGui.QIcon(icon_view))
-        self.pbRepository.setIcon(QtGui.QIcon(icon_repository))
-        self.pbYoutube.setIcon(QtGui.QIcon(icon_youtube))    
+        self.ui.pbAdd.setIcon(QtGui.QIcon(icon_add))
+        self.ui.pbEdit.setIcon(QtGui.QIcon(icon_update))
+        self.ui.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.ui.pbView.setIcon(QtGui.QIcon(icon_view))
+        self.ui.pbRepository.setIcon(QtGui.QIcon(icon_repository))
+        self.ui.pbYoutube.setIcon(QtGui.QIcon(icon_youtube))    
         
-        self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
-        self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
-        self.pbDelete.clicked.connect(self.delete_window)
-        self.pbView.clicked.connect(self.view_window_modal)
-        self.pbRepository.clicked.connect(self.open_repository)
-        self.pbYoutube.clicked.connect(self.open_youtube)
-        self.leSearch.textChanged.connect(self.scan_q_line_edit)
+        self.ui.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
+        self.ui.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
+        self.ui.pbDelete.clicked.connect(self.delete_window)
+        self.ui.pbView.clicked.connect(self.view_window_modal)
+        self.ui.pbRepository.clicked.connect(self.open_repository)
+        self.ui.pbYoutube.clicked.connect(self.open_youtube)
+        self.ui.leSearch.textChanged.connect(self.scan_q_line_edit)
 
 
 
@@ -73,7 +83,7 @@ class FramePart(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
@@ -82,21 +92,21 @@ class FramePart(QtWidgets.QFrame):
         
         if id_window_modal != 0:
 
-            r = self.tableWidget.currentRow()
+            r = self.ui.tableWidget.currentRow()
 
             if r == -1:
-                self.lMessageList.setText('<font color="red">Please select a record</font>')
+                self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
                 
                 self.window = QtWidgets.QFrame()
-                uic.loadUi(file+"/view/ui/part/form.ui", self.window)
+                uic.loadUi(root_dir+"/view/ui/part/form.ui", self.window)
                 self.window.show()
                 
-                id = self.tableWidget.item(r,0).text()
-                name = self.tableWidget.item(r,1).text()
-                repository = self.tableWidget.item(r,2).text()
-                youtube_video = self.tableWidget.item(r,3).text()
-                id_project_tutorial = self.tableWidget.item(r,5).text()
+                id = self.ui.tableWidget.item(r,0).text()
+                name = self.ui.tableWidget.item(r,1).text()
+                repository = self.ui.tableWidget.item(r,2).text()
+                youtube_video = self.ui.tableWidget.item(r,3).text()
+                id_project_tutorial = self.ui.tableWidget.item(r,5).text()
         
                 self.window.leName.setText(name)
                 self.window.leRepository.setText(repository)
@@ -113,7 +123,7 @@ class FramePart(QtWidgets.QFrame):
         else:
 
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/part/form.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/part/form.ui", self.window)
             self.window.show()
 
             self.window.pbAddUpdate.setText("Add")
@@ -130,14 +140,14 @@ class FramePart(QtWidgets.QFrame):
 
     def delete_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         else:
 
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
             dlg = QMessageBox(self)
             dlg.setWindowTitle("I have a question!")
@@ -157,14 +167,14 @@ class FramePart(QtWidgets.QFrame):
 
     def view_window_modal(self):
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
 
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/part/view.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/part/view.ui", self.window)
             self.window.show()
 
             self.window.lRepository.setOpenExternalLinks(True)
@@ -176,16 +186,16 @@ class FramePart(QtWidgets.QFrame):
             self.window.lTextYoutubeVideo.setStyleSheet("font-weight: bold")
             self.window.lTextIdProjectTutorial.setStyleSheet("font-weight: bold")
 
-            r = self.tableWidget.currentRow()
+            r = self.ui.tableWidget.currentRow()
 
             try:
-                name = self.tableWidget.item(r,1).text()
-                repository = self.tableWidget.item(r,2).text()
-                youtube_video = self.tableWidget.item(r,3).text()
-                id_project_tutorial = self.tableWidget.item(r,5).text()
+                name = self.ui.tableWidget.item(r,1).text()
+                repository = self.ui.tableWidget.item(r,2).text()
+                youtube_video = self.ui.tableWidget.item(r,3).text()
+                id_project_tutorial = self.ui.tableWidget.item(r,5).text()
 
             except IndexError as e:
-                self.lMessageList.setText('<font color="red">Please select a data</font>')
+                self.ui.lMessageList.setText('<font color="red">Please select a data</font>')
                 return
 
             urlLink="<a href=\"{}\">{}</a>".format(youtube_video, youtube_video)
@@ -198,7 +208,7 @@ class FramePart(QtWidgets.QFrame):
         
 
     def insert_frame_id(self):
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["frame_id"] = 5
             f.seek(0)
@@ -208,14 +218,14 @@ class FramePart(QtWidgets.QFrame):
     
     def back_window(self):
 
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window_type_application = str_id_window['window_type_application_id']
 
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_type_application
             f.seek(0)
@@ -229,13 +239,13 @@ class FramePart(QtWidgets.QFrame):
     # Open the code repository in the system default browser
     def open_repository(self):
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
 
-            repository = self.tableWidget.item(r,2).text()
+            repository = self.ui.tableWidget.item(r,2).text()
 
             # We validate if the url is valid or not
             result_url = validators.url(repository)
@@ -248,26 +258,26 @@ class FramePart(QtWidgets.QFrame):
                 # autoraise=True = this parameter indicates the authorization to open the url
                 webbrowser.open(repository, new=2, autoraise=True)
             else:
-                self.lMessageList.setText('<font color="red">No repository exists</font>')
+                self.ui.lMessageList.setText('<font color="red">No repository exists</font>')
     
 
 
     # Open the youtube video in the default system browser
     def open_youtube(self):
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
-            youtube_video = self.tableWidget.item(r,3).text()
+            youtube_video = self.ui.tableWidget.item(r,3).text()
 
             result_url = validators.url(youtube_video)
 
             if result_url:
                 webbrowser.open(youtube_video, new=2, autoraise=True)
             else:
-                self.lMessageList.setText('<font color="red">No video exists</font>')
+                self.ui.lMessageList.setText('<font color="red">No video exists</font>')
 
 
     
@@ -292,7 +302,7 @@ class FramePart(QtWidgets.QFrame):
 
         tablerow=0
 
-        self.tableWidget.setRowCount(count_rows)
+        self.ui.tableWidget.setRowCount(count_rows)
         
         for id, name, repository, youtube_video, id_part, name_project_tutorial, id_project_tutorial  in zip(*lista): 
 
@@ -304,13 +314,13 @@ class FramePart(QtWidgets.QFrame):
             item_id_part.setData(Qt.EditRole, id_part)
             item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
-            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(name_project_tutorial))
-            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
-            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_part))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
+            self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(name_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_part))
 
             tablerow+=1
 
@@ -341,7 +351,7 @@ class FramePart(QtWidgets.QFrame):
                 id_project_tutorial)
 
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data added successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data added successfully</font>')
             self.get_data()
 
 
@@ -370,7 +380,7 @@ class FramePart(QtWidgets.QFrame):
                 id_part)
 
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data updated successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
 
 
@@ -380,7 +390,7 @@ class FramePart(QtWidgets.QFrame):
 
         from controller.part.delete import Delete
         Delete.delete_data(id)
-        self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
+        self.ui.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
 
 
@@ -396,7 +406,7 @@ class FramePart(QtWidgets.QFrame):
         count_rows_search = CountSearch.count_rows_search(data)
 
         tablerow=0
-        self.tableWidget.setRowCount(count_rows_search)
+        self.ui.tableWidget.setRowCount(count_rows_search)
         
         for id, name, repository, youtube_video, id_part, name_project_tutorial, id_project_tutorial  in zip(*list_search): 
 
@@ -408,18 +418,15 @@ class FramePart(QtWidgets.QFrame):
             item_id_part.setData(Qt.EditRole, id_part)
             item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
-            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_id_part))
-            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
-            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
+            self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_id_part))
+            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
 
             tablerow+=1
-
-        list_selection = [0]
-        self.select_rows(list_selection)
     
 
 

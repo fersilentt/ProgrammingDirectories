@@ -5,8 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 import json
 
+import config
+data_json = config.DATA_JSON
 
-with open('src/data.json', 'r') as f:
+with open(data_json, 'r') as f:
     data = json.load(f)
 
 json_str = json.dumps(data)

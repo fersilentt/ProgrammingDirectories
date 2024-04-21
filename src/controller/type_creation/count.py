@@ -10,12 +10,15 @@ import json
 import model.database_open
 from model.database_open import engine
 
+import config
+data_json = config.DATA_JSON
+
 
 class Count:
 
     def count_rows():
 
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)

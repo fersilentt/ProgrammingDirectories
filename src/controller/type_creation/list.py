@@ -9,6 +9,9 @@ sys.path.insert(0, file)
 from model.database_open import *
 from model.database_open import engine
 
+import config
+data_json = config.DATA_JSON
+
 
 
 class List:
@@ -19,7 +22,7 @@ class List:
         # We open the .json file and its field containing the id of the data we have selected in the previous window
 
         # Load the data into an element
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         # Dumps the json object into an element

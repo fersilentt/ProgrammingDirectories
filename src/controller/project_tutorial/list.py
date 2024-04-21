@@ -8,12 +8,15 @@ sys.path.insert(0, file)
 from model.database_open import *
 from model.database_open import engine
 
+import config
+data_json = config.DATA_JSON
+
 
 class List:
 
     def list_data():
         
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)

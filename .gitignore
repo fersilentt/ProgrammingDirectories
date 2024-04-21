@@ -1,5 +1,13 @@
 .DS_Store
 build
 dist
-setup.py
 venv
+src/__pycache__/
+src/controller/part/__pycache__/
+src/controller/programming_language/__pycache__/
+src/controller/project_tutorial/__pycache__/
+src/controller/type_application/__pycache__/
+src/controller/type_creation/__pycache__/
+src/model/__pycache__/
+src/view/py/__pycache__/
+src/view/ui_py/__pycache__/

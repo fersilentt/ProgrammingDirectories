@@ -13,15 +13,24 @@ import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
+from view.ui_py.project_tutorial_list_ui import Ui_Frame
+import config
+
+root_dir = config.ROOT_DIR
+data_json = config.DATA_JSON
+list_databases_json = config.LIST_DATABASES_JSON
+version_json = config.VERSION_JSON
+
 
 
 class FrameProjectTutorial(QtWidgets.QFrame):
 
     def __init__(self):
         super(FrameProjectTutorial,self).__init__()
-        loadUi(file+"/view/ui/project_tutorial/list.ui",self)
+        self.ui = Ui_Frame()
+        self.ui.setupUi(self)
         
-        self.tableWidget.setHorizontalHeaderLabels([
+        self.ui.tableWidget.setHorizontalHeaderLabels([
             "id",
             "Name", 
             "programming_language_version", 
@@ -36,35 +45,35 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             "Nº",
             "Type Application",
             "id_type_application"])
-        self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         
-        self.tableWidget.setSortingEnabled(True)
-        self.tableWidget.setColumnHidden(0,True)
-        self.tableWidget.setColumnHidden(2,True)
-        self.tableWidget.setColumnHidden(3,True)
-        self.tableWidget.setColumnHidden(4,True)
-        self.tableWidget.setColumnHidden(6,True)
-        self.tableWidget.setColumnHidden(7,True)
-        self.tableWidget.setColumnHidden(8,True)
-        self.tableWidget.setColumnHidden(10,True)
+        self.ui.tableWidget.setSortingEnabled(True)
+        self.ui.tableWidget.setColumnHidden(0,True)
+        self.ui.tableWidget.setColumnHidden(2,True)
+        self.ui.tableWidget.setColumnHidden(3,True)
+        self.ui.tableWidget.setColumnHidden(4,True)
+        self.ui.tableWidget.setColumnHidden(6,True)
+        self.ui.tableWidget.setColumnHidden(7,True)
+        self.ui.tableWidget.setColumnHidden(8,True)
+        self.ui.tableWidget.setColumnHidden(10,True)
         #self.tableWidget.setColumnHidden(11,True)
-        self.tableWidget.setColumnHidden(13,True)
+        self.ui.tableWidget.setColumnHidden(13,True)
 
-        icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
-        icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
-        icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
-        icon_view  = QtGui.QPixmap(os.path.abspath("src/static/view.svg"))
+        icon_add  = config.ICON_ADD
+        icon_update  = config.ICON_UPDATE
+        icon_delete  = config.ICON_DELETE
+        icon_view = config.ICON_VIEW
         
-        self.pbAdd.setIcon(QtGui.QIcon(icon_add))
-        self.pbEdit.setIcon(QtGui.QIcon(icon_update))
-        self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
-        self.pbView.setIcon(QtGui.QIcon(icon_view))
+        self.ui.pbAdd.setIcon(QtGui.QIcon(icon_add))
+        self.ui.pbEdit.setIcon(QtGui.QIcon(icon_update))
+        self.ui.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.ui.pbView.setIcon(QtGui.QIcon(icon_view))
 
-        self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
-        self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
-        self.pbDelete.clicked.connect(self.delete_window)
-        self.pbView.clicked.connect(self.view_window_modal)
-        self.leSearch.textChanged.connect(self.scan_q_line_edit)
+        self.ui.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
+        self.ui.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
+        self.ui.pbDelete.clicked.connect(self.delete_window)
+        self.ui.pbView.clicked.connect(self.view_window_modal)
+        self.ui.leSearch.textChanged.connect(self.scan_q_line_edit)
 
 
 
@@ -73,7 +82,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
@@ -82,28 +91,28 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         
         if id_window_modal != 0:
 
-            r = self.tableWidget.currentRow()
+            r = self.ui.tableWidget.currentRow()
 
             if r == -1:
-                self.lMessageList.setText('<font color="red">Please select a record</font>')
+                self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
 
                 self.window = QtWidgets.QFrame()
-                uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
+                uic.loadUi(root_dir+"/view/ui/project_tutorial/form.ui", self.window)
                 self.window.show()
 
-                id = self.tableWidget.item(r,0).text()
-                name = self.tableWidget.item(r,1).text()
-                programming_language_version = self.tableWidget.item(r,2).text()
-                framework = self.tableWidget.item(r,3).text()
-                graphical_interface = self.tableWidget.item(r,4).text()
-                data_base = self.tableWidget.item(r,5).text()
-                data_base_version = self.tableWidget.item(r,6).text()
-                orm = self.tableWidget.item(r,7).text()
-                virtual_environment = self.tableWidget.item(r,8).text()
-                architecture = self.tableWidget.item(r,9).text()
-                cloud_server = self.tableWidget.item(r,10).text()
-                number_project_tutorial = self.tableWidget.item(r,11).text()
+                id = self.ui.tableWidget.item(r,0).text()
+                name = self.ui.tableWidget.item(r,1).text()
+                programming_language_version = self.ui.tableWidget.item(r,2).text()
+                framework = self.ui.tableWidget.item(r,3).text()
+                graphical_interface = self.ui.tableWidget.item(r,4).text()
+                data_base = self.ui.tableWidget.item(r,5).text()
+                data_base_version = self.ui.tableWidget.item(r,6).text()
+                orm = self.ui.tableWidget.item(r,7).text()
+                virtual_environment = self.ui.tableWidget.item(r,8).text()
+                architecture = self.ui.tableWidget.item(r,9).text()
+                cloud_server = self.ui.tableWidget.item(r,10).text()
+                number_project_tutorial = self.ui.tableWidget.item(r,11).text()
 
                 self.window.leName.setText(name)
                 self.window.leProgrammingLanguageVersion.setText(programming_language_version)
@@ -136,7 +145,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         else:
 
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/project_tutorial/form.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/project_tutorial/form.ui", self.window)
             self.window.show()
             
             self.window.pbAddUpdate.setText("Add")
@@ -160,13 +169,13 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
     def delete_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         else:
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
             dlg = QMessageBox(self)
             dlg.setWindowTitle("I have a question!")
@@ -189,13 +198,13 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
     def view_window_modal(self):
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
         else:
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/project_tutorial/view.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/project_tutorial/view.ui", self.window)
             self.window.show()
 
             self.window.pbClose.clicked.connect(self.window.hide)
@@ -212,17 +221,17 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             self.window.lTextCloudServer.setStyleSheet("font-weight: bold")
             self.window.lTextNumberProjectTutorial.setStyleSheet("font-weight: bold")
 
-            name = self.tableWidget.item(r,1).text()
-            programming_language_version = self.tableWidget.item(r,2).text()
-            framework = self.tableWidget.item(r,3).text()
-            graphical_interface = self.tableWidget.item(r,4).text()
-            data_base = self.tableWidget.item(r,5).text()
-            data_base_version = self.tableWidget.item(r,6).text()
-            orm = self.tableWidget.item(r,7).text()
-            virtual_environment = self.tableWidget.item(r,8).text()
-            architecture = self.tableWidget.item(r,9).text()
-            cloud_server = self.tableWidget.item(r,10).text()
-            number_project_tutorial = self.tableWidget.item(r,11).text()
+            name = self.ui.tableWidget.item(r,1).text()
+            programming_language_version = self.ui.tableWidget.item(r,2).text()
+            framework = self.ui.tableWidget.item(r,3).text()
+            graphical_interface = self.ui.tableWidget.item(r,4).text()
+            data_base = self.ui.tableWidget.item(r,5).text()
+            data_base_version = self.ui.tableWidget.item(r,6).text()
+            orm = self.ui.tableWidget.item(r,7).text()
+            virtual_environment = self.ui.tableWidget.item(r,8).text()
+            architecture = self.ui.tableWidget.item(r,9).text()
+            cloud_server = self.ui.tableWidget.item(r,10).text()
+            number_project_tutorial = self.ui.tableWidget.item(r,11).text()
 
             self.window.lName.setText(name)
             self.window.lProgrammingLanguageVersion.setText(programming_language_version)
@@ -240,7 +249,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
 
     def insert_frame_id(self):
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["frame_id"] = 4
             f.seek(0)
@@ -251,17 +260,17 @@ class FrameProjectTutorial(QtWidgets.QFrame):
     
     def go_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         
         else:
             
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
             
-            with open('src/data.json', 'r+') as f:
+            with open(data_json, 'r+') as f:
                 data = json.load(f)
                 data["window_table_id"] = id
                 data["window_project_tutorial_id"] = id
@@ -274,14 +283,14 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
     def back_window(self):
         
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
         str_id_window = json.loads(json_str)
         id_window_type_creation = str_id_window['window_type_creation_id']
 
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_type_creation
             f.seek(0)
@@ -307,7 +316,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
         tablerow=0
 
-        self.tableWidget.setRowCount(count_rows)
+        self.ui.tableWidget.setRowCount(count_rows)
         
         for id, name, programming_language_version, framework, graphical_interface, data_base, data_base_version, orm, virtual_environment, architecture,cloud_server, number_project_tutorial, name_type_application, id_type_application in zip(*lista): 
 
@@ -319,20 +328,20 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             item_number_project_tutorial.setData(Qt.EditRole, number_project_tutorial)
             item_id_type_application.setData(Qt.EditRole, id_type_application)
 
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(framework))
-            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(graphical_interface))
-            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(data_base))
-            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(data_base_version))
-            self.tableWidget.setItem(tablerow, 7, QtWidgets.QTableWidgetItem(orm))
-            self.tableWidget.setItem(tablerow, 8, QtWidgets.QTableWidgetItem(virtual_environment))
-            self.tableWidget.setItem(tablerow, 9, QtWidgets.QTableWidgetItem(architecture))
-            self.tableWidget.setItem(tablerow, 10, QtWidgets.QTableWidgetItem(cloud_server))
-            self.tableWidget.setItem(tablerow, 11, QtWidgets.QTableWidgetItem(item_number_project_tutorial))
-            self.tableWidget.setItem(tablerow, 12, QtWidgets.QTableWidgetItem(name_type_application))
-            self.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
+            self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(framework))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(graphical_interface))
+            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(data_base))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(data_base_version))
+            self.ui.tableWidget.setItem(tablerow, 7, QtWidgets.QTableWidgetItem(orm))
+            self.ui.tableWidget.setItem(tablerow, 8, QtWidgets.QTableWidgetItem(virtual_environment))
+            self.ui.tableWidget.setItem(tablerow, 9, QtWidgets.QTableWidgetItem(architecture))
+            self.ui.tableWidget.setItem(tablerow, 10, QtWidgets.QTableWidgetItem(cloud_server))
+            self.ui.tableWidget.setItem(tablerow, 11, QtWidgets.QTableWidgetItem(item_number_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 12, QtWidgets.QTableWidgetItem(name_type_application))
+            self.ui.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
 
             tablerow+=1
         
@@ -386,7 +395,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
                 id_type_application)
 
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data added successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data added successfully</font>')
             self.get_data()
 
 
@@ -435,7 +444,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
                 number_project_tutorial)
 
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data updated successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
 
 
@@ -445,7 +454,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
 
         from controller.project_tutorial.delete import Delete
         Delete.delete_data(id)
-        self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
+        self.ui.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
 
     
@@ -457,13 +466,9 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         
         list_search = Search.search_data(data)
         count_rows_search = CountSearch.count_rows_search(data)
-
-        print(list_search)
-        print(count_rows_search)
-
         
         tablerow=0
-        self.tableWidget.setRowCount(count_rows_search)
+        self.ui.tableWidget.setRowCount(count_rows_search)
         
         for id, name, programming_language_version, framework, graphical_interface, data_base, data_base_version, orm, virtual_environment, architecture,cloud_server, number_project_tutorial, name_type_application, id_type_application in zip(*list_search): 
 
@@ -475,20 +480,20 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             item_number_project_tutorial.setData(Qt.EditRole, number_project_tutorial)
             item_id_type_application.setData(Qt.EditRole, id_type_application)
 
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(framework))
-            self.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(graphical_interface))
-            self.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(data_base))
-            self.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(data_base_version))
-            self.tableWidget.setItem(tablerow, 7, QtWidgets.QTableWidgetItem(orm))
-            self.tableWidget.setItem(tablerow, 8, QtWidgets.QTableWidgetItem(virtual_environment))
-            self.tableWidget.setItem(tablerow, 9, QtWidgets.QTableWidgetItem(architecture))
-            self.tableWidget.setItem(tablerow, 10, QtWidgets.QTableWidgetItem(cloud_server))
-            self.tableWidget.setItem(tablerow, 11, QtWidgets.QTableWidgetItem(item_number_project_tutorial))
-            self.tableWidget.setItem(tablerow, 12, QtWidgets.QTableWidgetItem(name_type_application))
-            self.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(programming_language_version))
+            self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(framework))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(graphical_interface))
+            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(data_base))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(data_base_version))
+            self.ui.tableWidget.setItem(tablerow, 7, QtWidgets.QTableWidgetItem(orm))
+            self.ui.tableWidget.setItem(tablerow, 8, QtWidgets.QTableWidgetItem(virtual_environment))
+            self.ui.tableWidget.setItem(tablerow, 9, QtWidgets.QTableWidgetItem(architecture))
+            self.ui.tableWidget.setItem(tablerow, 10, QtWidgets.QTableWidgetItem(cloud_server))
+            self.ui.tableWidget.setItem(tablerow, 11, QtWidgets.QTableWidgetItem(item_number_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 12, QtWidgets.QTableWidgetItem(name_type_application))
+            self.ui.tableWidget.setItem(tablerow, 13, QtWidgets.QTableWidgetItem(item_id_type_application))
 
             tablerow+=1
         

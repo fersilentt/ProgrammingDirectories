@@ -5,38 +5,45 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
 import json
-
 import sys
 import os
 file = os.path.abspath("src")
 sys.path.insert(0, file)
 
+from view.ui_py.type_application_list_ui import Ui_Frame
+import config
+
+root_dir = config.ROOT_DIR
+data_json = config.DATA_JSON
+list_databases_json = config.LIST_DATABASES_JSON
+version_json = config.VERSION_JSON
 
 
 class FrameTypeApplication(QtWidgets.QFrame):
 
     def __init__(self):
         super(FrameTypeApplication,self).__init__()
-        loadUi(file+"/view/ui/type_application/list.ui",self)
+        self.ui = Ui_Frame()
+        self.ui.setupUi(self)
 
-        self.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Type Creation", "Id Type Creation"])
-        self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.ui.tableWidget.setHorizontalHeaderLabels(["Id","Name", "Type Creation", "Id Type Creation"])
+        self.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-        self.tableWidget.setSortingEnabled(True)
-        self.tableWidget.setColumnHidden(0,True)
-        self.tableWidget.setColumnHidden(3,True)
+        self.ui.tableWidget.setSortingEnabled(True)
+        self.ui.tableWidget.setColumnHidden(0,True)
+        self.ui.tableWidget.setColumnHidden(3,True)
 
-        icon_add  = QtGui.QPixmap(os.path.abspath("src/static/add.svg"))
-        icon_update  = QtGui.QPixmap(os.path.abspath("src/static/update.svg"))
-        icon_delete  = QtGui.QPixmap(os.path.abspath("src/static/delete.svg"))
+        icon_add  = config.ICON_ADD
+        icon_update  = config.ICON_UPDATE
+        icon_delete  = config.ICON_DELETE
         
-        self.pbAdd.setIcon(QtGui.QIcon(icon_add))
-        self.pbEdit.setIcon(QtGui.QIcon(icon_update))
-        self.pbDelete.setIcon(QtGui.QIcon(icon_delete))
+        self.ui.pbAdd.setIcon(QtGui.QIcon(icon_add))
+        self.ui.pbEdit.setIcon(QtGui.QIcon(icon_update))
+        self.ui.pbDelete.setIcon(QtGui.QIcon(icon_delete))
         
-        self.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
-        self.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
-        self.pbDelete.clicked.connect(self.delete_window)
+        self.ui.pbAdd.clicked.connect(lambda: self.add_update_window_modal(0))
+        self.ui.pbEdit.clicked.connect(lambda: self.add_update_window_modal(1))
+        self.ui.pbDelete.clicked.connect(self.delete_window)
 
 
 
@@ -47,7 +54,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def add_update_window_modal(self, id_window_modal):
 
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
@@ -56,17 +63,17 @@ class FrameTypeApplication(QtWidgets.QFrame):
         
         if id_window_modal != 0:
 
-            r = self.tableWidget.currentRow()
+            r = self.ui.tableWidget.currentRow()
 
             if r == -1:
-                self.lMessageList.setText('<font color="red">Please select a record</font>')
+                self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
                 self.window = QtWidgets.QFrame()
                 uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
                 self.window.show()
 
-                id = self.tableWidget.item(r,0).text()
-                name = self.tableWidget.item(r,1).text()
+                id = self.ui.tableWidget.item(r,0).text()
+                name = self.ui.tableWidget.item(r,1).text()
 
                 self.window.leName.setText(name)
                 self.window.pbAddUpdate.setText("Update")
@@ -86,13 +93,13 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
     def delete_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.pbAddlMessageList.setText('<font color="red">Please select a record</font>')
             return False
         else:
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
             dlg = QMessageBox(self)
             dlg.setWindowTitle("I have a question!")
@@ -111,7 +118,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
     def insert_frame_id(self):
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["frame_id"] = 3
             f.seek(0)
@@ -122,16 +129,16 @@ class FrameTypeApplication(QtWidgets.QFrame):
     
     def go_window(self): 
 
-        r = self.tableWidget.currentRow()
+        r = self.ui.tableWidget.currentRow()
 
         if r == -1:
-            self.lMessageList.setText('<font color="red">Please select a record</font>')
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             return False
         
         else:
-            id = self.tableWidget.item(r,0).text()
+            id = self.ui.tableWidget.item(r,0).text()
 
-            with open('src/data.json', 'r+') as f:
+            with open(data_json, 'r+') as f:
                 data = json.load(f)
                 data["window_table_id"] = id
                 data["window_type_application_id"] = id
@@ -148,7 +155,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
     def back_window(self):
 
         # Open the id of the previous window
-        with open('src/data.json', 'r') as f:
+        with open(data_json, 'r') as f:
             data = json.load(f)
 
         json_str = json.dumps(data)
@@ -157,7 +164,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
         # We store the id of the specific window in the id of the main window and then we get the data of that 
         # specific id
-        with open('src/data.json', 'r+') as f:
+        with open(data_json, 'r+') as f:
             data = json.load(f)
             data["window_table_id"] = id_window_programming_language
             f.seek(0)
@@ -179,7 +186,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
         tablerow=0
 
-        self.tableWidget.setRowCount(count_rows)
+        self.ui.tableWidget.setRowCount(count_rows)
         
         for id, name, name_type_creation, id_type_creation in zip(*lista): 
 
@@ -190,10 +197,10 @@ class FrameTypeApplication(QtWidgets.QFrame):
             item_id_type_creation.setData(Qt.EditRole, id_type_creation)
 
             
-            self.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
-            self.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
-            self.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(name_type_creation))
-            self.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_type_creation))
+            self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
+            self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
+            self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(name_type_creation))
+            self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(item_id_type_creation))
 
             tablerow+=1
 
@@ -207,7 +214,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
             from controller.type_application.insert import Insert
             Insert.add_data(name, id_type_creation)
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data added successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data added successfully</font>')
             self.get_data()
 
 
@@ -218,7 +225,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
             from controller.type_application.update import Update
             Update.update_data(id, name)
             self.window.hide()
-            self.lMessageList.setText('<font color="green">Data updated successfully</font>')
+            self.ui.lMessageList.setText('<font color="green">Data updated successfully</font>')
             self.get_data()
 
 
@@ -227,7 +234,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
         from controller.type_application.delete import Delete
         Delete.delete_data(id)
-        self.lMessageList.setText('<font color="green">Data deleted successfully</font>')
+        self.ui.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
 
 
