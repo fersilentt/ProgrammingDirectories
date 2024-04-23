@@ -99,9 +99,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # We display a message when hovering the mouse over the button
         self.ui.pbOpenFileDatabase.setToolTip("Open file database")
         self.ui.pbCreateDatabase.setToolTip("Create database")
-        self.ui.pbOpenDatabase.setToolTip("Open database")
+        self.ui.pbOpenDatabase.setToolTip("Open recent database")
         self.ui.pbGo.setToolTip("Next frame")
         self.ui.pbBack.setToolTip("Previous frame")
+        self.ui.pbSettings.setToolTip("Settings")
+        self.ui.pbInfo.setToolTip("About")
         self.ui.pbFrameProgrammingLanguage.setToolTip("Frame Programming Language")
         self.ui.pbFrameTypeCreation.setToolTip("Frame Type Creation")
         self.ui.pbFrameTypeApplication.setToolTip("Frame Type Application")
@@ -555,14 +557,33 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window = QtWidgets.QFrame()
         uic.loadUi(root_dir+"/view/ui/main/settings.ui", self.window)
         self.window.show()
+        #self.window.update()
 
-        self.window.cbSearchUpdate.setChecked(True)
+        # We get the status of the updates
+        with open(data_json, 'r') as f:
+            data = json.load(f)
+
+        json_str = json.dumps(data)
+        str_search_updates = json.loads(json_str)
+        search_updates = str_search_updates['search_updates']
+
+        # We send the status of the updates to the checkbox
+        if search_updates == "True":
+            self.window.cbSearchUpdate.setChecked(True)
+        else:
+            self.window.cbSearchUpdate.setChecked(False)
+
         self.window.pbSaveSettings.clicked.connect(lambda: self.save_settings(str(self.window.cbSearchUpdate.isChecked())))
+        self.window.pbSaveSettings.clicked.connect(self.window.hide)
 
 
 
 
     def save_settings(self, search_update):
+
+        if search_update != "True":
+            self.frame_option_database.clear_update_message()
+            
         with open(data_json, 'r+') as f:
             data = json.load(f)
             data["search_updates"] = search_update

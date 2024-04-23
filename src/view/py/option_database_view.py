@@ -176,7 +176,10 @@ class FrameOptionDatabase(QtWidgets.QFrame):
                 update_message = message+urlLink
                 self.ui.lMessageOptionDatabase.setText(update_message)
 
-        
+
+
+    def clear_update_message(self): 
+        self.ui.lMessageOptionDatabase.setText('')
 
 '''
 app=QApplication(sys.argv)
