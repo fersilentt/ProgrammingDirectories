@@ -33,7 +33,7 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None )
+          entitlements_file=None , icon='resources/img/main_icon.icns')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -44,5 +44,5 @@ coll = COLLECT(exe,
                name='Programming Directories')
 app = BUNDLE(coll,
              name='Programming Directories.app',
-             icon=None,
+             icon='resources/img/main_icon.icns',
              bundle_identifier=None)
