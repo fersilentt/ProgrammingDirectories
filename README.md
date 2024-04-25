@@ -55,6 +55,12 @@ pip install PyInstaller==4.8
 ```
 python src/app.py
 ```
+* *If a fork of the project is to be created, we execute the following commands to avoid tracing the project configuration files while testing*
+
+```
+git update-index --assume-unchanged src/static/json/data.json
+git update-index --assume-unchanged src/static/json/list_databases.json
+```
 
 #### Commands to create icon in MacOS
 
