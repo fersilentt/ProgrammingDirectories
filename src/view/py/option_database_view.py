@@ -82,7 +82,7 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         data_str = str(data)
     
         if data_str == "{}":
-            self.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
+            self.ui.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
             return False
         else: 
             # We obtain the selected item in the ListView
