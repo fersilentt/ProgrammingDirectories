@@ -16,7 +16,8 @@
 
 - [Important](#Important)
 - [Build application](#Build-application)
-- [Commands to create icon in MacOS](#Commands-to-create-icon-in-MacOS)
+-- [Commands to create icon in MacOS](#Commands-to-create-icon-in-MacOS)
+- [Bug fixes](#Bug-fixes)
 
 ---
 
@@ -88,3 +89,4 @@ c. Copy the "src" folder, inside "/Contents/Resources"
 pyuic5 src/view/ui/main/main.ui -o main_form.py
 ```
 
+#### Bug fixes
