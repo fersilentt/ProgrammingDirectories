@@ -16,7 +16,7 @@
 
 - [Important](#Important)
 - [Build application](#Build-application)
--- [Commands to create icon in MacOS](#Commands-to-create-icon-in-MacOS)
+- [Commands to create icon in MacOS](#Commands-to-create-icon-in-MacOS)
 - [Bug fixes](#Bug-fixes)
 
 ---
