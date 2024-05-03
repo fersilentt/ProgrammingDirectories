@@ -56,6 +56,7 @@ pip install PyInstaller==4.8
 ```
 python src/app.py
 ```
+
 * *If a fork of the project is to be created, we execute the following commands to avoid tracing the project configuration files while testing*
 
 ```
@@ -63,30 +64,37 @@ git update-index --assume-unchanged src/static/json/data.json
 git update-index --assume-unchanged src/static/json/list_databases.json
 ```
 
+* *In case you need to convert .ui files from qt to .py, run the following*
+
+```
+pyuic5 file_name_ui.ui -o file_name_py.py
+```
+
 #### Commands to create icon in MacOS
 
-1. We create the executable to build our application with **py2applet**.
-
-```
-pyinstaller -n "Programming Directories" --windowed app.py
-```
-
-2. We build the application, so that it creates the .app file
+1. We create the application with the configuration set up
 
 ```
 pyinstaller Programming\ Directories.spec
 ```
 
-3. Copy the contents of the missing code by following these steps
+* *When executing this command you may get an error message when building, simply run the command again*
+
+* *If you are going to modify the .spec file, adding more configuration parameters we execute the following*
 
 ```
-a. Enter the "dist" folder
-b. In the created application we click on "Show package contents"
-c. Copy the "src" folder, inside "/Contents/Resources"
+pyinstaller --name "Programming Directories" --icon="resources/img/main_icon.icns" --windowed src/app.py
 ```
 
+
+2. Copy the following files and folders to /Contents/MacOS once the application has been created
+
 ```
-pyuic5 src/view/ui/main/main.ui -o main_form.py
+config.py
+controller
+model
+static
+view
 ```
 
 #### Bug fixes
