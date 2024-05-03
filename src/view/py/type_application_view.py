@@ -5,10 +5,6 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
 import json
-import sys
-import os
-file = os.path.abspath("src")
-sys.path.insert(0, file)
 
 from view.ui_py.type_application_list_ui import Ui_Frame
 import config
@@ -69,7 +65,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
                 self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
             else:
                 self.window = QtWidgets.QFrame()
-                uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
+                uic.loadUi(root_dir+"/view/ui/type_application/form.ui", self.window)
                 self.window.show()
 
                 id = self.ui.tableWidget.item(r,0).text()
@@ -81,7 +77,7 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
         else:
             self.window = QtWidgets.QFrame()
-            uic.loadUi(file+"/view/ui/type_application/form.ui", self.window)
+            uic.loadUi(root_dir+"/view/ui/type_application/form.ui", self.window)
             self.window.show()
 
             self.window.pbAddUpdate.setText("Add")
@@ -236,8 +232,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
         Delete.delete_data(id)
         self.ui.lMessageList.setText('<font color="green">Data deleted successfully</font>')
         self.get_data()
-
-
 
 
 

@@ -12,10 +12,6 @@ import json
 # We import this module to be able to inert the path, where the CRUD files are located, in this way 
 # we can import our files independently of any folder where they are located
 import sys
-# We import this module to get an absolute path to our project, in order to import the images for 
-# our buttons
-import os
-import importlib
 
 from view.ui_py.programming_language_list_ui import Ui_Frame
 import config

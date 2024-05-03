@@ -5,16 +5,15 @@ from PyQt5.uic import loadUi
 from PyQt5.QtCore import QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
-from view.ui_py.option_database_main_ui import Ui_Frame
-
-import config
-
 # We import this module to validate the version of the installed application with the latest version of the 
 # application uploaded to GitHub, using the GitHub api
 import requests
 import json
 import sys
 import os
+
+from view.ui_py.option_database_main_ui import Ui_Frame
+import config
 
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON

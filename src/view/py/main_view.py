@@ -6,10 +6,6 @@ from PyQt5 import uic
 
 import json
 import sys
-import os
-
-file = os.path.abspath("src")
-sys.path.insert(0, file)
 
 # We import the classes of the Frames that will be displayed in this main class
 from view.py.option_database_view import FrameOptionDatabase
@@ -21,17 +17,12 @@ from view.py.part_view import FramePart
 
 # We import the Pyqt .ui form converted to python file
 from view.ui_py.main_main_ui import Ui_MainWindow
-
-
 import config
 
 root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
-
-
-
 
 
 class MainWindow(QtWidgets.QMainWindow):

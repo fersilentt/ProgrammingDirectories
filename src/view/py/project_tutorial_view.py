@@ -4,14 +4,7 @@ from PyQt5.uic import loadUi
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
-import PyQt5.QtCore
-
 import json
-
-import sys
-import os
-file = os.path.abspath("src")
-sys.path.insert(0, file)
 
 from view.ui_py.project_tutorial_list_ui import Ui_Frame
 import config
@@ -20,7 +13,6 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
-
 
 
 class FrameProjectTutorial(QtWidgets.QFrame):

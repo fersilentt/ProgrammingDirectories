@@ -6,11 +6,6 @@ from PyQt5.QtCore import Qt
 
 import json
 
-import sys
-import os
-file = os.path.abspath("src")
-sys.path.insert(0, file)
-
 # We import this module to open a new tab in our browser to open both 
 # the repository and the youtube video
 import webbrowser
