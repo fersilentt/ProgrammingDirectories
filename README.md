@@ -90,3 +90,11 @@ pyuic5 src/view/ui/main/main.ui -o main_form.py
 ```
 
 #### Bug fixes
+
+- If MacOS displays the following error when running the application, **"Programming Directories" is damaged and cannot be opened. You should take it to the dump.** , run the following command to fix this
+
+```
+xattr -cr /Applications/Programming\ Directories.app/
+```
+
+* *When the executable is created with PyInstaller, it works without problems locally, but when it is uploaded to GiHub, it has this problem*
