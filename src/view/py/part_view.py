@@ -101,7 +101,7 @@ class FramePart(QtWidgets.QFrame):
                 name = self.ui.tableWidget.item(r,1).text()
                 repository = self.ui.tableWidget.item(r,2).text()
                 youtube_video = self.ui.tableWidget.item(r,3).text()
-                id_project_tutorial = self.ui.tableWidget.item(r,5).text()
+                id_project_tutorial = self.ui.tableWidget.item(r,6).text()
         
                 self.window.leName.setText(name)
                 self.window.leRepository.setText(repository)
@@ -187,7 +187,7 @@ class FramePart(QtWidgets.QFrame):
                 name = self.ui.tableWidget.item(r,1).text()
                 repository = self.ui.tableWidget.item(r,2).text()
                 youtube_video = self.ui.tableWidget.item(r,3).text()
-                id_project_tutorial = self.ui.tableWidget.item(r,5).text()
+                id_project_tutorial = self.ui.tableWidget.item(r,6).text()
 
             except IndexError as e:
                 self.ui.lMessageList.setText('<font color="red">Please select a data</font>')
