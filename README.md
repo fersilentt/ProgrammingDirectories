@@ -33,15 +33,16 @@
 
 #### Build application
 
-1. To install all the modules run
+- To install all the modules run
 ```
 pyenv shell 3.8.10
 python -V
 python -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt 
+pip install -r requirements.txt
+python src/app.py
 ```
-2. To install module by module
+- To install module by module
 
 ```
 pip install sqlalchemy
@@ -49,11 +50,6 @@ pip install pyqt5==5.15.2
 pip install validators
 pip install requests
 pip install PyInstaller==4.8
-```
-
-3. We start the application
-
-```
 python src/app.py
 ```
 
