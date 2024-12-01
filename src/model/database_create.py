@@ -157,16 +157,16 @@ class Part(Base):
     name = Column(String)
     repository = Column(String)
     youtube_video = Column(String)
-    id_part = Column(String)
+    number_part = Column(Integer)
     id_project_tutorial =  Column(Integer, ForeignKey('project_tutorial.id'))
 
     #----------------------------------------------------------------------
-    def __init__(self, name, repository, youtube_video, id_part, id_project_tutorial):
+    def __init__(self, name, repository, youtube_video, number_part, id_project_tutorial):
         """"""
         self.name = name
         self.repository = repository
         self.youtube_video = youtube_video
-        self.id_part = id_part
+        self.number_part = number_part
         self.id_project_tutorial = id_project_tutorial
 
 

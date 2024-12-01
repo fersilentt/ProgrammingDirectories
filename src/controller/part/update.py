@@ -12,7 +12,7 @@ from model.database_open import engine
 class Update:
 
 
-    def update_data(id, name, repository, youtube_video, id_part):
+    def update_data(id, name, repository, youtube_video, number_part):
 
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -22,7 +22,7 @@ class Update:
             part.update({Part.name: name})
             part.update({Part.repository: repository})
             part.update({Part.youtube_video: youtube_video})
-            part.update({Part.id_part: id_part})
+            part.update({Part.number_part: number_part})
 
             session.commit()
         

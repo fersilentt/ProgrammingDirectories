@@ -20,7 +20,7 @@ class Search:
         name = []
         repository = []
         youtube_video = []
-        id_part = []
+        number_part = []
         name_project_tutorial = []   
         id_project_tutorial = []
         
@@ -33,11 +33,11 @@ class Search:
                 name.append(part.name)
                 repository.append(part.repository)
                 youtube_video.append(part.youtube_video)
-                id_part.append(part.id_part)
+                number_part.append(part.number_part)
                 name_project_tutorial.append(project_tutorial.name)
                 id_project_tutorial.append(project_tutorial.id)   
                 
-            my_list = [(id), (name), (repository), (youtube_video), (id_part), (name_project_tutorial), (id_project_tutorial)]
+            my_list = [(id), (name), (repository), (youtube_video), (number_part), (name_project_tutorial), (id_project_tutorial)]
         
         finally:
             session.close()

@@ -299,14 +299,14 @@ class FramePart(QtWidgets.QFrame):
 
         self.ui.tableWidget.setRowCount(count_rows)
         
-        for id, name, repository, youtube_video, id_part, name_project_tutorial, id_project_tutorial  in zip(*lista): 
+        for id, name, repository, youtube_video, number_part, name_project_tutorial, id_project_tutorial  in zip(*lista): 
 
             item_id = QtWidgets.QTableWidgetItem()
-            item_id_part = QtWidgets.QTableWidgetItem()
+            item_number_part = QtWidgets.QTableWidgetItem()
             item_id_project_tutorial = QtWidgets.QTableWidgetItem()
             
             item_id.setData(Qt.EditRole, id)
-            item_id_part.setData(Qt.EditRole, id_part)
+            item_number_part.setData(Qt.EditRole, number_part)
             item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
             
             self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
@@ -315,7 +315,7 @@ class FramePart(QtWidgets.QFrame):
             self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
             self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(name_project_tutorial))
             self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
-            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_part))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_number_part))
 
             tablerow+=1
 
@@ -327,14 +327,14 @@ class FramePart(QtWidgets.QFrame):
         name,
         repository,
         youtube_video,
-        id_part,
+        number_part,
         id_project_tutorial):  
 
         if self.validation_add_update_window_modal(
             name, 
             repository, 
             youtube_video, 
-            id_part):
+            number_part):
 
             from controller.part.insert import Insert
 
@@ -342,7 +342,7 @@ class FramePart(QtWidgets.QFrame):
                 name, 
                 repository, 
                 youtube_video, 
-                id_part, 
+                number_part, 
                 id_project_tutorial)
 
             self.window.hide()
@@ -357,13 +357,13 @@ class FramePart(QtWidgets.QFrame):
         name,
         repository, 
         youtube_video, 
-        id_part):
+        number_part):
 
         if self.validation_add_update_window_modal(
             name,
             repository, 
             youtube_video, 
-            id_part):
+            number_part):
 
             from controller.part.update import Update
 
@@ -372,7 +372,7 @@ class FramePart(QtWidgets.QFrame):
                 name, 
                 repository, 
                 youtube_video, 
-                id_part)
+                number_part)
 
             self.window.hide()
             self.ui.lMessageList.setText('<font color="green">Data updated successfully</font>')
@@ -403,21 +403,21 @@ class FramePart(QtWidgets.QFrame):
         tablerow=0
         self.ui.tableWidget.setRowCount(count_rows_search)
         
-        for id, name, repository, youtube_video, id_part, name_project_tutorial, id_project_tutorial  in zip(*list_search): 
+        for id, name, repository, youtube_video, number_part, name_project_tutorial, id_project_tutorial  in zip(*list_search): 
 
             item_id = QtWidgets.QTableWidgetItem()
-            item_id_part = QtWidgets.QTableWidgetItem()
+            item_number_part = QtWidgets.QTableWidgetItem()
             item_id_project_tutorial = QtWidgets.QTableWidgetItem()
             
             item_id.setData(Qt.EditRole, id)
-            item_id_part.setData(Qt.EditRole, id_part)
+            item_number_part.setData(Qt.EditRole, number_part)
             item_id_project_tutorial.setData(Qt.EditRole, id_project_tutorial)
             
             self.ui.tableWidget.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(item_id))
             self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
             self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
-            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_id_part))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_number_part))
             self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
             self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
 
@@ -444,7 +444,7 @@ class FramePart(QtWidgets.QFrame):
         name,
         repository,
         youtube_video,
-        id_part):
+        number_part):
 
         if(len(name) == 0):
             self.window.lMessageForm.setText('<font color="red">Name is required</font>')
@@ -455,7 +455,7 @@ class FramePart(QtWidgets.QFrame):
         elif(len(youtube_video) == 0):
             self.window.lMessageForm.setText('<font color="red">Youtube video is required</font>')
         
-        elif(len(id_part) == 0):
+        elif(len(number_part) == 0):
             self.window.lMessageForm.setText('<font color="red">Part is required</font>')
 
         else:

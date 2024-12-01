@@ -10,13 +10,13 @@ from model.database_open import engine
 
 class Insert:
 
-    def add_data(name, repository, youtube_video, id_part, id):
+    def add_data(name, repository, youtube_video, number_part, id):
 
         Session = sessionmaker(bind=engine)
         session = Session()
  
         try:
-            part = Part(name, repository, youtube_video, id_part, id)
+            part = Part(name, repository, youtube_video, number_part, id)
             session.add(part)
 
             session.commit()
