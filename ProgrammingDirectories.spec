@@ -24,7 +24,7 @@ exe = EXE(pyz,
           a.scripts, 
           [],
           exclude_binaries=True,
-          name='Programming Directories',
+          name='ProgrammingDirectories',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -33,7 +33,7 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None , icon='resources/img/main_icon.icns')
+          entitlements_file=None , icon='resources/img/main_icon.png')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -41,8 +41,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='Programming Directories')
-app = BUNDLE(coll,
-             name='Programming Directories.app',
-             icon='resources/img/main_icon.icns',
-             bundle_identifier=None)
+               name='ProgrammingDirectories')
