@@ -1,7 +1,7 @@
 <h1 align="center">ProgrammingDirectories</h1>
 
 <p align="center">
-  <img src="https://github.com/fersilentt/ProgrammingDirectories/blob/master/resources/img/main_icon.png" width="8%" />
+  <img src="https://raw.githubusercontent.com/fersilentt/ProgrammingDirectories/refs/heads/master/resources/img/ProgrammingDirectories.png" width="8%" />
 </p>
 
 
