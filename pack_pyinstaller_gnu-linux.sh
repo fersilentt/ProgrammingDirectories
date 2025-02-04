@@ -14,3 +14,4 @@ cp -r src/model/ dist/ProgrammingDirectories/
 cp -r src/view/ dist/ProgrammingDirectories/
 cp -r src/static/ dist/ProgrammingDirectories/
 cp src/config.py dist/ProgrammingDirectories/
+cp resources/img/ProgrammingDirectories.png dist/ProgrammingDirectories
