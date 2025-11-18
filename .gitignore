@@ -11,4 +11,6 @@ src/controller/type_creation/__pycache__/
 src/model/__pycache__/
 src/view/py/__pycache__/
 src/view/ui_py/__pycache__/
+src/static/json/data.json
+src/static/json/list_databases.json
 ProgrammingDirectories.spec
