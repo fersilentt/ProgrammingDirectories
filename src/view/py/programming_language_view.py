@@ -51,6 +51,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         # We hide column 0 of the table
         self.ui.tableWidget.setColumnHidden(0,True)
 
+        # We hide the vertical indexes column
         self.ui.tableWidget.verticalHeader().setVisible(False)
 
         
