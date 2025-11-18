@@ -33,6 +33,8 @@ class FrameTypeCreation(QtWidgets.QFrame):
         # We hide the table ids
         self.ui.tableWidget.setColumnHidden(0,True)
         self.ui.tableWidget.setColumnHidden(3,True)
+        
+        self.ui.tableWidget.verticalHeader().setVisible(False)
 
         icon_add  = config.ICON_ADD
         icon_update  = config.ICON_UPDATE

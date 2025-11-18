@@ -51,6 +51,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         # We hide column 0 of the table
         self.ui.tableWidget.setColumnHidden(0,True)
 
+        self.ui.tableWidget.verticalHeader().setVisible(False)
+
         
         icon_add  = config.ICON_ADD
         icon_update  = config.ICON_UPDATE
@@ -147,14 +149,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 self.delete_data(id)
             else:
                 print("No!")
-
-    
-    '''
-    # We select the row we pass to it, so that it is preselected when loading the data list
-    def select_rows(self, selection: list):
-        for i in selection:
-            self.tableWidget.selectRow(i)
-    '''
 
 
 
@@ -275,6 +269,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
+    # MESSAGES AFTER CRUD
 
     # We insert data
     def add_data(self, name):  

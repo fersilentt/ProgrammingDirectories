@@ -51,6 +51,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
         self.ui.tableWidget.setColumnHidden(10,True)
         #self.tableWidget.setColumnHidden(11,True)
         self.ui.tableWidget.setColumnHidden(13,True)
+        self.ui.tableWidget.verticalHeader().setVisible(False)
 
         icon_add  = config.ICON_ADD
         icon_update  = config.ICON_UPDATE
