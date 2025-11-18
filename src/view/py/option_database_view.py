@@ -26,7 +26,8 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         self.ui = Ui_Frame()
         self.ui.setupUi(self)
 
-        
+        icon_delete  = config.ICON_DELETE
+        self.ui.pbDeleteRecentDatabase.setIcon(QtGui.QIcon(icon_delete))
 
         # We edit the field of our json object to store the id of the Frame so that we can to move with the 
         # button from the main menu

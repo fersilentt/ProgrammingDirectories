@@ -20,6 +20,8 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
+dark_mode = config.DARK_MODE
+
 
 
 
@@ -96,6 +98,8 @@ class FramePart(QtWidgets.QFrame):
                 self.window = QtWidgets.QFrame()
                 uic.loadUi(root_dir+"/view/ui/part/form.ui", self.window)
                 self.window.show()
+
+                self.load_stylesheet_frame(dark_mode)
                 
                 id = self.ui.tableWidget.item(r,0).text()
                 name = self.ui.tableWidget.item(r,1).text()
@@ -120,6 +124,8 @@ class FramePart(QtWidgets.QFrame):
             self.window = QtWidgets.QFrame()
             uic.loadUi(root_dir+"/view/ui/part/form.ui", self.window)
             self.window.show()
+
+            self.load_stylesheet_frame(dark_mode)
 
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(
@@ -172,6 +178,8 @@ class FramePart(QtWidgets.QFrame):
             uic.loadUi(root_dir+"/view/ui/part/view.ui", self.window)
             self.window.show()
 
+            self.load_stylesheet_frame(dark_mode)
+
             self.window.lRepository.setOpenExternalLinks(True)
 
             self.window.pbClose.clicked.connect(self.window.hide)
@@ -193,7 +201,7 @@ class FramePart(QtWidgets.QFrame):
                 self.ui.lMessageList.setText('<font color="red">Please select a data</font>')
                 return
 
-            urlLink="<a href=\"{}\">{}</a>".format(youtube_video, youtube_video)
+            urlLink="<a href=\"{}\" style=\"color: green;\">{}</a>".format(youtube_video, youtube_video)
 
             self.window.lName.setText(name)
             self.window.lRepository.setText(repository)
@@ -424,9 +432,6 @@ class FramePart(QtWidgets.QFrame):
             tablerow+=1
     
 
-
-
-
     def scan_q_line_edit(self, event):
 
         if event:
@@ -434,10 +439,6 @@ class FramePart(QtWidgets.QFrame):
         else:
             self.get_data()
             
-
-
-
-
 
 
     def validation_add_update_window_modal(self, 
@@ -460,6 +461,18 @@ class FramePart(QtWidgets.QFrame):
 
         else:
             return name
+        
+    
+    def load_stylesheet_frame(self, path):
+        try:
+            print("Cargando CSS desde:", path)
+            with open(path, "r") as file:
+                stylesheet = file.read()
+                self.window.setStyleSheet(stylesheet)
+        except FileNotFoundError:
+            print("Archivo CSS no encontrado:", path)
+        except Exception as e:
+            print("Error al cargar el CSS:", str(e))
 
 
 

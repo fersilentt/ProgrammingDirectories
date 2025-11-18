@@ -13,6 +13,7 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
+dark_mode = config.DARK_MODE
 
 
 class FrameTypeApplication(QtWidgets.QFrame):
@@ -68,6 +69,8 @@ class FrameTypeApplication(QtWidgets.QFrame):
                 uic.loadUi(root_dir+"/view/ui/type_application/form.ui", self.window)
                 self.window.show()
 
+                self.load_stylesheet_frame(dark_mode)
+
                 id = self.ui.tableWidget.item(r,0).text()
                 name = self.ui.tableWidget.item(r,1).text()
 
@@ -79,6 +82,8 @@ class FrameTypeApplication(QtWidgets.QFrame):
             self.window = QtWidgets.QFrame()
             uic.loadUi(root_dir+"/view/ui/type_application/form.ui", self.window)
             self.window.show()
+
+            self.load_stylesheet_frame(dark_mode)
 
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text(), id_window))
@@ -202,8 +207,6 @@ class FrameTypeApplication(QtWidgets.QFrame):
 
 
 
-
-
     def add_data(self, name, id_type_creation):  
 
         if self.validation_add_update_window_modal(name):
@@ -234,30 +237,26 @@ class FrameTypeApplication(QtWidgets.QFrame):
         self.get_data()
 
 
-
-
     def validation_add_update_window_modal(self, name):
         if(len(name) == 0):
             self.window.lMessageForm.setText('<font color="red">Name is required</font>')
         else:
             return name
+        
+
+    def load_stylesheet_frame(self, path):
+        try:
+            print("Cargando CSS desde:", path)
+            with open(path, "r") as file:
+                stylesheet = file.read()
+                self.window.setStyleSheet(stylesheet)
+        except FileNotFoundError:
+            print("Archivo CSS no encontrado:", path)
+        except Exception as e:
+            print("Error al cargar el CSS:", str(e))
 
 
 
-'''
-app=QApplication(sys.argv)
-mainwindow=FrameTypeApplication()
-widget=QtWidgets.QStackedWidget()
-widget.addWidget(mainwindow)
-widget.setFixedWidth(400)
-widget.setFixedHeight(300)
-widget.show()
 
-
-try:
-    sys.exit(app.exec_())
-except:
-    print("Exiting")
-'''
 
 

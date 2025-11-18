@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QMessageBox, QLabel
 from PyQt5.uic import loadUi
 from PyQt5 import uic
+from PyQt5.QtCore import QFile, QTextStream
 
 import json
 import sys
@@ -23,6 +24,7 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
+dark_mode = config.DARK_MODE
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -32,6 +34,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.show()
+
+        # Styling for dark mode in the main window
+        self.load_stylesheet_main_window(dark_mode)
 
 
         # Add the title to the window
@@ -115,15 +120,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.pbFrameProjectTutorial.clicked.connect(lambda:self.change_frame_button(4))
 
 
-        
-
-
-        
-
-
-
-
-
     # We change the frame forwards
     def change_frame_go(self):
 
@@ -177,11 +173,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.frame_part.get_data()
                 self.enable_disable_buttons()
                 self.location_information()
-
-
-
-
-
 
 
 
@@ -404,9 +395,9 @@ class MainWindow(QtWidgets.QMainWindow):
     # Open the database file
     def open_file_database(self):
         options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
+        #options |= QFileDialog.DontUseNativeDialog
         #fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
-        file_name, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","SQLite Files (*.db)", options=options)
+        file_name, _ = QFileDialog.getOpenFileName(self,"Open file database", "","SQLite Files (*.db)", options=options)
         
         if file_name:
 
@@ -442,6 +433,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window = QtWidgets.QFrame()
         uic.loadUi(root_dir+"/view/ui/option_database/form.ui", self.window)
         self.window.show()
+
+        # Styling for dark mode in the modal window
+        self.load_stylesheet_frame(dark_mode)
 
         self.window.pbCreateDatabse.clicked.connect(lambda: self.open_directory(self.window.leNameDatabase.text()))
         self.window.pbCancel.clicked.connect(self.window.hide)
@@ -512,6 +506,9 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(root_dir+"/view/ui/main/info.ui", self.window)
         self.window.show()
 
+        # Styling for dark mode in the modal window
+        self.load_stylesheet_frame(dark_mode)
+
         icon_python  = config.ICON_PYTHON
         icon_qt = config.ICON_QT
 
@@ -531,7 +528,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window.lRepository.setOpenExternalLinks(True)
 
         # Create the link to be opened
-        urlLink="<a href=\"https://github.com/fersilentt/ProgrammingDirectories\">https://github.com/fersilentt/ProgrammingDirectories</a>"
+        urlLink="<a href=\"https://github.com/fersilentt/ProgrammingDirectories\" style=\"color: green;\">https://github.com/fersilentt/ProgrammingDirectories</a>"
 
         self.window.lLicence.setText("ProgrammingDirectories is distributed under \n the GNU License (GPL) version 3.")
         self.window.lConstruction.setText("ProgrammingDirectories is built with \n Python 3.8 and Qt5.")
@@ -539,10 +536,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window.lVersion.setText(app_version)
         self.window.lRepository.setText("Repository: "+urlLink)
 
-        self.window.pbClose.clicked.connect(self.window.hide)
-    
+        self.window.pbClose.clicked.connect(self.window.hide)       
 
-
+        
 
 
     def settings(self):
@@ -550,6 +546,9 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(root_dir+"/view/ui/main/settings.ui", self.window)
         self.window.show()
         #self.window.update()
+
+        # Styling for dark mode in the modal window
+        self.load_stylesheet_frame(dark_mode)
 
         # We get the status of the updates
         with open(data_json, 'r') as f:
@@ -584,6 +583,32 @@ class MainWindow(QtWidgets.QMainWindow):
             f.truncate() 
 
 
+
+
+    # # UPLOAD THE CSS FILE AND APPLY IT
+
+    # Main window
+    def load_stylesheet_main_window(self, filename):
+        file = QFile(filename)
+        if file.open(QFile.ReadOnly):
+            stream = QTextStream(file)
+            self.setStyleSheet(stream.readAll())
+            file.close()
+        else:
+            print(f"Error al abrir el archivo: {filename}")
+
+
+    # Modal windows
+    def load_stylesheet_frame(self, path):
+        try:
+            print("Cargando CSS desde:", path)
+            with open(path, "r") as file:
+                stylesheet = file.read()
+                self.window.setStyleSheet(stylesheet)
+        except FileNotFoundError:
+            print("Archivo CSS no encontrado:", path)
+        except Exception as e:
+            print("Error al cargar el CSS:", str(e))
 
 
 

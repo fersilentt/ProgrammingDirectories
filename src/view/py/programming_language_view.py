@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QMessageBox, QAbstractItemView
 from PyQt5.uic import loadUi
 from PyQt5 import uic
+from PyQt5.QtCore import QFile, QTextStream
 
 # We added this library to be able to display integers in our table using Roles table using Roles
 from PyQt5.QtCore import Qt
@@ -20,6 +21,7 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
+dark_mode = config.DARK_MODE
 
 
 class FrameProgrammingLanguage(QtWidgets.QFrame):
@@ -28,29 +30,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         super(FrameProgrammingLanguage,self).__init__()
         self.ui = Ui_Frame()
         self.ui.setupUi(self)
-
-        '''        
-        r = self.tableWidget.currentRow()
-        id = self.tableWidget.item(r,0)
-
-        if id is not None and id.text() != '':
-            print("Si hay dato")
-            with open('src/data.json', 'r+') as f:
-                data = json.load(f)
-                data["status_table_widget"] = 1
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
-        else:
-            print("No hay dato")
-            with open('src/data.json', 'r+') as f:
-                data = json.load(f)
-                data["status_table_widget"] = 0
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
-        '''
-
+        
         # Here we set the size that each column is going to have according to its position, but in 
         # this case we comment it so that it remains in its original form
         #self.tableWidget.setColumnWidth(0, 250)
@@ -95,10 +75,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
  
 
 
-        
-
-
-
 
 
     # We create the window to add and update the data
@@ -118,6 +94,9 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
                 self.window.show()
 
+                # Styling for dark mode in the modal window
+                self.load_stylesheet_frame(dark_mode)
+
                 # Let's get the row data according to their position
                 id = self.ui.tableWidget.item(r,0).text()
                 name = self.ui.tableWidget.item(r,1).text()
@@ -136,9 +115,11 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
             self.window.show()
 
+            # Styling for dark mode in the modal window
+            self.load_stylesheet_frame(dark_mode)
+
             self.window.pbAddUpdate.setText("Add")
             self.window.pbAddUpdate.clicked.connect(lambda: self.add_data(self.window.leName.text()))
-
 
 
 
@@ -383,16 +364,6 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
 
 
-    
-    
-
-
-
-
-
-
-
-
 
     # FUNCTIONS THAT WILL VALIDATE TEXT BOXES
 
@@ -409,6 +380,21 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
         else:
             return name
 
+
+
+    # UPLOAD THE CSS FILE AND APPLY IT
+
+    # Modal windows
+    def load_stylesheet_frame(self, path):
+        try:
+            print("Cargando CSS desde:", path)
+            with open(path, "r") as file:
+                stylesheet = file.read()
+                self.window.setStyleSheet(stylesheet)
+        except FileNotFoundError:
+            print("Archivo CSS no encontrado:", path)
+        except Exception as e:
+            print("Error al cargar el CSS:", str(e))
 
 '''
 app=QApplication(sys.argv)
