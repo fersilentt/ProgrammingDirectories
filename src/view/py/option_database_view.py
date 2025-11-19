@@ -42,7 +42,6 @@ class FrameOptionDatabase(QtWidgets.QFrame):
         
         self.model = QStandardItemModel()
         self.ui.lvListDatabases.setModel(self.model)
-        #self.lvListDatabases.setObjectName("listView-1")
         self.ui.lvListDatabases.setModelColumn(1)
 
         self.get_data()
@@ -65,9 +64,11 @@ class FrameOptionDatabase(QtWidgets.QFrame):
             self.model.appendRow(QStandardItem(i))
         
         # Select the first item of the ListView
+        """
         ix = self.model.index(0, 0)
         sm = self.ui.lvListDatabases.selectionModel()
         sm.select(ix, QtCore.QItemSelectionModel.Select)
+        """
 
 
 
@@ -80,9 +81,12 @@ class FrameOptionDatabase(QtWidgets.QFrame):
 
         # We convert the json object to string to perform validation
         data_str = str(data)
+
+        # We get the index of the selected element of QListView
+        r = self.ui.lvListDatabases.currentIndex().row()
     
-        if data_str == "{}":
-            self.ui.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
+        if data_str == "{}" or r == -1:
+            self.ui.lMessageOptionDatabase.setText('<font color="red">There is no selected database</font>')
             return False
         else: 
             # We obtain the selected item in the ListView
@@ -108,9 +112,11 @@ class FrameOptionDatabase(QtWidgets.QFrame):
 
         # We convert the json object to string to perform validation
         data_str = str(data)
+
+        r = self.ui.lvListDatabases.currentIndex().row()
     
-        if data_str == "{}":
-            self.ui.lMessageOptionDatabase.setText('<font color="red">No recent database exists</font>')
+        if data_str == "{}" or r == -1:
+            self.ui.lMessageOptionDatabase.setText('<font color="red">There is no selected database</font>')
             return False
         else: 
 
@@ -134,6 +140,29 @@ class FrameOptionDatabase(QtWidgets.QFrame):
                 self.model.appendRow(QStandardItem(i))
 
             self.get_data()
+
+    
+    # We obtain the id of the table so that the following window will load
+    def go_window(self):
+        
+        r = self.ui.tableWidget.currentRow()
+
+        if r == -1:
+            self.ui.lMessageList.setText('<font color="red">Please select a record</font>')
+            return False
+        else: 
+            id = self.ui.tableWidget.item(r,0).text()
+
+            # We edit the fields of our json object to store the id of the table to be retrieved
+            with open(data_json, 'r+') as f:
+                data = json.load(f)
+                # Here we edit the value of the "window_table_id" field and replace it with the id of the table
+                data["window_table_id"] = id
+                data["window_programming_language_id"] = id
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate() 
+            return True
 
         
     
