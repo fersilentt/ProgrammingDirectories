@@ -15,6 +15,11 @@ list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
 dark_mode = config.DARK_MODE
 
+title_add = config.TITLE_ADD
+title_update = config.TITLE_UPDATE
+title_delete = config.TITLE_DELETE
+title_view = config.TITLE_VIEW
+
 
 class FrameProjectTutorial(QtWidgets.QFrame):
 
@@ -95,6 +100,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
                 uic.loadUi(root_dir+"/view/ui/project_tutorial/form.ui", self.window)
                 self.window.show()
 
+                self.window.setWindowTitle(title_update)
+
                 self.load_stylesheet_frame(dark_mode)
 
                 id = self.ui.tableWidget.item(r,0).text()
@@ -144,6 +151,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             uic.loadUi(root_dir+"/view/ui/project_tutorial/form.ui", self.window)
             self.window.show()
 
+            self.window.setWindowTitle(title_add)
+
             self.load_stylesheet_frame(dark_mode)
             
             self.window.pbAddUpdate.setText("Add")
@@ -176,7 +185,7 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             id = self.ui.tableWidget.item(r,0).text()
 
             dlg = QMessageBox(self)
-            dlg.setWindowTitle("I have a question!")
+            dlg.setWindowTitle(title_delete)
             dlg.setText("Do you want to delete this data?")
             dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             dlg.setIcon(QMessageBox.Question)
@@ -204,6 +213,8 @@ class FrameProjectTutorial(QtWidgets.QFrame):
             self.window = QtWidgets.QFrame()
             uic.loadUi(root_dir+"/view/ui/project_tutorial/view.ui", self.window)
             self.window.show()
+
+            self.window.setWindowTitle(title_view)
 
             self.load_stylesheet_frame(dark_mode)
 

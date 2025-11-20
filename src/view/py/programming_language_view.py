@@ -23,6 +23,11 @@ list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
 dark_mode = config.DARK_MODE
 
+# Titles windows
+title_add = config.TITLE_ADD
+title_update = config.TITLE_UPDATE
+title_delete = config.TITLE_DELETE
+
 
 class FrameProgrammingLanguage(QtWidgets.QFrame):
 
@@ -97,6 +102,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
                 uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
                 self.window.show()
 
+                self.window.setWindowTitle(title_update)
+
                 # Styling for dark mode in the modal window
                 self.load_stylesheet_frame(dark_mode)
 
@@ -117,6 +124,8 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
             self.window = QtWidgets.QFrame()
             uic.loadUi(root_dir+"/view/ui/programming_language/form.ui", self.window)
             self.window.show()
+
+            self.window.setWindowTitle(title_add)
 
             # Styling for dark mode in the modal window
             self.load_stylesheet_frame(dark_mode)
@@ -139,7 +148,7 @@ class FrameProgrammingLanguage(QtWidgets.QFrame):
 
             # We display an information message to indicate whether or not you want to delete the data
             dlg = QMessageBox(self)
-            dlg.setWindowTitle("I have a question!")
+            dlg.setWindowTitle(title_delete)
             dlg.setText("Do you want to delete this data?")
             dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             dlg.setIcon(QMessageBox.Question)

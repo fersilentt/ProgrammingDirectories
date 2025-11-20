@@ -35,5 +35,15 @@ ICON_YOUTUBE = os.path.join(ROOT_DIR, "static/icons", "youtube.png")
 # Style dark mode
 DARK_MODE = os.path.join(ROOT_DIR, "static/style", "dark.css")
 
+# Titles windows
+TITLE_ADD = "Add"
+TITLE_UPDATE  = "Update"
+TITLE_DELETE  = "Delete"
+TITLE_VIEW  = "View"
+TITLE_ABOUT  = "About"
+TITLE_SETTINGS  = "Settings"
+TITLE_CREATE_DATABASE  = "Create database"
+TITLE_OPEN_FILE_DATABASE = "Open file database"
+
 
 

@@ -24,8 +24,13 @@ root_dir = config.ROOT_DIR
 data_json = config.DATA_JSON
 list_databases_json = config.LIST_DATABASES_JSON
 version_json = config.VERSION_JSON
+
 dark_mode = config.DARK_MODE
 
+title_about = config.TITLE_ABOUT
+title_settings = config.TITLE_SETTINGS
+title_create_database = config.TITLE_CREATE_DATABASE
+title_open_file_database = config.TITLE_OPEN_FILE_DATABASE
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -397,7 +402,7 @@ class MainWindow(QtWidgets.QMainWindow):
         options = QFileDialog.Options()
         #options |= QFileDialog.DontUseNativeDialog
         #fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
-        file_name, _ = QFileDialog.getOpenFileName(self,"Open file database", "","SQLite Files (*.db)", options=options)
+        file_name, _ = QFileDialog.getOpenFileName(self, title_open_file_database, "","SQLite Files (*.db)", options=options)
         
         if file_name:
 
@@ -433,6 +438,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window = QtWidgets.QFrame()
         uic.loadUi(root_dir+"/view/ui/option_database/form.ui", self.window)
         self.window.show()
+
+        self.window.setWindowTitle(title_create_database)
 
         # Styling for dark mode in the modal window
         self.load_stylesheet_frame(dark_mode)
@@ -506,6 +513,9 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(root_dir+"/view/ui/main/info.ui", self.window)
         self.window.show()
 
+        # We add the title to the window
+        self.window.setWindowTitle(title_about)
+
         # Styling for dark mode in the modal window
         self.load_stylesheet_frame(dark_mode)
 
@@ -545,7 +555,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.window = QtWidgets.QFrame()
         uic.loadUi(root_dir+"/view/ui/main/settings.ui", self.window)
         self.window.show()
-        #self.window.update()
+        
+        self.window.setWindowTitle(title_settings)
 
         # Styling for dark mode in the modal window
         self.load_stylesheet_frame(dark_mode)
