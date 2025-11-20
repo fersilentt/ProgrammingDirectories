@@ -53,6 +53,12 @@ QHeaderView::section:even {
     background-color: #3A3A3A; /* Alternar color para contraste en filas pares */
 }
 
+/* *** ES EL PUNTO CLAVE ***  */
+/* Cuadro de la esquina (intersección) entre cabeceras horizontales y verticales */
+QTableCornerButton::section {
+    background-color: #3A3A3A;      /* mismo color que las cabeceras */
+    border: none;
+}
                 
 /*QScrollBar*/    
 QScrollBar:vertical {
