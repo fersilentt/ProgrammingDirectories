@@ -23,11 +23,10 @@
 
 #### Important
 
-1. To build this project we must have Python 3.8 installed.
+1. To build this project we must have Python **3.8.10** installed with **pyenv**
+    - The python version and venv are created with **pyenv**
 
-2. The python version and venv are created with pyenv
-
-3. To build the project, we execute the commands in section **[Build application](#Build-application)**
+2. To build the project, we execute the commands in section **[Build application](#Build-application)**
 
 ---
 
