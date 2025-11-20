@@ -1,22 +1,27 @@
 #!/bin/bash
 
+echo "Downloading"
+
 wget https://github.com/fersilentt/ProgrammingDirectories/releases/download/v1.0.5/ProgrammingDirectories-GNU-Linux.tar.gz
+
+echo "Decompressing"
 
 tar -xf ProgrammingDirectories-GNU-Linux.tar.gz
 
+echo "Moving the program to the ~/.local/share folder"
 
 # We check if the directory exists
 DIRECTORIO=$(eval echo ~/.local/share/ProgrammingDirectories/)
 
 if [ -d "$DIRECTORIO" ]; then
-    echo "The directory exists."
     rm -r ~/.local/share/ProgrammingDirectories/
     mv ProgrammingDirectories ~/.local/share
 else
-    echo "The directory does not exist."
     mv ProgrammingDirectories ~/.local/share
 fi
 
+
+echo "Creating the shortcut"
 
 echo "[Desktop Entry]" >> ProgrammingDirectories.desktop
 echo "Type=Application" >> ProgrammingDirectories.desktop
@@ -41,3 +46,5 @@ if [ "$x" = "yes" ]
 fi 
 
 rm ProgrammingDirectories-GNU-Linux.tar.gz
+
+echo "Correct installation"
