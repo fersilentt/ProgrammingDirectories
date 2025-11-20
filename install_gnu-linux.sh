@@ -1,8 +1,22 @@
+#!/bin/bash
+
 wget https://github.com/fersilentt/ProgrammingDirectories/releases/download/v1.0.5/ProgrammingDirectories-GNU-Linux.tar.gz
 
 tar -xf ProgrammingDirectories-GNU-Linux.tar.gz
 
-mv ProgrammingDirectories ~/.local/share
+
+# We check if the directory exists
+DIRECTORIO=$(eval echo ~/.local/share/ProgrammingDirectories/)
+
+if [ -d "$DIRECTORIO" ]; then
+    echo "The directory exists."
+    rm -r ~/.local/share/ProgrammingDirectories/
+    mv ProgrammingDirectories ~/.local/share
+else
+    echo "The directory does not exist."
+    mv ProgrammingDirectories ~/.local/share
+fi
+
 
 echo "[Desktop Entry]" >> ProgrammingDirectories.desktop
 echo "Type=Application" >> ProgrammingDirectories.desktop
