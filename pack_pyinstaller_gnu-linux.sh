@@ -30,8 +30,12 @@ echo "Categories=Network;" >> $path
 
 chmod +x $path
 
+
 # Compressed the folder in tar.gz format
-tar -czvf dist/ProgrammingDirectories-GNU-Linux.tar.gz dist/ProgrammingDirectories/
+cd dist/
+tar -czvf ProgrammingDirectories-GNU-Linux.tar.gz ProgrammingDirectories
+cd ..
+
 
 # Copy the installation.sh file for GNU-Linux to the dist folder
 cp install_gnu-linux.sh dist/
