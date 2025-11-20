@@ -48,7 +48,7 @@ class FramePart(QtWidgets.QFrame):
         self.ui.tableWidget.setColumnHidden(2,True)
         self.ui.tableWidget.setColumnHidden(3,True)
         self.ui.tableWidget.setColumnHidden(5,True)
-        self.ui.tableWidget.verticalHeader().setVisible(False)
+        self.ui.tableWidget.verticalHeader().setVisible(True)
 
         icon_add  = config.ICON_ADD
         icon_update  = config.ICON_UPDATE
@@ -426,9 +426,9 @@ class FramePart(QtWidgets.QFrame):
             self.ui.tableWidget.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(name))
             self.ui.tableWidget.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(repository))
             self.ui.tableWidget.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(youtube_video))
-            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(item_number_part))
-            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(name_project_tutorial))
-            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(name_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 5, QtWidgets.QTableWidgetItem(item_id_project_tutorial))
+            self.ui.tableWidget.setItem(tablerow, 6, QtWidgets.QTableWidgetItem(item_number_part))
 
             tablerow+=1
     
