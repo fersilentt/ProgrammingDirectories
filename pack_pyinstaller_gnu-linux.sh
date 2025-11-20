@@ -5,6 +5,11 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
+# We delete the Pyinstaller files
+rm -r build/
+rm -r dist/
+rm ProgrammingDirectories.spec 
+
 # Application Packaging
 cp spec_versions/ProgrammingDirectories_gnu-linux.spec ProgrammingDirectories.spec
 pyinstaller "ProgrammingDirectories.spec"
@@ -24,3 +29,9 @@ echo "Icon=ProgrammingDirectories" >> $path
 echo "Categories=Network;" >> $path
 
 chmod +x $path
+
+# Compressed the folder in tar.gz format
+tar -czvf dist/ProgrammingDirectories-GNU-Linux.tar.gz dist/ProgrammingDirectories/
+
+# Copy the installation.sh file for GNU-Linux to the dist folder
+cp install_gnu-linux.sh dist/
